@@ -1,0 +1,63 @@
+.card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 20px;
+  border: 0;
+  border-radius: 22px;
+  background: var(--accent);
+  color: #202020;
+  text-align: left;
+  cursor: pointer;
+}
+
+.card svg { flex-shrink: 0; }
+.title { display: block; font-size: 18px; font-weight: 700; line-height: 1.4; }
+.caption { display: block; margin-top: 4px; font-size: 15px; }
+.card:hover { background: #73c9bd; }
+.card:focus-visible, .close:focus-visible { outline: 3px solid var(--page-text); outline-offset: 4px; }
+
+.dialog {
+  position: fixed;
+  inset: 0;
+  width: min(440px, calc(100% - 32px));
+  max-height: calc(100dvh - 48px);
+  margin: auto;
+  padding: 36px 28px 30px;
+  overflow-y: auto;
+  border: 0;
+  border-radius: 26px;
+  background: var(--page-background);
+  color: var(--page-text);
+  box-shadow: 0 20px 80px #0003;
+}
+
+.dialog::backdrop {
+  background: #182c2859;
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #202020;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.label { margin: 12px 32px 12px 0; font-size: 13px; font-weight: 700; }
+.heading { margin: 0 0 16px; font-size: 25px; font-weight: 700; line-height: 1.25; }
+.fact { margin: 0; font-size: 18px; line-height: 1.65; }
+
+:global(body:has(dialog[open])) { overflow: hidden; }

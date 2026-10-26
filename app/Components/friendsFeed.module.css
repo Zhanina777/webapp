@@ -68,3 +68,4 @@
 .like svg { flex-shrink: 0; color: #a563d5; }
 .like:hover span { text-decoration: underline; }
 .like:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+

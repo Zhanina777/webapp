@@ -3,13 +3,15 @@
 }
 
 .inner {
-  --button-size: clamp(2.75rem, 8vw, 4.75rem);
+  --button-size: 2.75rem;
   display: grid;
   grid-template-columns: var(--button-size) minmax(0, 1fr) var(--button-size);
   align-items: center;
   gap: clamp(0.5rem, 2vw, 1.5rem);
   width: 100%;
-  padding: clamp(1rem, 2.5vw, 1.25rem) var(--page-gutter);
+  max-width: var(--layout-max-width);
+  margin-inline: auto;
+  padding: 1rem var(--page-gutter);
 }
 
 .button {
@@ -43,7 +45,7 @@
   min-width: 0;
   color: var(--page-text);
   font-family: "Lilita One", "Arial Rounded MT Bold", sans-serif;
-  font-size: clamp(1.5rem, 6vw, 3rem);
+  font-size: 2rem;
   line-height: 1.1;
   text-decoration: none;
 }

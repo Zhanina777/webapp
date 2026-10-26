@@ -5,9 +5,9 @@
 }
 
 :root {
-  --layout-max-width: 80rem;
-  --page-gutter: clamp(1rem, 5vw, 3.125rem);
-  --section-space: clamp(1.5rem, 5vw, 3rem);
+  --layout-max-width: 60rem;
+  --page-gutter: clamp(1rem, 3vw, 1.5rem);
+  --section-space: clamp(1.5rem, 3vw, 2rem);
   --layout-gap: clamp(1rem, 2vw, 1.5rem);
   color-scheme: light;
   --page-background: #ffffff;
@@ -110,3 +110,4 @@ input, select, textarea, button {
   flex: 1;
   min-width: 0;
 }
+

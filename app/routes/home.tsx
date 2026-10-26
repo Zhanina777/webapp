@@ -1,5 +1,6 @@
 import MonthlyRecipe from "../Components/MonthlyRecipe";
 import FriendsFeed from "../Components/FriendsFeed";
+import ScienceBite from "../Components/ScienceBite";
 
 export function meta() {
   return [
@@ -12,6 +13,7 @@ export default function Home() {
   return (
     <main id="main-content" className="container home-content" aria-label="CRYST home">
       <MonthlyRecipe />
+      <ScienceBite />
       <FriendsFeed />
     </main>
   );

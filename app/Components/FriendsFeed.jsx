@@ -11,6 +11,24 @@ const posts = [
     text: "Day 7: look at those edges! I spotted a tiny new crystal today.",
     likes: 24,
   },
+  {
+    id: 2,
+    name: "Jordan",
+    time: "5 hours ago",
+    image: "/images/alum-crystals.svg",
+    imageAlt: "A cluster of clear crystals",
+    text: "The crystals are getting bigger! Can't wait to compare them after the weekend.",
+    likes: 18,
+  },
+  {
+    id: 3,
+    name: "Priya",
+    time: "Yesterday",
+    image: "/images/alum-crystals.svg",
+    imageAlt: "A cluster of clear crystals",
+    text: "Added a little more solution to my jar today. Science club experiment update coming soon!",
+    likes: 31,
+  },
 ];
 
 export default function FriendsFeed() {
