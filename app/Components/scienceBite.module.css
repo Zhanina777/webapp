@@ -13,7 +13,7 @@
 }
 
 .card svg { flex-shrink: 0; }
-.title { display: block; font-size: 18px; font-weight: 700; line-height: 1.4; }
+.title { display: block; font-size: 18px; font-weight: 400; line-height: 1.4; }
 .caption { display: block; margin-top: 4px; font-size: 15px; }
 .card:hover { background: #73c9bd; }
 .card:focus-visible, .close:focus-visible { outline: 3px solid var(--page-text); outline-offset: 4px; }
@@ -59,7 +59,7 @@
 }
 
 .label { margin: 12px 32px 12px 0; font-size: 13px; font-weight: 700; }
-.heading { margin: 0 0 16px; font-size: 25px; font-weight: 700; line-height: 1.25; }
+.heading { margin: 0 0 16px; font-size: 25px; font-weight: 400; line-height: 1.25; }
 .fact { margin: 0; font-size: 18px; line-height: 1.65; }
 
 :global(body:has(dialog[open])) { overflow: hidden; }

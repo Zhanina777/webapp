@@ -16,7 +16,7 @@ export default function ScienceBite() {
           <path d="M12 5C9 3 5 3 2 4v15c3-1 7-1 10 1 3-2 7-2 10-1V4c-3-1-7-1-10 1Zm0 0v15" />
         </svg>
         <span>
-          <span className={styles.title}>Why do crystals have flat faces?</span>
+          <span className={`${styles.title} font-heading`}>Why do crystals have flat faces?</span>
           <span className={styles.caption}>Science bite · Tap to discover <span aria-hidden="true">↗</span></span>
         </span>
       </button>

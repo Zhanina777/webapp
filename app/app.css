@@ -1,7 +1,18 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Woly Wonka";
+  src: url("/fonts/woly-wonka.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Woly Wonka", "Atkinson Hyperlegible Next", sans-serif;
+  --font-serif: var(--font-sans);
+  --font-mono: var(--font-sans);
 }
 
 :root {
@@ -34,6 +45,11 @@ html, body {
   font-family: var(--font-sans);
 }
 
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: var(--font-heading);
+  font-weight: 400;
+}
+
 .page-content {
   width: 100%;
   max-width: 47.5rem;
@@ -42,7 +58,7 @@ html, body {
   overflow-wrap: anywhere;
 }
 
-.page-content h1 { font-size: clamp(1.5rem, 1.1rem + 2vw, 2rem); font-weight: 700; margin-bottom: 16px; }
+.page-content h1 { font-size: clamp(1.5rem, 1.1rem + 2vw, 2rem); font-weight: 400; margin-bottom: 16px; }
 .page-content p { line-height: 1.7; margin-bottom: 16px; }
 .page-content a { color: var(--page-text); text-decoration: underline; text-underline-offset: 4px; }
 
@@ -71,6 +87,10 @@ img, video {
 
 input, select, textarea, button {
   font: inherit;
+}
+
+code, pre, kbd, samp {
+  font-family: var(--font-sans);
 }
 
 .app-shell {

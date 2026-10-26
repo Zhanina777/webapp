@@ -32,7 +32,7 @@ export default function Header() {
       >
         <img src="/images/night-mode.png" alt="" width="76" height="76" />
       </button>
-      <Link to="/" className={styles.wordmark} aria-label="CRYST home">CRYST</Link>
+      <Link to="/" className={`${styles.wordmark} font-heading`} aria-label="CRYST home">CRYST</Link>
       <Link to="/help" className={styles.button} aria-label="Help">
         <img src="/images/question.png" alt="" width="76" height="76" />
       </Link>
