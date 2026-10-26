@@ -61,6 +61,12 @@ html, body {
   padding-inline: var(--page-gutter);
 }
 
+.home-content {
+  display: grid;
+  gap: var(--section-space);
+  padding-block: var(--layout-gap) var(--section-space);
+}
+
 .stack {
   display: flex;
   flex-direction: column;

@@ -2,9 +2,8 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) 245px;
   align-items: center;
-  gap: 32px;
-  margin-block: 24px;
-  padding: 32px;
+  gap: var(--layout-gap);
+  padding: var(--layout-gap);
   border-radius: 40px;
   background: #b477e3;
   color: #202020;
@@ -51,7 +50,7 @@
 }
 
 @media (max-width: 600px) {
-  .card { grid-template-columns: 1fr; padding: 24px; gap: 24px; border-radius: 28px; }
+  .card { grid-template-columns: 1fr; border-radius: 28px; }
   .label { font-size: 16px; }
   .button { font-size: 18px; }
   .image { height: auto; aspect-ratio: 1.4; }

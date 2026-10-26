@@ -1,0 +1,70 @@
+.feed {
+  min-width: 0;
+}
+
+.title {
+  margin: 0 0 var(--layout-gap);
+  font-family: "Lilita One", sans-serif;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.posts { display: grid; gap: var(--section-space); }
+.post { min-width: 0; }
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.author p { margin: 0; }
+.time { font-weight: 500; }
+
+.avatar {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #82d4c8;
+  color: #203f3b;
+  font-size: 18px;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2.2;
+  border-radius: 20px;
+  object-fit: cover;
+}
+
+.caption {
+  margin: 12px 0 4px;
+  font-size: 15px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.like {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 4px 0;
+  border: 0;
+  background: transparent;
+  color: var(--page-text);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.like svg { flex-shrink: 0; color: #a563d5; }
+.like:hover span { text-decoration: underline; }
+.like:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
