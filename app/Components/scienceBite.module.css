@@ -24,7 +24,7 @@
   width: min(440px, calc(100% - 32px));
   max-height: calc(100dvh - 48px);
   margin: auto;
-  padding: 36px 28px 30px;
+  padding: 0;
   overflow-y: auto;
   border: 0;
   border-radius: 26px;
@@ -32,6 +32,8 @@
   color: var(--page-text);
   box-shadow: 0 20px 80px #0003;
 }
+
+.content { padding: 36px 28px 30px; }
 
 .dialog::backdrop {
   background: #182c2859;

@@ -2,7 +2,7 @@ import { useRef } from "react";
 import styles from "./scienceBite.module.css";
 
 export default function ScienceBite() {
-  const dialogRef = useRef<HTMLDialogElement>(null);
+  const dialogRef = useRef(null);
 
   return (
     <>
@@ -27,17 +27,28 @@ export default function ScienceBite() {
         aria-describedby="science-bite-fact"
         onClick={(event) => {
           if (event.target === event.currentTarget) {
-            const bounds = event.currentTarget.getBoundingClientRect();
-            if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) {
-              event.currentTarget.close();
-            }
+            event.currentTarget.close();
           }
         }}
       >
-        <button className={styles.close} type="button" aria-label="Close science bite" onClick={() => dialogRef.current?.close()} autoFocus>×</button>
-        <p className={styles.label}>A little science sparkle</p>
-        <h2 id="science-bite-title" className={styles.heading}>Why do crystals have flat faces?</h2>
-        <p id="science-bite-fact" className={styles.fact}>Crystals have flat faces because their tiny building blocks line up in a repeating pattern, like a perfectly stacked wall of LEGO bricks!</p>
+        <div className={styles.content}>
+          <button
+            className={styles.close}
+            type="button"
+            aria-label="Close science bite"
+            onClick={() => dialogRef.current?.close()}
+            autoFocus
+          >
+            ×
+          </button>
+          <p className={styles.label}>A little science sparkle</p>
+          <h2 id="science-bite-title" className={styles.heading}>
+            Why do crystals have flat faces?
+          </h2>
+          <p id="science-bite-fact" className={styles.fact}>
+            Crystals have flat faces because their tiny building blocks line up in a repeating pattern, like a perfectly stacked wall of LEGO bricks!
+          </p>
+        </div>
       </dialog>
     </>
   );

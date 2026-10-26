@@ -32,24 +32,17 @@
   border-radius: 0.5rem;
 }
 
-.active { font-weight: 700; }
-.link:hover { text-decoration: underline; text-underline-offset: 0.25em; }
+.link[aria-current="page"] { color: #b477e3; font-weight: 700; }
+.link:hover { color: #b477e3; }
 .link:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
 
 .icon {
-  display: grid;
-  place-items: center;
+  display: block;
   width: 1.75rem;
   aspect-ratio: 1;
+  background: currentColor;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
 }
-
-.icon img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.lightIcon { display: none; }
-:global(:root[data-theme="dark"]) .darkIcon { display: none; }
-:global(:root[data-theme="dark"]) .lightIcon { display: block; }
 

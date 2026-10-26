@@ -12,7 +12,6 @@
   color-scheme: light;
   --page-background: #ffffff;
   --page-text: #242424;
-  --header-background: #ffffff;
   --accent: #82d4c8;
 }
 
@@ -20,7 +19,6 @@
   color-scheme: dark;
   --page-background: #141414;
   --page-text: #eeeeee;
-  --header-background: #141414;
 }
 
 *, *::before, *::after {
@@ -53,7 +51,6 @@ html, body {
   outline-offset: 6px;
 }
 
-/* Shared layout primitives for future pages and components. */
 .container {
   width: 100%;
   max-width: var(--layout-max-width);
@@ -65,30 +62,6 @@ html, body {
   display: grid;
   gap: var(--section-space);
   padding-block: var(--layout-gap) var(--section-space);
-}
-
-.stack {
-  display: flex;
-  flex-direction: column;
-  gap: var(--layout-gap);
-}
-
-.cluster {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--layout-gap);
-}
-
-.responsive-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
-  gap: var(--layout-gap);
-}
-
-:where(.stack, .cluster, .responsive-grid) > * {
-  min-width: 0;
-  overflow-wrap: anywhere;
 }
 
 img, video {
