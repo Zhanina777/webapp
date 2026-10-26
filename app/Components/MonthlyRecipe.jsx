@@ -15,8 +15,8 @@ export default function MonthlyRecipe() {
       </div>
       <img
         className={styles.image}
-        src="/images/alum-crystals.svg"
-        alt="A cluster of sparkling, clear alum crystals"
+        src="/images/monthly-alum-crystal.png"
+        alt="A sparkling alum crystal on a pale purple background"
         width="245"
         height="260"
       />
