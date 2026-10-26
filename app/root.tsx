@@ -13,6 +13,7 @@ import Header from "./Components/Header";
 import BottomNavigation from "./Components/BottomNavigation";
 
 export const links: Route.LinksFunction = () => [
+  { rel: "icon", type: "image/png", href: "/images/cryst-favicon.png" },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
