@@ -1,0 +1,57 @@
+.content {
+  display: grid;
+  gap: 20px;
+}
+
+.number {
+  margin: 0 0 8px;
+  font-family: "Lilita One", sans-serif;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+.title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.6;
+  border-radius: 18px;
+  object-fit: cover;
+}
+
+.instructions {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: instruction;
+}
+
+.instructions li {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 12px;
+  font-size: 15px;
+  line-height: 1.6;
+  counter-increment: instruction;
+}
+
+.instructions li::before {
+  content: counter(instruction);
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #b477e3;
+  color: #202020;
+  font-size: 14px;
+  font-weight: 700;
+}
