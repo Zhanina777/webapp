@@ -1,0 +1,43 @@
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  min-height: 66px;
+  padding: 16px 24px;
+  border: 2px solid #b477e3;
+  border-radius: 18px;
+  background: #b477e3;
+  color: #202020;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.previous {
+  background: var(--page-background);
+  color: var(--page-text);
+}
+
+.button span {
+  font-size: 26px;
+  line-height: 1;
+}
+
+.button:hover:not(:disabled) {
+  background: #a563d5;
+  border-color: #a563d5;
+  color: #202020;
+}
+
+.button:focus-visible {
+  outline: 3px solid var(--page-text);
+  outline-offset: 4px;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
