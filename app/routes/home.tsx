@@ -1,3 +1,5 @@
+import MonthlyRecipe from "../Components/MonthlyRecipe";
+
 export function meta() {
   return [
     { title: "CRYST" },
@@ -6,5 +8,9 @@ export function meta() {
 }
 
 export default function Home() {
-  return <main id="main-content" aria-label="CRYST home" />;
+  return (
+    <main id="main-content" className="container" aria-label="CRYST home">
+      <MonthlyRecipe />
+    </main>
+  );
 }
