@@ -1,15 +1,106 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
-html,
-body {
-  @apply bg-white dark:bg-gray-950;
+:root {
+  --layout-max-width: 80rem;
+  --page-gutter: clamp(1rem, 5vw, 3.125rem);
+  --section-space: clamp(1.5rem, 5vw, 3rem);
+  --layout-gap: clamp(1rem, 2vw, 1.5rem);
+  color-scheme: light;
+  --page-background: #ffffff;
+  --page-text: #242424;
+  --header-background: #ffffff;
+  --accent: #82d4c8;
+}
 
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page-background: #141414;
+  --page-text: #eeeeee;
+  --header-background: #141414;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  min-height: 100%;
+  min-height: 100dvh;
+  margin: 0;
+  background: var(--page-background);
+  color: var(--page-text);
+  font-family: var(--font-sans);
+}
+
+.page-content {
+  width: 100%;
+  max-width: 47.5rem;
+  margin-inline: auto;
+  padding: var(--section-space) var(--page-gutter);
+  overflow-wrap: anywhere;
+}
+
+.page-content h1 { font-size: clamp(1.5rem, 1.1rem + 2vw, 2rem); font-weight: 700; margin-bottom: 16px; }
+.page-content p { line-height: 1.7; margin-bottom: 16px; }
+.page-content a { color: var(--page-text); text-decoration: underline; text-underline-offset: 4px; }
+
+.page-content a:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 6px;
+}
+
+/* Shared layout primitives for future pages and components. */
+.container {
+  width: 100%;
+  max-width: var(--layout-max-width);
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--layout-gap);
+}
+
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--layout-gap);
+}
+
+.responsive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: var(--layout-gap);
+}
+
+:where(.stack, .cluster, .responsive-grid) > * {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+input, select, textarea, button {
+  font: inherit;
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.route-content {
+  flex: 1;
+  min-width: 0;
 }

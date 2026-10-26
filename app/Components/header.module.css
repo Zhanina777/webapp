@@ -1,0 +1,49 @@
+.header {
+  background: var(--header-background);
+}
+
+.inner {
+  --button-size: clamp(2.75rem, 8vw, 4.75rem);
+  display: grid;
+  grid-template-columns: var(--button-size) minmax(0, 1fr) var(--button-size);
+  align-items: center;
+  gap: clamp(0.5rem, 2vw, 1.5rem);
+  width: 100%;
+  padding: clamp(1rem, 2.5vw, 1.25rem) var(--page-gutter);
+}
+
+.button {
+  display: grid;
+  place-items: center;
+  width: var(--button-size);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.button img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.button:hover { opacity: 0.8; }
+
+.button:focus-visible, .wordmark:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 6px;
+}
+
+.wordmark {
+  justify-self: center;
+  min-width: 0;
+  color: var(--page-text);
+  font-family: "Lilita One", "Arial Rounded MT Bold", sans-serif;
+  font-size: clamp(1.5rem, 6vw, 3rem);
+  line-height: 1.1;
+  text-decoration: none;
+}
