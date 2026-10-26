@@ -1,0 +1,34 @@
+.tracker {
+  width: 100%;
+}
+
+.segments {
+  display: flex;
+  gap: 6px;
+}
+
+.segment {
+  flex: 1;
+  height: 6px;
+  border-radius: 999px;
+  background: #82d4c8;
+}
+
+.reached {
+  background: #b477e3;
+}
+
+.labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 12px;
+  color: var(--page-text);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.name {
+  color: #b477e3;
+}

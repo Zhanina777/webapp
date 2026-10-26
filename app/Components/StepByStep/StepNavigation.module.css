@@ -1,0 +1,14 @@
+.navigation {
+  display: grid;
+  gap: 24px;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.buttons > button {
+  flex: 1 1 200px;
+}
