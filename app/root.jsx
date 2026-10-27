@@ -7,12 +7,11 @@ import {
   ScrollRestoration,
 } from "react-router";
 
-import type { Route } from "./+types/root";
 import "./app.css";
 import Header from "./Components/Header";
 import BottomNavigation from "./Components/BottomNavigation";
 
-export const links: Route.LinksFunction = () => [
+export const links = () => [
   { rel: "icon", type: "image/png", href: "/images/cryst-favicon.png" },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
@@ -26,7 +25,7 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export function Layout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -58,10 +57,10 @@ export default function App() {
   </div>;
 }
 
-export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+export function ErrorBoundary({ error }) {
   let message = "Oops!";
   let details = "An unexpected error occurred.";
-  let stack: string | undefined;
+  let stack;
 
   if (isRouteErrorResponse(error)) {
     message = error.status === 404 ? "404" : "Error";
