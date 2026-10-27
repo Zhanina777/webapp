@@ -104,3 +104,142 @@ code, pre, kbd, samp {
   min-width: 0;
 }
 
+/* Payment page */
+
+.payment-page {
+  min-height: 100vh;
+  background: #f9e8f0;
+  padding: 40px 20px;
+  font-family: Arial, sans-serif;
+  color: #292929;
+}
+
+.payment-header {
+  text-align: center;
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.payment-close {
+  position: absolute;
+  left: 20px;
+  top: 0;
+  border: none;
+  background: transparent;
+  font-size: 32px;
+  cursor: pointer;
+}
+
+.payment-logo {
+  font-size: 42px;
+  font-weight: 900;
+  letter-spacing: -3px;
+  margin: 0 0 25px;
+}
+
+.payment-header h2 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.payment-description,
+.payment-benefits,
+.payment-price {
+  max-width: 560px;
+  margin: 0 auto 25px;
+}
+
+.payment-description {
+  text-align: center;
+}
+
+.payment-description h3,
+.payment-price h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.payment-description p,
+.payment-price p {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.payment-benefits {
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+}
+
+.payment-benefit {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.payment-benefit:last-child {
+  margin-bottom: 0;
+}
+
+.benefit-icon {
+  background: #f4d6e5;
+  color: #a8326d;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.payment-benefit h3 {
+  margin: 0 0 5px;
+  font-size: 17px;
+}
+
+.payment-benefit p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.payment-price {
+  text-align: center;
+}
+
+.payment-price input[type="range"] {
+  width: 100%;
+  margin: 25px 0;
+  accent-color: #d65b98;
+  cursor: pointer;
+}
+
+.purchase-button {
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  padding: 18px;
+  background: #d65b98;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 16px;
+}
+
+.purchase-button strong {
+  font-size: 24px;
+}
+
+.restore-button {
+  margin-top: 15px;
+  border: none;
+  background: transparent;
+  color: #555;
+  text-decoration: underline;
+  cursor: pointer;
+}
