@@ -12,3 +12,9 @@
 .buttons > button {
   flex: 1 1 200px;
 }
+
+.navigation:focus { outline: none; }
+.completion { padding: 20px; border-radius: 18px; background: #82d4c8; color: #242424; }
+.completion h1 { font-size: 30px; margin-bottom: 12px; }
+.completion p { margin-bottom: 20px; line-height: 1.5; }
+.completion a { color: inherit; text-underline-offset: 4px; }

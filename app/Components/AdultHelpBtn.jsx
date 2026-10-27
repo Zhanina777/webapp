@@ -1,6 +1,6 @@
 import styles from "./AdultHelpBtn.module.css";
 
-export default function AdultHelpBtn() {
+export default function AdultHelpBtn({ message = "Ask an adult to work with you." }) {
   return (
     <aside className={styles.banner} aria-label="Adult help reminder">
       <img
@@ -10,7 +10,7 @@ export default function AdultHelpBtn() {
         width="36"
         height="36"
       />
-      <p className={styles.message}>Ask an adult to work with you.</p>
+      <p className={styles.message}>{message}</p>
     </aside>
   );
 }

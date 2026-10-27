@@ -13,7 +13,7 @@ export default function StepContent({ stepNumber, step }) {
         <img className={styles.image} src={step.image} alt={step.imageAlt} />
       )}
 
-      {step.needsAdult && <AdultHelpBtn />}
+      {step.needsAdult && <AdultHelpBtn message={step.safetyMessage} />}
 
       <ol className={styles.instructions}>
         {step.instructions.map((instruction, index) => (

@@ -38,11 +38,15 @@
 
 .icon {
   display: block;
-  width: 1.75rem;
-  aspect-ratio: 1;
-  background: currentColor;
-  mask-size: contain;
+  width: 60px;
+  height: 30px;
+  background: var(--page-text);
+  mask-size: 24px;
   mask-repeat: no-repeat;
   mask-position: center;
+}
+
+.link[aria-current="page"] {
+  background: radial-gradient(ellipse 30px 15px at 50% 19px, #b477e3 98%, transparent 100%);
 }
 
