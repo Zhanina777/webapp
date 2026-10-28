@@ -12,7 +12,7 @@ import Header from "./Components/Header";
 import BottomNavigation from "./Components/BottomNavigation";
 
 export const links = () => [
-  { rel: "icon", type: "image/png", href: "/images/cryst-favicon.png" },
+  { rel: "icon", type: "image/png", sizes: "50x50", href: "/images/cryst-tab-icon.png" },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
