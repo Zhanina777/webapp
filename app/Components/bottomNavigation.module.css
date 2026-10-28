@@ -32,7 +32,7 @@
   border-radius: 0.5rem;
 }
 
-.link[aria-current="page"] { color: #b477e3; font-weight: 700; }
+.link[aria-current="page"] { color: #b477e3; }
 .link:hover { color: #b477e3; }
 .link:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
 
@@ -40,13 +40,8 @@
   display: block;
   width: 60px;
   height: 30px;
-  background: var(--page-text);
+  background: currentColor;
   mask-size: 24px;
   mask-repeat: no-repeat;
   mask-position: center;
 }
-
-.link[aria-current="page"] {
-  background: radial-gradient(ellipse 30px 15px at 50% 19px, #b477e3 98%, transparent 100%);
-}
-
