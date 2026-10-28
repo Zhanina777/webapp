@@ -32,7 +32,7 @@
   border-radius: 0.5rem;
 }
 
-.link[aria-current="page"] { color: #b477e3; font-weight: 700; }
+.link[aria-current="page"] { color: #b477e3; }
 .link:hover { color: #b477e3; }
 .link:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
 
@@ -45,4 +45,3 @@
   mask-repeat: no-repeat;
   mask-position: center;
 }
-

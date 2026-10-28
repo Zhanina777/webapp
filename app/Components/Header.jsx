@@ -34,7 +34,7 @@ export default function Header() {
       </button>
       <Link to="/" className={`${styles.wordmark} font-heading`} aria-label="CRYST home">
         <img src="/images/cryst-favicon.png" alt="" width="40" height="48" />
-        cryst
+        <span>CRYST</span>
       </Link>
       <Link to="/help" className={styles.button} aria-label="Help">
         <img src="/images/question.png" alt="" width="76" height="76" />
