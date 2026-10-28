@@ -1,26 +1,50 @@
-.page { width: 100%; max-width: 393px; margin-inline: auto; padding: 14px 22px 28px; font-size: 14px; line-height: 1.45; }
+.page {
+  width: 100%;
+  min-width: 0;
+  max-width: var(--layout-max-width);
+  margin-inline: auto;
+  padding: var(--layout-gap) var(--page-gutter) var(--section-space);
+  font-size: clamp(14px, 1.6vw, 16px);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
 .back { display: inline-block; margin-bottom: 16px; font-size: 12px; color: #b477e3; text-decoration: none; }
-.hero { display: grid; place-items: center; width: 100%; aspect-ratio: 1.52; border-radius: 17px; background: #eae5f0; }
+.hero { display: grid; place-items: center; width: 100%; aspect-ratio: 1.52; max-height: 380px; border-radius: 17px; background: #eae5f0; }
 .hero img { opacity: .3; }
-.page h1 { margin: 18px 0; font-size: 32px; line-height: 1.15; }
-.page h2 { margin: 0 0 12px; font-size: 22px; line-height: 1.2; }
+.page h1 { margin: 18px 0; font-size: clamp(32px, 4vw, 44px); line-height: 1.15; }
+.page h2 { margin: 0 0 12px; font-size: clamp(22px, 3vw, 28px); line-height: 1.2; }
 .page p { margin: 0 0 16px; }
-.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; margin: 0 0 18px; }
-.facts > div { padding: 9px; border-radius: 12px; background: #82d4c8; color: #242424; }
-.facts dt { font-size: 10px; margin-bottom: 5px; }
-.facts dd { margin: 0; font-size: 13px; font-weight: 700; }
+.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(7px, 2vw, 18px); margin: 0 0 18px; }
+.facts > div { padding: clamp(9px, 2vw, 18px); border-radius: 12px; background: #82d4c8; color: #242424; }
+.facts dt { font-size: clamp(10px, 1.4vw, 13px); margin-bottom: 5px; }
+.facts dd { margin: 0; font-size: clamp(13px, 1.6vw, 16px); font-weight: 700; }
 .materials { margin-top: 20px; }
 .checklist { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.checklist label { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; }
+.checklist label { display: flex; align-items: flex-start; gap: 8px; font-size: clamp(13px, 1.6vw, 16px); }
 .checklist input { flex-shrink: 0; margin-top: 3px; accent-color: #b477e3; }
-.supplies { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-block: 24px; }
+.supplies { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-block: 24px; }
 .supplies p { margin: 0; font-size: 12px; }
 .supplies button { border: 0; border-radius: 12px; background: #82d4c8; color: #242424; padding: 12px; font-size: 12px; }
 .science, .safety { padding: 20px 18px; border-radius: 19px; margin-bottom: 18px; color: #242424; }
 .science { background: #82d4c8; }
 .safety { background: #ffed42; }
 .science p:last-child, .safety p:last-child { margin-bottom: 0; }
-.science strong { font-size: 13px; }
+.science strong { font-size: clamp(13px, 1.6vw, 16px); }
 .start { display: flex; align-items: center; justify-content: center; text-decoration: none; width: 100%; min-height: 50px; border: 0; border-radius: 12px; background: #b477e3; color: #242424; font-weight: 700; }
 .note { text-align: center; font-size: 12px; margin-top: 8px !important; }
 .page :is(a, input):focus-visible { outline: 2px solid #b477e3; outline-offset: 3px; }
+
+/* On wider screens, the two information panels share a row. */
+@media (min-width: 768px) {
+  .page { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--layout-gap); }
+  .page > * { min-width: 0; grid-column: 1 / -1; }
+  .science { grid-column: 1; }
+  .safety { grid-column: 2; }
+  .checklist { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+  .science, .safety { padding: 24px; }
+  .start { width: auto; justify-self: center; min-width: 260px; padding-inline: 32px; }
+}
+
+@media (max-width: 359px) {
+  .checklist { grid-template-columns: minmax(0, 1fr); }
+}
