@@ -64,7 +64,6 @@ export default function Recipes() {
             <h1 id={`heading-${section.name}`}>{section.name}</h1>
             {!isGrid && <Link className={styles.seeMore} to={gridUrl(section.name.toLowerCase())}>See more <span aria-hidden="true">→</span></Link>}
           </div>
-          {!isGrid && <p className={styles.description}>{section.description}</p>}
           <div className={`${styles.cards} ${isGrid ? styles.grid : ""}`} tabIndex={isGrid ? undefined : 0} role="region" aria-label={`${section.name} recipes`}>
             {section.recipes.map(recipe => (
               <CrystalProjectCard key={recipe.id} title={recipe.name} to={`/recipes/${recipe.id}`} description={recipe.isPlaceholder ? "Coming soon" : `${recipe.time} · ${recipe.price}`} />

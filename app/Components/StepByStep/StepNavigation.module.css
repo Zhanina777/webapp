@@ -1,16 +1,17 @@
 .navigation {
   display: grid;
-  gap: 24px;
+  gap: clamp(24px, 3vw, 32px);
+  min-width: 0;
 }
 
 .buttons {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 12px;
 }
 
 .buttons > button {
-  flex: 1 1 200px;
+  width: 100%;
 }
 
 .navigation:focus { outline: none; }
@@ -18,3 +19,8 @@
 .completion h1 { font-size: 30px; margin-bottom: 12px; }
 .completion p { margin-bottom: 20px; line-height: 1.5; }
 .completion a { color: inherit; text-underline-offset: 4px; }
+
+/* Keep instructions readable while the tracker follows the app container width. */
+@media (min-width: 768px) {
+  .navigation > section, .buttons { width: 100%; max-width: 48rem; margin-inline: auto; }
+}

@@ -1,1 +1,8 @@
-.page { width: 100%; max-width: 393px; margin-inline: auto; padding: 15px 22px 32px; }
+.page {
+  width: 100%;
+  min-width: 0;
+  max-width: var(--layout-max-width);
+  margin-inline: auto;
+  padding: var(--layout-gap) var(--page-gutter) var(--section-space);
+  overflow-wrap: anywhere;
+}
