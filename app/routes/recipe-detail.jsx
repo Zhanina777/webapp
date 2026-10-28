@@ -16,8 +16,8 @@ export default function RecipeDetail() {
   return (
     <main id="main-content" className={styles.page}>
       <Link className={styles.back} to={`/recipes?level=${recipe.difficulty.toLowerCase()}`}>← {recipe.difficulty} recipes</Link>
-      <div className={styles.hero} aria-label="Recipe image coming soon">
-        <img src="/images/flask.png" alt="" width="56" height="56" />
+      <div className={styles.hero}>
+        <img src={recipe.image} alt={recipe.imageAlt} />
       </div>
       <h1>{recipe.name}</h1>
       <dl className={styles.facts}>

@@ -66,7 +66,7 @@ export default function Recipes() {
           </div>
           <div className={`${styles.cards} ${isGrid ? styles.grid : ""}`} tabIndex={isGrid ? undefined : 0} role="region" aria-label={`${section.name} recipes`}>
             {section.recipes.map(recipe => (
-              <CrystalProjectCard key={recipe.id} title={recipe.name} to={`/recipes/${recipe.id}`} description={recipe.isPlaceholder ? "Coming soon" : `${recipe.time} · ${recipe.price}`} />
+              <CrystalProjectCard key={recipe.id} title={recipe.name} image={recipe.image} imageAlt={recipe.imageAlt} to={`/recipes/${recipe.id}`} description={recipe.isPlaceholder ? "Coming soon" : `${recipe.time} · ${recipe.price}`} />
             ))}
           </div>
         </section>)}

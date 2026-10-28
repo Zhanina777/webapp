@@ -59,13 +59,34 @@ export const saltStringMagic = {
   safety: "An adult must prepare and pour the hot water. Never taste the solution or crystals. Keep your experiment away from food and wash your hands afterwards.",
 };
 
+const projectImages = {
+  "salt-string-magic": ["Crystal photograph (3).png", "Small clear crystals in a glass dish"],
+  "rock-candy-sticks": ["Crystal photograph (4).png", "Golden sugar crystals growing on a stick above a jar"],
+  "mini-crystal-cave": ["crystal_04.png", "A sparkling purple crystal cluster"],
+  "crystal-painting": ["crystal_06.png", "Pale green crystals spread across a glass dish"],
+  "giant-crystal-quest": ["Crystal photograph (7).png", "A clear crystal suspended above a glass jar"],
+  "sparkling-seashells": ["crystal_03.png", "A cluster of clear pointed crystals"],
+  "crystal-garden": ["crystal_19.png", "A garden-like cluster of pink crystals"],
+  "crystal-lab-challenge": ["crystal_08.png", "Pink crystals inside a glass jar"],
+  "crystal-cave-creator": ["crystal_20.png", "An iridescent blue and purple crystal cluster"],
+  "crystal-detective": ["crystal_13.png", "Small purple crystals in a glass dish"],
+  "colour-change-chemistry": ["crystal_18.png", "A pale blue crystal cluster"],
+  "underwater-garden": ["crystal_14.png", "A teal crystal cluster against a mint background"],
+  "blue-crystal-lab": ["Crystal photograph (5).png", "A deep blue crystal cluster"],
+};
+
+const projects = [saltStringMagic, ...additionalCrystalProjects].map(recipe => {
+  const [filename, imageAlt] = projectImages[recipe.id];
+  return { ...recipe, image: `/images/${encodeURIComponent(filename)}`, imageAlt };
+});
+
 export const projectSections = [
   { name: "Easy", description: "Small starts. Amazing discoveries." },
   { name: "Medium", description: "Try a new shape or a splash of colour." },
   { name: "Hard", description: "More patience. More to investigate." },
 ].map(section => ({
   ...section,
-  recipes: [saltStringMagic, ...additionalCrystalProjects].filter(recipe => recipe.difficulty === section.name),
+  recipes: projects.filter(recipe => recipe.difficulty === section.name),
 }));
 
 export function findCrystalProject(id) {
