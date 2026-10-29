@@ -18,7 +18,7 @@
 .code {
   margin: 0;
   color: #b477e3;
-  font-family: "Woly Wonka", sans-serif;
+  font-family: var(--font-heading);
   font-weight: 400;
   font-size: clamp(72px, 25vw, 100px);
   line-height: 1.1;

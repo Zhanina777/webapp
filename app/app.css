@@ -1,16 +1,8 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: "Woly Wonka";
-  src: url("/fonts/woly-wonka.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
 @theme {
   --font-sans: "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, sans-serif;
-  --font-heading: "Woly Wonka", "Atkinson Hyperlegible Next", sans-serif;
+  --font-heading: "Lilita One", "Atkinson Hyperlegible Next", sans-serif;
   --font-serif: var(--font-sans);
   --font-mono: var(--font-sans);
 }
