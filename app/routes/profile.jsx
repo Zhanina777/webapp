@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useAuth } from "../Components/Auth/AuthProvider";
 import styles from "./profile.module.css";
@@ -15,57 +15,210 @@ const allRecipes = projectSections.flatMap(
   (section) => section.recipes
 );
 
+const PROFILE_COLORS = [
+  { name: "Purple", value: "#B377E4" },
+  { name: "Mint", value: "#85D5C8" },
+  { name: "Yellow", value: "#FFEE46" },
+  { name: "Black", value: "#1A1A1A" },
+];
+
+const SCIENCE_EMOJIS = [
+  "🧪",
+  "🔬",
+  "🧬",
+  "💎",
+  "🧫",
+  "⚗️",
+  "🪨",
+  "🌱",
+  "🌙",
+  "🪐",
+  "⭐",
+  "🦠",
+];
+
 export default function Profile() {
   const { user, profile, signOut } = useAuth();
   const navigate = useNavigate();
+  const photoInputRef = useRef(null);
+
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-
-  async function handleSignOut() {
-    setBusy(true);
-    setError("");
-    try { await signOut(); navigate("/"); }
-    catch (problem) { setError(problem.message); setBusy(false); }
-  }
   const [activeTab, setActiveTab] = useState("collection");
 
   const [savedIds, setSavedIds] = useState([]);
   const [finishedIds, setFinishedIds] = useState([]);
   const [progressId, setProgressId] = useState(null);
 
-  // Load the user's saved profile data from the browser.
+  const [bannerColor, setBannerColor] = useState("#B377E4");
+  const [avatarEmoji, setAvatarEmoji] = useState("🧪");
+  const [avatarPhoto, setAvatarPhoto] = useState("");
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+
+  // Load the user's saved profile and recipe data.
   useEffect(() => {
-    setSavedIds(
-      JSON.parse(localStorage.getItem("cryst-saved") || "[]")
-    );
-    setFinishedIds(
-      JSON.parse(localStorage.getItem("cryst-finished") || "[]")
-    );
-    setProgressId(
-      localStorage.getItem("cryst-progress")
-    );
+    try {
+      setSavedIds(
+        JSON.parse(localStorage.getItem("cryst-saved") || "[]")
+      );
+
+      setFinishedIds(
+        JSON.parse(localStorage.getItem("cryst-finished") || "[]")
+      );
+
+      setProgressId(
+        localStorage.getItem("cryst-progress")
+      );
+
+      setBannerColor(
+        localStorage.getItem("cryst-profile-color") || "#B377E4"
+      );
+
+      setAvatarEmoji(
+        localStorage.getItem("cryst-profile-emoji") || "🧪"
+      );
+
+      setAvatarPhoto(
+        localStorage.getItem("cryst-profile-photo") || ""
+      );
+    } catch {
+      setError("Could not load your saved profile.");
+    }
   }, []);
 
-  // Remove a recipe from Saved.
-  function removeSaved(id) {
-    const updated = savedIds.filter((savedId) => savedId !== id);
+  // Save the selected banner color.
+  function handleColorChange(color) {
+    setBannerColor(color);
 
     try {
-      localStorage.setItem("cryst-saved", JSON.stringify(updated));
+      localStorage.setItem("cryst-profile-color", color);
+    } catch {
+      setError("Could not save your selected color.");
+    }
+  }
+
+  // Upload a profile picture.
+  function handlePhotoUpload(event) {
+    const file = event.target.files?.[0];
+
+    if (!file) return;
+
+    setError("");
+
+    if (!file.type.startsWith("image/")) {
+      setError("Please choose an image file.");
+      return;
+    }
+
+    // Keep the image small enough for browser storage.
+    if (file.size > 2 * 1024 * 1024) {
+      setError("Please choose an image smaller than 2 MB.");
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const imageData = reader.result;
+
+      try {
+        localStorage.setItem("cryst-profile-photo", imageData);
+        localStorage.removeItem("cryst-profile-emoji");
+
+        setAvatarPhoto(imageData);
+        setAvatarEmoji("");
+        setShowEmojiPicker(false);
+      } catch {
+        setError(
+          "Could not save this photo. Try a smaller image."
+        );
+      }
+    };
+
+    reader.onerror = () => {
+      setError("Could not read this photo. Please try again.");
+    };
+
+    reader.readAsDataURL(file);
+
+    // Allows selecting the same photo again.
+    event.target.value = "";
+  }
+
+  // Choose a science emoji as the profile avatar.
+  function handleEmojiChange(emoji) {
+    try {
+      localStorage.setItem("cryst-profile-emoji", emoji);
+      localStorage.removeItem("cryst-profile-photo");
+
+      setAvatarEmoji(emoji);
+      setAvatarPhoto("");
+      setShowEmojiPicker(false);
+      setError("");
+    } catch {
+      setError("Could not save your selected emoji.");
+    }
+  }
+
+  // Remove a saved recipe.
+  function removeSaved(id) {
+    const updated = savedIds.filter(
+      (savedId) => savedId !== id
+    );
+
+    try {
+      localStorage.setItem(
+        "cryst-saved",
+        JSON.stringify(updated)
+      );
+
       setSavedIds(updated);
-    } catch { setError("Could not remove this saved recipe. Please allow browser storage and try again."); }
+    } catch {
+      setError(
+        "Could not remove this saved recipe. Please allow browser storage and try again."
+      );
+    }
   }
 
   // Mark the current recipe as finished.
   async function finishGrowing(id) {
     try {
-      await saveCompletion(user, id, allRecipes.find(recipe => recipe.id === id)?.steps?.length || 1);
-      const updated = [...new Set([...finishedIds, id])];
-      localStorage.setItem("cryst-finished", JSON.stringify(updated));
+      await saveCompletion(
+        user,
+        id,
+        allRecipes.find((recipe) => recipe.id === id)?.steps?.length || 1
+      );
+
+      const updated = [
+        ...new Set([...finishedIds, id]),
+      ];
+
+      localStorage.setItem(
+        "cryst-finished",
+        JSON.stringify(updated)
+      );
+
       localStorage.removeItem("cryst-progress");
+
       setFinishedIds(updated);
       setProgressId(null);
-    } catch (problem) { setError(problem.message); }
+    } catch (problem) {
+      setError(problem.message);
+    }
+  }
+
+  // Sign out.
+  async function handleSignOut() {
+    setBusy(true);
+    setError("");
+
+    try {
+      await signOut();
+      navigate("/");
+    } catch (problem) {
+      setError(problem.message);
+      setBusy(false);
+    }
   }
 
   // Find the recipe currently in progress.
@@ -92,10 +245,13 @@ export default function Profile() {
             alt={recipe.imageAlt}
             className="crystal-image"
           />
+
           <h3>{recipe.name}</h3>
         </Link>
 
-        <p>{recipe.difficulty} · {recipe.time}</p>
+        <p>
+          {recipe.difficulty} · {recipe.time}
+        </p>
 
         {children}
       </article>
@@ -103,26 +259,144 @@ export default function Profile() {
   }
 
   return (
-    <main className="page-content profile-page">
-      <header className="profile-heading">
-        <h1>My Profile</h1>
-        <p>Your crystal-growing journey</p>
-      </header>
+    <main className={`page-content profile-page ${styles.profilePage}`}>
 
-      <section className="profile-user">
-        <div className="profile-avatar">🧪</div>
+      {/* Profile banner and avatar */}
+      <section className={styles.profileHero}>
+        <div
+          className={styles.profileBanner}
+          style={{ backgroundColor: bannerColor }}
+        />
 
-        <div className={styles.userDetails}>
-          <div className={styles.nameRow}>
-            <h2>{profile?.display_name || "Crystal Explorer"}</h2>
-            {user && <button className={styles.signOut} type="button" disabled={busy} onClick={handleSignOut}>{busy ? "Signing out…" : "Sign out"}</button>}
+        <div className={styles.profileAvatarWrapper}>
+          <div className={styles.profileAvatar}>
+            {avatarPhoto ? (
+              <img
+                src={avatarPhoto}
+                alt="Your profile"
+                className={styles.avatarPhoto}
+              />
+            ) : (
+              <span className={styles.avatarEmoji}>
+                {avatarEmoji || "🧪"}
+              </span>
+            )}
           </div>
-          <p>Growing crystals, one experiment at a time</p>
         </div>
       </section>
 
-      {error && <p role="alert">{error}</p>}
+      {/* Profile details */}
+      <section className={styles.profileDetails}>
+        <div className={styles.profileNameRow}>
+          <div>
+            <h1>
+              {profile?.display_name || "Crystal Explorer"}
+            </h1>
 
+            <p className={styles.profileDescription}>
+              Growing crystals, one experiment at a time
+            </p>
+          </div>
+
+          {user && (
+            <button
+              className={styles.signOut}
+              type="button"
+              disabled={busy}
+              onClick={handleSignOut}
+            >
+              {busy ? "Signing out…" : "Sign out"}
+            </button>
+          )}
+        </div>
+
+        {/* Color picker */}
+        <div className={styles.profileCustomization}>
+          <h2>Profile color</h2>
+
+          <div className={styles.colorOptions}>
+            {PROFILE_COLORS.map((color) => (
+              <button
+                key={color.value}
+                type="button"
+                className={`${styles.colorOption} ${
+                  bannerColor === color.value
+                    ? styles.selectedColor
+                    : ""
+                }`}
+                style={{ backgroundColor: color.value }}
+                aria-label={`Choose ${color.name} profile color`}
+                aria-pressed={bannerColor === color.value}
+                title={color.name}
+                onClick={() => handleColorChange(color.value)}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Photo and emoji options */}
+        <div className={styles.avatarActions}>
+          <input
+            ref={photoInputRef}
+            type="file"
+            accept="image/*"
+            className={styles.photoInput}
+            onChange={handlePhotoUpload}
+          />
+
+          <button
+            type="button"
+            className={styles.customizeButton}
+            onClick={() => photoInputRef.current?.click()}
+          >
+            Upload photo
+          </button>
+
+          <button
+            type="button"
+            className={styles.customizeButton}
+            onClick={() =>
+              setShowEmojiPicker((visible) => !visible)
+            }
+          >
+            Choose science emoji
+          </button>
+        </div>
+
+        {/* Science emoji picker */}
+        {showEmojiPicker && (
+          <div className={styles.emojiPicker}>
+            <p>Choose your profile emoji</p>
+
+            <div className={styles.emojiOptions}>
+              {SCIENCE_EMOJIS.map((emoji) => (
+                <button
+                  key={emoji}
+                  type="button"
+                  className={`${styles.emojiOption} ${
+                    avatarEmoji === emoji && !avatarPhoto
+                      ? styles.selectedEmoji
+                      : ""
+                  }`}
+                  onClick={() => handleEmojiChange(emoji)}
+                  aria-label={`Choose ${emoji} as your profile emoji`}
+                  aria-pressed={avatarEmoji === emoji && !avatarPhoto}
+                >
+                  {emoji}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </section>
+
+      {error && (
+        <p className={styles.profileError} role="alert">
+          {error}
+        </p>
+      )}
+
+      {/* Profile tabs */}
       <section className="profile-tabs">
         <button
           className={activeTab === "collection" ? "active" : ""}
@@ -139,6 +413,7 @@ export default function Profile() {
         </button>
       </section>
 
+      {/* Collection */}
       {activeTab === "collection" && (
         <>
           <section className="profile-section">
@@ -182,7 +457,10 @@ export default function Profile() {
             {finishedRecipes.length > 0 ? (
               <div className="crystal-grid">
                 {finishedRecipes.map((recipe) => (
-                  <RecipeCard key={recipe.id} recipe={recipe} />
+                  <RecipeCard
+                    key={recipe.id}
+                    recipe={recipe}
+                  />
                 ))}
               </div>
             ) : (
@@ -192,6 +470,7 @@ export default function Profile() {
         </>
       )}
 
+      {/* Saved recipes */}
       {activeTab === "saved" && (
         <section className="profile-section">
           <h2>Saved recipes</h2>
@@ -199,7 +478,20 @@ export default function Profile() {
           {savedRecipes.length > 0 ? (
             <div className={styles.savedCards}>
               {savedRecipes.map((recipe) => (
-                <CrystalProjectCard key={recipe.id} title={recipe.name} image={recipe.image} imageAlt={recipe.imageAlt} description={recipe.isPlaceholder ? "Coming soon" : `${recipe.time} · ${recipe.price}`} to={`/recipes/${recipe.id}`} saved onToggleSave={() => removeSaved(recipe.id)} />
+                <CrystalProjectCard
+                  key={recipe.id}
+                  title={recipe.name}
+                  image={recipe.image}
+                  imageAlt={recipe.imageAlt}
+                  description={
+                    recipe.isPlaceholder
+                      ? "Coming soon"
+                      : `${recipe.time} · ${recipe.price}`
+                  }
+                  to={`/recipes/${recipe.id}`}
+                  saved
+                  onToggleSave={() => removeSaved(recipe.id)}
+                />
               ))}
             </div>
           ) : (
