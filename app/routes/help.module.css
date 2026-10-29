@@ -1,12 +1,9 @@
-:global(.route-content):has(> .page) {
-  display: flex;
-  align-items: center;
-}
-
 .page {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
   gap: 24px;
   width: 100%;
   max-width: 393px;

@@ -1,6 +1,8 @@
 import { Link } from "react-router";
 import styles from "./help.module.css";
 
+export const handle = { hideNavigation: true };
+
 export function meta() {
   return [{ title: "404 · Page not found | CRYST" }];
 }
