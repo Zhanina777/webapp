@@ -54,6 +54,10 @@ export default function Profile() {
   const [avatarEmoji, setAvatarEmoji] = useState("🧪");
   const [avatarPhoto, setAvatarPhoto] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [draftBannerColor, setDraftBannerColor] = useState("#B377E4");
+  const [draftAvatarEmoji, setDraftAvatarEmoji] = useState("🧪");
+  const [draftAvatarPhoto, setDraftAvatarPhoto] = useState("");
 
   // Load the user's saved profile and recipe data.
   useEffect(() => {
@@ -81,6 +85,16 @@ export default function Profile() {
       setAvatarPhoto(
         localStorage.getItem("cryst-profile-photo") || ""
       );
+
+      setDraftBannerColor(
+        localStorage.getItem("cryst-profile-color") || "#B377E4"
+      );
+      setDraftAvatarEmoji(
+        localStorage.getItem("cryst-profile-emoji") || "🧪"
+      );
+      setDraftAvatarPhoto(
+        localStorage.getItem("cryst-profile-photo") || ""
+      );
     } catch {
       setError("Could not load your saved profile.");
     }
@@ -88,12 +102,47 @@ export default function Profile() {
 
   // Save the selected banner color.
   function handleColorChange(color) {
-    setBannerColor(color);
+    setDraftBannerColor(color);
+  }
 
+  function beginEditing() {
+    setDraftBannerColor(bannerColor);
+    setDraftAvatarEmoji(avatarEmoji || "🧪");
+    setDraftAvatarPhoto(avatarPhoto);
+    setShowEmojiPicker(false);
+    setError("");
+    setIsEditing(true);
+  }
+
+  function cancelEditing() {
+    setDraftBannerColor(bannerColor);
+    setDraftAvatarEmoji(avatarEmoji || "🧪");
+    setDraftAvatarPhoto(avatarPhoto);
+    setShowEmojiPicker(false);
+    setError("");
+    setIsEditing(false);
+  }
+
+  function saveProfileEdits() {
     try {
-      localStorage.setItem("cryst-profile-color", color);
+      localStorage.setItem("cryst-profile-color", draftBannerColor);
+
+      if (draftAvatarPhoto) {
+        localStorage.setItem("cryst-profile-photo", draftAvatarPhoto);
+        localStorage.removeItem("cryst-profile-emoji");
+      } else {
+        localStorage.setItem("cryst-profile-emoji", draftAvatarEmoji || "🧪");
+        localStorage.removeItem("cryst-profile-photo");
+      }
+
+      setBannerColor(draftBannerColor);
+      setAvatarEmoji(draftAvatarPhoto ? "" : (draftAvatarEmoji || "🧪"));
+      setAvatarPhoto(draftAvatarPhoto);
+      setShowEmojiPicker(false);
+      setIsEditing(false);
+      setError("");
     } catch {
-      setError("Could not save your selected color.");
+      setError("Could not save your profile changes. Try a smaller photo.");
     }
   }
 
@@ -122,11 +171,8 @@ export default function Profile() {
       const imageData = reader.result;
 
       try {
-        localStorage.setItem("cryst-profile-photo", imageData);
-        localStorage.removeItem("cryst-profile-emoji");
-
-        setAvatarPhoto(imageData);
-        setAvatarEmoji("");
+        setDraftAvatarPhoto(imageData);
+        setDraftAvatarEmoji("");
         setShowEmojiPicker(false);
       } catch {
         setError(
@@ -148,11 +194,8 @@ export default function Profile() {
   // Choose a science emoji as the profile avatar.
   function handleEmojiChange(emoji) {
     try {
-      localStorage.setItem("cryst-profile-emoji", emoji);
-      localStorage.removeItem("cryst-profile-photo");
-
-      setAvatarEmoji(emoji);
-      setAvatarPhoto("");
+      setDraftAvatarEmoji(emoji);
+      setDraftAvatarPhoto("");
       setShowEmojiPicker(false);
       setError("");
     } catch {
@@ -265,20 +308,20 @@ export default function Profile() {
       <section className={styles.profileHero}>
         <div
           className={styles.profileBanner}
-          style={{ backgroundColor: bannerColor }}
+          style={{ backgroundColor: isEditing ? draftBannerColor : bannerColor }}
         />
 
         <div className={styles.profileAvatarWrapper}>
           <div className={styles.profileAvatar}>
-            {avatarPhoto ? (
+            {(isEditing ? draftAvatarPhoto : avatarPhoto) ? (
               <img
-                src={avatarPhoto}
+                src={isEditing ? draftAvatarPhoto : avatarPhoto}
                 alt="Your profile"
                 className={styles.avatarPhoto}
               />
             ) : (
               <span className={styles.avatarEmoji}>
-                {avatarEmoji || "🧪"}
+                {(isEditing ? draftAvatarEmoji : avatarEmoji) || "🧪"}
               </span>
             )}
           </div>
@@ -298,6 +341,22 @@ export default function Profile() {
             </p>
           </div>
 
+          <div className={styles.profileHeaderActions}>
+            {isEditing ? (
+              <>
+                <button type="button" className={styles.customizeButton} onClick={saveProfileEdits}>
+                  Save
+                </button>
+                <button type="button" className={styles.customizeButton} onClick={cancelEditing}>
+                  Cancel
+                </button>
+              </>
+            ) : (
+              <button type="button" className={styles.customizeButton} onClick={beginEditing}>
+                Edit
+              </button>
+            )}
+
           {user && (
             <button
               className={styles.signOut}
@@ -308,10 +367,11 @@ export default function Profile() {
               {busy ? "Signing out…" : "Sign out"}
             </button>
           )}
+          </div>
         </div>
 
         {/* Color picker */}
-        <div className={styles.profileCustomization}>
+        {isEditing && <div className={styles.profileCustomization}>
           <h2>Profile color</h2>
 
           <div className={styles.colorOptions}>
@@ -320,22 +380,22 @@ export default function Profile() {
                 key={color.value}
                 type="button"
                 className={`${styles.colorOption} ${
-                  bannerColor === color.value
+                  draftBannerColor === color.value
                     ? styles.selectedColor
                     : ""
                 }`}
                 style={{ backgroundColor: color.value }}
                 aria-label={`Choose ${color.name} profile color`}
-                aria-pressed={bannerColor === color.value}
+                aria-pressed={draftBannerColor === color.value}
                 title={color.name}
                 onClick={() => handleColorChange(color.value)}
               />
             ))}
           </div>
-        </div>
+        </div>}
 
         {/* Photo and emoji options */}
-        <div className={styles.avatarActions}>
+        {isEditing && <div className={styles.avatarActions}>
           <input
             ref={photoInputRef}
             type="file"
@@ -361,10 +421,10 @@ export default function Profile() {
           >
             Choose science emoji
           </button>
-        </div>
+        </div>}
 
         {/* Science emoji picker */}
-        {showEmojiPicker && (
+        {isEditing && showEmojiPicker && (
           <div className={styles.emojiPicker}>
             <p>Choose your profile emoji</p>
 
@@ -374,13 +434,13 @@ export default function Profile() {
                   key={emoji}
                   type="button"
                   className={`${styles.emojiOption} ${
-                    avatarEmoji === emoji && !avatarPhoto
+                    draftAvatarEmoji === emoji && !draftAvatarPhoto
                       ? styles.selectedEmoji
                       : ""
                   }`}
                   onClick={() => handleEmojiChange(emoji)}
                   aria-label={`Choose ${emoji} as your profile emoji`}
-                  aria-pressed={avatarEmoji === emoji && !avatarPhoto}
+                  aria-pressed={draftAvatarEmoji === emoji && !draftAvatarPhoto}
                 >
                   {emoji}
                 </button>
