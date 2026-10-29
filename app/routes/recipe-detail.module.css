@@ -25,9 +25,8 @@
 .supplies { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-block: 24px; }
 .supplies p { margin: 0; font-size: var(--text-small); }
 .supplies button { border: 0; border-radius: 12px; background: #82d4c8; color: #242424; padding: 12px; font-size: var(--text-small); }
-.science { padding: 20px 18px; border-radius: 19px; margin-bottom: 18px; color: #242424; }
-.science { background: #82d4c8; }
-.safety { margin-bottom: 18px; align-self: start; }
+.science { padding: 20px 18px; border-radius: 19px; margin-bottom: 18px; color: #242424; background: #82d4c8; }
+.safety { margin-bottom: 18px; }
 .safety p { margin: 0; }
 .science h2 { display: flex; align-items: flex-start; gap: 8px; }
 .sparkle { width: 24px; height: 24px; flex-shrink: 0; margin-top: 2px; }
@@ -39,12 +38,11 @@
 
 /* Keep the information panels stacked at every screen size. */
 @media (min-width: 768px) {
-  .page { max-width: 760px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--layout-gap); }
-  .page > * { min-width: 0; grid-column: 1 / -1; }
-  .science, .safety { grid-column: 1 / -1; }
+  .page { max-width: 760px; display: flex; flex-direction: column; }
+  .page > * { min-width: 0; }
   .checklist { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
   .science { padding: 24px; }
-  .start { width: auto; justify-self: center; min-width: 260px; padding-inline: 32px; }
+  .start { width: auto; align-self: center; min-width: 260px; padding-inline: 32px; }
 }
 
 @media (max-width: 359px) {

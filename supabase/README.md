@@ -25,9 +25,11 @@ Google, Facebook, and Apple buttons call Supabase OAuth but require provider set
 
 Set Authentication > URL Configuration > Site URL to the actual app URL. Add `http://localhost:5173/create-profile` and, if using port 5174, `http://localhost:5174/create-profile` to Redirect URLs. Add the corresponding production callback when deployed. Use the same browser/origin where the guest project was completed to import it. For the requested simple signup flow, open Authentication > Sign In / Providers > Email, disable Confirm email, and save. Ensure Email signup is enabled. New accounts then receive a session immediately; no email link is required. Existing unconfirmed accounts may still need confirmation by the project owner in the dashboard. Configure custom SMTP before relying on email delivery for a group or production use; Supabase's default mail service is limited.
 
-## Handoff for the profile-page developer
+## Profile and project progress
 
-The profile route intentionally remains a placeholder, as requested. No dashboard UI was built. In a component inside the app, `useAuth()` from `app/Components/Auth/AuthProvider.jsx` provides `user`, `profile`, `loading`, and `signOut()`. The nickname is `profile.display_name`. `getCompletedProjects()` from `app/supabase-connection/projectProgress.js` returns the signed-in user's completed rows; map each `recipe_id` through `findCrystalProject()` for its title and picture. Handle loading and errors when querying, and query after guest sync if the page needs to update immediately. The global sync notice offers a retry if guest import fails.
+The profile page supports avatar editing, saved recipes, in-progress recipes, and finished projects. Profile appearance and recipe collections are stored in this browser. Shared helpers in `app/utils/recipeStorage.js` manage saved recipe IDs, the current tutorial step, and locally finished recipe IDs. `useAuth()` provides the signed-in user, profile, loading state, and sign-out action; the display name is `profile.display_name`.
+
+Project completion is also saved to Supabase. `getCompletedProjects()` in `app/supabase-connection/projectProgress.js` can query the signed-in user's completed rows, but the profile currently reads its collection from browser storage. Guest completion is imported after authentication, with a global retry notice if import fails.
 
 ## Verification
 

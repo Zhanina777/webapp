@@ -3,6 +3,8 @@
   --page-gutter: 16px;
   --section-space: 20px;
   --layout-gap: 12px;
+  gap: 12px;
+  padding-top: 12px;
 }
 
 @media (min-width: 768px) {
@@ -11,11 +13,6 @@
     --page-gutter: 24px;
     --section-space: 24px;
   }
-}
-
-.home {
-  gap: 12px;
-  padding-top: 12px;
 }
 
 .welcome { margin-bottom: 8px; }

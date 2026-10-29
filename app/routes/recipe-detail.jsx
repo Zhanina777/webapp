@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../Components/Auth/AuthProvider";
 import { guestCompleted } from "../supabase-connection/projectProgress";
 import AdultHelpBtn from "../Components/AdultHelpBtn";
+import { saveRecipeProgress } from "../utils/recipeStorage";
 
 export function meta({ params }) {
   const recipe = findCrystalProject(params.recipeId);
@@ -23,8 +24,7 @@ export default function RecipeDetail() {
     if (loading || (!user && completed)) return;
     if (!recipe || recipe.isPlaceholder) return;
     try {
-      const finished = JSON.parse(localStorage.getItem("cryst-finished") || "[]");
-      if (!Array.isArray(finished) || !finished.includes(recipe.id)) localStorage.setItem("cryst-progress", recipe.id);
+      saveRecipeProgress(recipe.id);
     } catch { /* Recipe instructions remain available if browser storage is blocked. */ }
   }, [recipe, user, loading]);
 
@@ -34,7 +34,7 @@ export default function RecipeDetail() {
     <main id="main-content" className={styles.page}>
       <Link className={styles.back} to={`/recipes?level=${recipe.difficulty.toLowerCase()}`}>← {recipe.difficulty} recipes</Link>
       <div className={styles.hero}>
-        <img src={recipe.heroImage || recipe.image} alt={recipe.imageAlt} width="1672" height="941" decoding="async" fetchPriority="high" />
+        <img src={recipe.image} alt={recipe.imageAlt} width="1672" height="941" decoding="async" fetchPriority="high" />
       </div>
       <h1>{recipe.name}</h1>
       <dl className={styles.facts}>

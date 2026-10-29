@@ -82,7 +82,6 @@ const projects = [saltStringMagic, ...additionalCrystalProjects].map(recipe => {
   return {
     ...recipe,
     image: `/images/recipes/${encodeURIComponent(landscapeFilename)}`,
-    heroImage: `/images/recipes/${encodeURIComponent(landscapeFilename)}`,
     imageAlt,
     steps: recipe.steps.map((step, index) => ({ ...tutorialImages[recipe.id]?.[index], ...step })),
   };

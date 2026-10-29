@@ -8,6 +8,7 @@ import StepTracker from "./StepTracker";
 import StepContent from "./StepContent";
 import buttonStyles from "./StepButtons.module.css";
 import styles from "./StepNavigation.module.css";
+import { markRecipeFinished, saveRecipeProgress } from "../../utils/recipeStorage";
 
 export default function StepNavigation({ recipeName, recipeId, steps, completionMessage }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -27,10 +28,7 @@ export default function StepNavigation({ recipeName, recipeId, steps, completion
   useEffect(() => {
     if (isComplete) return;
     try {
-      const finished = JSON.parse(localStorage.getItem("cryst-finished") || "[]");
-      if (Array.isArray(finished) && finished.includes(recipeId)) return;
-      localStorage.setItem("cryst-progress", recipeId);
-      localStorage.setItem(`cryst-step:${recipeId}`, String(currentStep));
+      saveRecipeProgress(recipeId, currentStep);
     } catch { /* Tutorial navigation remains available without browser storage. */ }
   }, [currentStep, isComplete, recipeId]);
 
@@ -62,10 +60,7 @@ export default function StepNavigation({ recipeName, recipeId, steps, completion
         return;
       }
       try {
-        const stored = JSON.parse(localStorage.getItem("cryst-finished") || "[]");
-        const finished = Array.isArray(stored) ? stored : [];
-        localStorage.setItem("cryst-finished", JSON.stringify([...new Set([...finished, recipeId])]));
-        if (localStorage.getItem("cryst-progress") === recipeId) localStorage.removeItem("cryst-progress");
+        markRecipeFinished(recipeId);
       } catch { /* Cloud completion was already saved; local profile display can refresh later. */ }
       setSaving(false);
     }

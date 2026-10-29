@@ -5,6 +5,7 @@ import { projectSections as sections } from "../data/crystalProjects";
 import RecipeFilters from "../Components/RecipeFilters";
 import CrystalProjectCard from "../Components/CrystalProjectCard";
 import { matchesRecipe, materialOptions } from "../data/recipeFiltering";
+import { getSavedRecipes, toggleSavedRecipe } from "../utils/recipeStorage";
 
 const availableMaterials = materialOptions(sections.flatMap(section => section.recipes));
 
@@ -18,8 +19,7 @@ export default function Recipes() {
   const [saveError, setSaveError] = useState("");
   useEffect(() => {
     try {
-      const saved = JSON.parse(localStorage.getItem("cryst-saved") || "[]");
-      if (Array.isArray(saved)) setSavedIds(saved);
+      setSavedIds(getSavedRecipes());
     } catch { setSaveError("Saved recipes could not be loaded on this browser."); }
   }, []);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -63,11 +63,7 @@ export default function Recipes() {
 
   function saveForLater(recipeId) {
     try {
-      const saved = JSON.parse(localStorage.getItem("cryst-saved") || "[]");
-      const current = Array.isArray(saved) ? saved : [];
-      const updated = current.includes(recipeId) ? current.filter(id => id !== recipeId) : [...current, recipeId];
-      localStorage.setItem("cryst-saved", JSON.stringify(updated));
-      setSavedIds(updated);
+      setSavedIds(toggleSavedRecipe(recipeId));
       setSaveError("");
     } catch { setSaveError("This recipe could not be saved. Please allow browser storage and try again."); }
   }

@@ -6,6 +6,7 @@ import styles from "./profile.module.css";
 import { projectSections } from "../data/crystalProjects";
 import CrystalProjectCard from "../Components/CrystalProjectCard";
 import ContinueGrowingBtn from "../Components/ContinueGrowingBtn";
+import { getCurrentProgress, getFinishedRecipes, getSavedRecipes, toggleSavedRecipe } from "../utils/recipeStorage";
 
 export function meta() {
   return [{ title: "Profile | Cryst" }];
@@ -63,19 +64,11 @@ export default function Profile() {
   // Load the user's saved profile and recipe data.
   useEffect(() => {
     try {
-      setSavedIds(
-        JSON.parse(localStorage.getItem("cryst-saved") || "[]")
-      );
-
-      setFinishedIds(
-        JSON.parse(localStorage.getItem("cryst-finished") || "[]")
-      );
-
-      setProgressId(
-        localStorage.getItem("cryst-progress")
-      );
-      const storedStep = Number(localStorage.getItem(`cryst-step:${localStorage.getItem("cryst-progress")}`) || 1);
-      setProgressStep(Number.isInteger(storedStep) && storedStep > 0 ? storedStep : 1);
+      setSavedIds(getSavedRecipes());
+      setFinishedIds(getFinishedRecipes());
+      const progress = getCurrentProgress();
+      setProgressId(progress.recipeId);
+      setProgressStep(progress.step);
 
       setBannerColor(
         localStorage.getItem("cryst-profile-color") || "#B377E4"
@@ -208,17 +201,8 @@ export default function Profile() {
 
   // Toggle whether a recipe is saved.
   function toggleSaved(id) {
-    const updated = savedIds.includes(id)
-      ? savedIds.filter((savedId) => savedId !== id)
-      : [...savedIds, id];
-
     try {
-      localStorage.setItem(
-        "cryst-saved",
-        JSON.stringify(updated)
-      );
-
-      setSavedIds(updated);
+      setSavedIds(toggleSavedRecipe(id));
     } catch {
       setError(
         "Could not update saved recipes. Please allow browser storage and try again."
@@ -436,7 +420,7 @@ export default function Profile() {
               <article className={styles.progressCard}>
                 <Link className={styles.progressLink} to={`/recipes/${currentRecipe.id}/grow?step=${Math.min(progressStep, currentRecipe.steps.length)}`}>
                   <img
-                    src={currentRecipe.heroImage || currentRecipe.image}
+                    src={currentRecipe.image}
                     alt={currentRecipe.imageAlt}
                     className={styles.progressImage}
                   />
