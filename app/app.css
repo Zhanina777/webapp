@@ -134,297 +134,339 @@ samp {
   min-width: 0;
 }
 
+
 /* =========================================
-   Payment page
+   PAYMENT PAGE — FIT ON ONE SCREEN
 ========================================= */
 
 .payment-page {
   width: 100%;
-  max-width: 560px;
-  min-height: 100vh;
-  min-height: 100dvh;
+  max-width: 620px;
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
   margin: 0 auto;
-  padding: 0 0 20px;
+  padding: 12px 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+
   background: #ffffff;
   color: #1a1a1a;
   font-family: var(--font-sans);
   text-align: center;
-  position: relative;
-  overflow: hidden;
 }
 
-/* Congratulations */
+/* =========================================
+   CONGRATULATIONS
+========================================= */
 
 .payment-congratulations {
-  padding: 30px 24px 0;
+  padding: 8px 0;
+  flex-shrink: 0;
+}
+
+.payment-congratulations h1 {
+  margin: 0 0 8px;
+  font-family: var(--font-heading);
+  font-size: clamp(30px, 7vw, 44px);
+  line-height: 1.1;
 }
 
 .payment-congratulations h2 {
-  margin: 0;
-  color: #b377e4;
-  font-family: var(--font-sans);
-  font-size: clamp(22px, 5vw, 30px);
-  line-height: 1.4;
-  font-weight: 800;
+  margin: 0 0 10px;
+  font-family: var(--font-heading);
+  font-size: clamp(18px, 4vw, 24px);
+  line-height: 1.2;
 }
 
-.payment-crystal-image {
-  display: block;
-  width: 120px;
-  height: 135px;
-  object-fit: contain;
-  margin: 24px auto 12px;
-}
-
-/* Unlock access */
-
-.payment-description {
-  padding: 0 24px;
+.payment-congratulations p {
+  max-width: 560px;
   margin: 0 auto;
+  font-size: clamp(12px, 3vw, 15px);
+  line-height: 1.4;
 }
 
-.payment-description h2 {
-  margin: 0 0 4px;
-  color: #b377e4;
-  font-size: clamp(22px, 5vw, 30px);
-  font-family: var(--font-sans);
-  font-weight: 800;
-}
-
-.payment-description p {
-  margin: 0;
-  color: #b377e4;
-  font-size: clamp(16px, 4vw, 22px);
-  line-height: 1.45;
-}
-
-/* Benefits */
+/* =========================================
+   BENEFITS PANEL
+========================================= */
 
 .payment-benefits {
-  padding: 12px 30px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  width: 100%;
   margin: 0 auto;
-  max-width: 520px;
-  background: #ffffff;
+  padding: 16px;
+
+  border-radius: 22px;
+  background: #c3eae4;
+
+  text-align: left;
+  flex-shrink: 0;
 }
 
 .payment-benefit {
-  display: block;
-  margin: 0 0 4px;
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  align-items: center;
+  gap: 12px;
+}
+
+.payment-benefit img {
+  width: 42px;
+  height: 46px;
+  object-fit: contain;
 }
 
 .payment-benefit h3 {
-  margin: 0;
-  color: #b377e4;
-  font-family: var(--font-sans);
-  font-size: clamp(16px, 4vw, 21px);
-  font-weight: 500;
+  margin: 0 0 4px;
+  font-family: var(--font-heading);
+  font-size: clamp(14px, 3.4vw, 18px);
+  line-height: 1.2;
 }
 
 .payment-benefit p {
   margin: 0;
-  color: #b377e4;
-  font-size: clamp(16px, 4vw, 21px);
-  line-height: 1.45;
-}
-
-/* Price section */
-
-.payment-price {
-  position: relative;
-  margin-top: 30px;
-  padding: 30px 24px 20px;
-  background: #d9d9d9;
-  text-align: center;
-}
-
-.payment-price-heading {
-  position: relative;
-  margin-top: -54px;
-  margin-bottom: 2px;
-}
-
-.payment-price-heading h2 {
-  display: inline-block;
-  margin: 0;
-  padding: 10px 17px;
-  border-radius: 12px;
-  background: #85d5c8;
-  color: #1a1a1a;
-  font-family: var(--font-sans);
-  font-size: 17px;
-  font-weight: 700;
-}
-
-.payment-price p {
-  margin: 0 0 12px;
-  color: #b377e4;
-  font-size: clamp(16px, 4vw, 21px);
+  font-size: clamp(11px, 2.8vw, 14px);
+  line-height: 1.35;
 }
 
 /* =========================================
-   Price slider
+   PICK YOUR PRICE
+========================================= */
+
+.payment-price {
+  width: 100%;
+  margin: 0;
+  padding: 0 0 4px;
+
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  flex: 0 0 auto;
+}
+
+.payment-price-title {
+  margin: 0 0 8px;
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 6.5vw, 40px);
+  line-height: 1.1;
+}
+
+.payment-price-description {
+  margin: 0 0 14px;
+  font-size: clamp(11px, 2.8vw, 14px);
+  line-height: 1.35;
+}
+
+/* =========================================
+   SLIDER
 ========================================= */
 
 .payment-slider {
   --slider-progress: 8.1%;
 
   display: block;
-  width: 85%;
-  height: 32px;
-  margin: 22px auto 28px;
+  width: 100%;
+  height: 30px;
+  margin: 0 auto 14px;
 
   appearance: none;
   -webkit-appearance: none;
 
   background: transparent;
   cursor: pointer;
+  flex-shrink: 0;
 }
-
-/* Slider track - Chrome, Safari, Edge */
 
 .payment-slider::-webkit-slider-runnable-track {
-  height: 10px;
-  border-radius: 10px;
+  height: 9px;
+  border-radius: 20px;
 
   background: linear-gradient(
     to right,
     #b377e4 0%,
     #b377e4 var(--slider-progress),
-    #85d5c8 var(--slider-progress),
-    #85d5c8 100%
+    #eee3f8 var(--slider-progress),
+    #eee3f8 100%
   );
 }
-
-/* Slider track - Firefox */
-
-.payment-slider::-moz-range-track {
-  height: 10px;
-  border-radius: 10px;
-
-  background: linear-gradient(
-    to right,
-    #b377e4 0%,
-    #b377e4 var(--slider-progress),
-    #85d5c8 var(--slider-progress),
-    #85d5c8 100%
-  );
-}
-
-/* Slider thumb - Chrome, Safari, Edge */
 
 .payment-slider::-webkit-slider-thumb {
   appearance: none;
   -webkit-appearance: none;
 
-  width: 32px;
-  height: 32px;
-  margin-top: -11px;
+  width: 26px;
+  height: 26px;
+  margin-top: -8.5px;
 
-  border: none;
+  border: 2px solid #eeeeee;
   border-radius: 50%;
-  background: #b377e4;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
 }
 
-/* Slider thumb - Firefox */
+.payment-slider::-moz-range-track {
+  height: 9px;
+  border-radius: 20px;
+
+  background: linear-gradient(
+    to right,
+    #b377e4 0%,
+    #b377e4 var(--slider-progress),
+    #eee3f8 var(--slider-progress),
+    #eee3f8 100%
+  );
+}
 
 .payment-slider::-moz-range-thumb {
-  width: 32px;
-  height: 32px;
+  width: 26px;
+  height: 26px;
 
-  border: none;
+  border: 2px solid #eeeeee;
   border-radius: 50%;
-  background: #b377e4;
-}
-
-/* Slider keyboard focus */
-
-.payment-slider:focus-visible {
-  outline: 3px solid #b377e4;
-  outline-offset: 5px;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
 }
 
 /* =========================================
-   Purchase button
+   PURCHASE BUTTON
 ========================================= */
 
 .purchase-button {
-  width: 85%;
-  min-height: 68px;
-  margin: 0 auto;
-  padding: 10px 16px;
-
-  border: none;
-  border-radius: 12px;
-
-  background: #85d5c8;
-  color: #1a1a1a;
-
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
+  gap: 4px;
+
+  width: 100%;
+  min-height: 76px;
+  margin: 0 auto;
+  padding: 8px;
+
+  border: none;
+  border-radius: 14px;
+
+  background: #b377e4;
+  color: #ffffff;
 
   cursor: pointer;
-  font-family: var(--font-sans);
+  flex-shrink: 0;
 }
 
 .purchase-button strong {
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.1;
 }
 
 .purchase-button span {
   font-size: 14px;
+  color: #ffffff;
 }
 
 .purchase-button:hover {
-  background: #75cabb;
-}
-
-.purchase-button:focus-visible,
-.payment-help:focus-visible {
-  outline: 3px solid #b377e4;
-  outline-offset: 3px;
+  background: #a665dc;
 }
 
 /* =========================================
-   Small screens
+   RESTORE PURCHASE
 ========================================= */
 
-@media (max-width: 420px) {
-  .payment-header {
-    height: 74px;
-    padding: 12px 20px;
-  }
+.restore-purchase {
+  display: block;
+  margin: 10px auto 0;
+  padding: 0;
 
-  .payment-logo {
-    font-size: 28px;
-  }
+  border: none;
+  background: transparent;
+  color: #1a1a1a;
 
-  .payment-help {
-    width: 48px;
-    height: 48px;
-    font-size: 32px;
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* =========================================
+   SHORT SCREEN ADJUSTMENTS
+========================================= */
+
+@media (max-height: 700px) {
+  .payment-page {
+    gap: 8px;
+    padding-top: 6px;
+    padding-bottom: 6px;
   }
 
   .payment-congratulations {
-    padding-top: 24px;
+    padding: 4px 0;
   }
 
-  .payment-crystal-image {
-    width: 110px;
-    height: 125px;
+  .payment-congratulations h1 {
+    font-size: 30px;
+  }
+
+  .payment-congratulations h2 {
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+
+  .payment-congratulations p {
+    font-size: 12px;
   }
 
   .payment-benefits {
-    padding-inline: 22px;
+    gap: 8px;
+    padding: 10px 12px;
   }
 
-  .payment-price {
-    padding-inline: 18px;
+  .payment-benefit img {
+    width: 36px;
+    height: 38px;
+  }
+
+  .payment-benefit h3 {
+    font-size: 14px;
+  }
+
+  .payment-benefit p {
+    font-size: 11px;
+  }
+
+  .payment-price-title {
+    font-size: 28px;
+  }
+
+  .payment-price-description {
+    margin-bottom: 8px;
+  }
+
+  .payment-slider {
+    margin-bottom: 8px;
+  }
+
+  .purchase-button {
+    min-height: 66px;
+  }
+
+  .purchase-button strong {
+    font-size: 26px;
+  }
+
+  .restore-purchase {
+    margin-top: 5px;
   }
 }
+
 
 /* =========================================
    Profile page
