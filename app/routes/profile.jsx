@@ -1,29 +1,8 @@
-<<<<<<< HEAD
-import { useState } from "react";
-import { useNavigate } from "react-router";
-import { useAuth } from "../Components/Auth/AuthProvider";
-import styles from "./profile.module.css";
-
-export function meta() { return [{ title: "Profile | CRYST" }]; }
-export default function Profile() {
-  const { user, signOut } = useAuth();
-  const navigate = useNavigate();
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState("");
-  async function handleSignOut() {
-    setBusy(true);
-    setError("");
-    try { await signOut(); navigate("/"); }
-    catch (problem) { setError(problem.message); setBusy(false); }
-  }
-  return <main className="page-content"><h1>Profile</h1><p>Your profile page is coming soon.</p>
-    {user && <button className={styles.signOut} type="button" disabled={busy} onClick={handleSignOut}>{busy ? "Signing out…" : "Sign out"}</button>}
-    {error && <p role="alert">{error}</p>}
-  </main>;
-=======
 
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useAuth } from "../Components/Auth/AuthProvider";
+import styles from "./profile.module.css";
 import { projectSections } from "../data/crystalProjects";
 
 export function meta() {
@@ -35,6 +14,17 @@ const allRecipes = projectSections.flatMap(
 );
 
 export default function Profile() {
+  const { user, profile, signOut } = useAuth();
+  const navigate = useNavigate();
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+
+  async function handleSignOut() {
+    setBusy(true);
+    setError("");
+    try { await signOut(); navigate("/"); }
+    catch (problem) { setError(problem.message); setBusy(false); }
+  }
   const [activeTab, setActiveTab] = useState("collection");
 
   const [savedIds, setSavedIds] = useState([]);
@@ -132,10 +122,13 @@ export default function Profile() {
         <div className="profile-avatar">🧪</div>
 
         <div>
-          <h2>Crystal Explorer</h2>
+          <h2>{profile?.display_name || "Crystal Explorer"}</h2>
           <p>Growing crystals, one experiment at a time</p>
         </div>
       </section>
+
+      {user && <button className={styles.signOut} type="button" disabled={busy} onClick={handleSignOut}>{busy ? "Signing out…" : "Sign out"}</button>}
+      {error && <p role="alert">{error}</p>}
 
       <section className="profile-tabs">
         <button
@@ -234,5 +227,4 @@ export default function Profile() {
       )}
     </main>
   );
->>>>>>> c9ea48ff7348958e0ca1a0d3b239ed7082bdc4bf
 }

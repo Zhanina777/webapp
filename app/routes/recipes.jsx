@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import styles from "./recipes.module.css";
 import { projectSections as sections } from "../data/crystalProjects";
@@ -11,6 +11,14 @@ export function meta() {
 
 export default function Recipes() {
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [savedIds, setSavedIds] = useState([]);
+  const [saveError, setSaveError] = useState("");
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem("cryst-saved") || "[]");
+      if (Array.isArray(saved)) setSavedIds(saved);
+    } catch { setSaveError("Saved recipes could not be loaded on this browser."); }
+  }, []);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const query = searchParams.get("q") || "";
@@ -51,18 +59,14 @@ export default function Recipes() {
   }
 
   function saveForLater(recipeId) {
-    const savedRecipes = JSON.parse(
-      localStorage.getItem("cryst-saved") || "[]"
-    );
-
-    if (!savedRecipes.includes(recipeId)) {
-      savedRecipes.push(recipeId);
-
-      localStorage.setItem(
-        "cryst-saved",
-        JSON.stringify(savedRecipes)
-      );
-    }
+    try {
+      const saved = JSON.parse(localStorage.getItem("cryst-saved") || "[]");
+      const current = Array.isArray(saved) ? saved : [];
+      const updated = current.includes(recipeId) ? current.filter(id => id !== recipeId) : [...current, recipeId];
+      localStorage.setItem("cryst-saved", JSON.stringify(updated));
+      setSavedIds(updated);
+      setSaveError("");
+    } catch { setSaveError("This recipe could not be saved. Please allow browser storage and try again."); }
   }
 
   return (
@@ -138,6 +142,7 @@ export default function Recipes() {
       )}
 
       <div className={styles.sections}>
+        {saveError && <p role="alert">{saveError}</p>}
         {visibleSections.map(section => (
           <section
             key={section.name}
@@ -165,12 +170,14 @@ export default function Recipes() {
               aria-label={`${section.name} recipes`}
             >
               {section.recipes.map(recipe => (
-                <div key={recipe.id}>
+                <div key={recipe.id} className={styles.recipeCard}>
                   <CrystalProjectCard
                     title={recipe.name}
                     image={recipe.image}
                     imageAlt={recipe.imageAlt}
                     to={`/recipes/${recipe.id}`}
+                    saved={savedIds.includes(recipe.id)}
+                    onToggleSave={() => saveForLater(recipe.id)}
                     description={
                       recipe.isPlaceholder
                         ? "Coming soon"
@@ -178,14 +185,6 @@ export default function Recipes() {
                     }
                   />
 
-                  <div style={{ padding: "10px" }}>
-                    <button
-                      type="button"
-                      onClick={() => saveForLater(recipe.id)}
-                    >
-                      Save for later
-                    </button>
-                  </div>
                 </div>
               ))}
             </div>
