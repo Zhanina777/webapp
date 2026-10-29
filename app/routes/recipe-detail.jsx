@@ -33,7 +33,7 @@ export default function RecipeDetail() {
     <main id="main-content" className={styles.page}>
       <Link className={styles.back} to={`/recipes?level=${recipe.difficulty.toLowerCase()}`}>← {recipe.difficulty} recipes</Link>
       <div className={styles.hero}>
-        <img src={recipe.image} alt={recipe.imageAlt} />
+        <img src={recipe.heroImage || recipe.image} alt={recipe.imageAlt} width="1672" height="941" decoding="async" fetchPriority="high" />
       </div>
       <h1>{recipe.name}</h1>
       <dl className={styles.facts}>

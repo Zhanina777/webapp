@@ -77,7 +77,8 @@ const projectImages = {
 
 const projects = [saltStringMagic, ...additionalCrystalProjects].map(recipe => {
   const [filename, imageAlt] = projectImages[recipe.id];
-  return { ...recipe, image: `/images/${encodeURIComponent(filename)}`, imageAlt };
+  const landscapeFilename = filename.replace(/\.png$/, "-landscape.png");
+  return { ...recipe, image: `/images/${encodeURIComponent(filename)}`, heroImage: `/images/recipes/${encodeURIComponent(landscapeFilename)}`, imageAlt };
 });
 
 export const projectSections = [
