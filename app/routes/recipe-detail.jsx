@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router";
 import { findCrystalProject } from "../data/crystalProjects";
 import styles from "./recipe-detail.module.css";
+import { useEffect } from "react";
 
 export function meta({ params }) {
   const recipe = findCrystalProject(params.recipeId);
@@ -10,6 +11,14 @@ export function meta({ params }) {
 export default function RecipeDetail() {
   const { recipeId } = useParams();
   const recipe = findCrystalProject(recipeId);
+
+  useEffect(() => {
+    if (!recipe || recipe.isPlaceholder) return;
+    try {
+      const finished = JSON.parse(localStorage.getItem("cryst-finished") || "[]");
+      if (!Array.isArray(finished) || !finished.includes(recipe.id)) localStorage.setItem("cryst-progress", recipe.id);
+    } catch { /* Recipe instructions remain available if browser storage is blocked. */ }
+  }, [recipe]);
 
   if (!recipe) return <main className="page-content"><h1>Recipe not found</h1><Link to="/recipes">← All recipes</Link></main>;
 

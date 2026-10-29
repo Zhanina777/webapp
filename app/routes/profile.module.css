@@ -1,3 +1,5 @@
 .signOut { min-height: 44px; padding: 10px 18px; border: 1px solid #b477e3; border-radius: 12px; background: transparent; color: var(--page-text); font-size: var(--text-body); cursor: pointer; }
 .signOut:focus-visible { outline: 3px solid #b477e3; outline-offset: 3px; }
 .signOut:disabled { opacity: .6; cursor: wait; }
+.savedCards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 13px; padding-block: 4px; }
+.savedCards > article { min-width: 0; }

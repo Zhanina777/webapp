@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router";
 import { useAuth } from "../Components/Auth/AuthProvider";
 import styles from "./profile.module.css";
 import { projectSections } from "../data/crystalProjects";
+import CrystalProjectCard from "../Components/CrystalProjectCard";
+import { saveCompletion } from "../lib/projectProgress";
 
 export function meta() {
   return [{ title: "Profile | Cryst" }];
@@ -44,37 +46,26 @@ export default function Profile() {
     );
   }, []);
 
-  // Save changes when the user saves a recipe.
-  function saveRecipe(id) {
-    const updated = [...savedIds, id];
-
-    setSavedIds(updated);
-    localStorage.setItem("cryst-saved", JSON.stringify(updated));
-  }
-
   // Remove a recipe from Saved.
   function removeSaved(id) {
     const updated = savedIds.filter((savedId) => savedId !== id);
 
-    setSavedIds(updated);
-    localStorage.setItem("cryst-saved", JSON.stringify(updated));
-  }
-
-  // Start growing a recipe.
-  function startGrowing(id) {
-    setProgressId(id);
-    localStorage.setItem("cryst-progress", id);
+    try {
+      localStorage.setItem("cryst-saved", JSON.stringify(updated));
+      setSavedIds(updated);
+    } catch { setError("Could not remove this saved recipe. Please allow browser storage and try again."); }
   }
 
   // Mark the current recipe as finished.
-  function finishGrowing(id) {
-    const updated = [...finishedIds, id];
-
-    setFinishedIds(updated);
-    localStorage.setItem("cryst-finished", JSON.stringify(updated));
-
-    setProgressId(null);
-    localStorage.removeItem("cryst-progress");
+  async function finishGrowing(id) {
+    try {
+      await saveCompletion(user, id, allRecipes.find(recipe => recipe.id === id)?.steps?.length || 1);
+      const updated = [...new Set([...finishedIds, id])];
+      localStorage.setItem("cryst-finished", JSON.stringify(updated));
+      localStorage.removeItem("cryst-progress");
+      setFinishedIds(updated);
+      setProgressId(null);
+    } catch (problem) { setError(problem.message); }
   }
 
   // Find the recipe currently in progress.
@@ -204,17 +195,9 @@ export default function Profile() {
           <h2>Saved recipes</h2>
 
           {savedRecipes.length > 0 ? (
-            <div className="crystal-grid">
+            <div className={styles.savedCards}>
               {savedRecipes.map((recipe) => (
-                <RecipeCard key={recipe.id} recipe={recipe}>
-                  <button onClick={() => startGrowing(recipe.id)}>
-                    Start growing
-                  </button>
-
-                  <button onClick={() => removeSaved(recipe.id)}>
-                    Remove
-                  </button>
-                </RecipeCard>
+                <CrystalProjectCard key={recipe.id} title={recipe.name} image={recipe.image} imageAlt={recipe.imageAlt} description={recipe.isPlaceholder ? "Coming soon" : `${recipe.time} · ${recipe.price}`} to={`/recipes/${recipe.id}`} saved onToggleSave={() => removeSaved(recipe.id)} />
               ))}
             </div>
           ) : (

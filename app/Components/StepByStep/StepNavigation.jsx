@@ -54,6 +54,12 @@ export default function StepNavigation({ recipeName, recipeId, steps, completion
         setSaving(false);
         return;
       }
+      try {
+        const stored = JSON.parse(localStorage.getItem("cryst-finished") || "[]");
+        const finished = Array.isArray(stored) ? stored : [];
+        localStorage.setItem("cryst-finished", JSON.stringify([...new Set([...finished, recipeId])]));
+        if (localStorage.getItem("cryst-progress") === recipeId) localStorage.removeItem("cryst-progress");
+      } catch { /* Cloud completion was already saved; local profile display can refresh later. */ }
       setSaving(false);
     }
     setSearchParams({ step: String(step) });

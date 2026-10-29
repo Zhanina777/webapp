@@ -16,6 +16,7 @@
 }
 
 :root {
+  --recipe-card-width: clamp(195px, 24vw, 230px);
   --text-caption: 0.75rem;
   --text-small: 0.875rem;
   --text-body: 1rem;
@@ -292,12 +293,12 @@ code, pre, kbd, samp {
 
 .profile-user h2 {
   margin: 0 0 0.25rem;
-  font-size: 1.3rem;
+  font-size: var(--text-card-title);
 }
 
 .profile-user p {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: var(--text-small);
   opacity: 0.7;
 }
 
@@ -331,7 +332,7 @@ code, pre, kbd, samp {
 }
 
 .profile-section h2 {
-  font-size: 1.5rem;
+  font-size: var(--text-section-title);
   margin-bottom: 1rem;
 }
 

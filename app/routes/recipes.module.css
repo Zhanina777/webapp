@@ -23,7 +23,7 @@
 .cards { display: flex; width: 100%; min-width: 0; gap: 13px; overflow-x: auto; overscroll-behavior-x: contain; padding-inline: var(--recipe-gutter); scroll-padding-inline: var(--recipe-gutter); scroll-snap-type: x mandatory; scrollbar-width: none; }
 .cards::-webkit-scrollbar { display: none; }
 /* The page owns card placement; the card component owns its appearance. */
-.recipeCard { flex: 0 0 clamp(195px, 24vw, 230px); min-width: 0; scroll-snap-align: start; display: flex; flex-direction: column; }
+.recipeCard { flex: 0 0 var(--recipe-card-width); min-width: 0; scroll-snap-align: start; display: flex; flex-direction: column; }
 .recipeCard > article { flex: 1; }
 .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 13px; overflow: visible; }
 .gridControls { display: grid; gap: 16px; margin: -5px var(--recipe-gutter) 24px; }
