@@ -31,3 +31,7 @@
 .page a:focus-visible { outline: 2px solid #b477e3; outline-offset: 3px; }
 .page button:focus-visible, .cards:focus-visible { outline: 2px solid #b477e3; outline-offset: 3px; }
 .empty { padding: 20px var(--recipe-gutter); }
+
+@media (min-width: 768px) {
+  .page { max-width: 760px; }
+}
