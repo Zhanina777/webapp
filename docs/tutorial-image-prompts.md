@@ -4,7 +4,7 @@ Stage-specific replacements are documented with their exact prompts in
 `tutorial-step-image-prompts.json`. They distinguish preparation, setup,
 early growth, observation and finished results. A tutorial may reuse a shared
 process photo from another recipe, but it must not repeat an image between
-its own steps; `tests/tutorialImages.test.mjs` checks the file contents too.
+its own steps. Check the images for distinct stages when updating a tutorial.
 
 The additional **cave-station** image used this prompt:
 

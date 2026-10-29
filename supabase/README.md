@@ -31,6 +31,6 @@ The profile route intentionally remains a placeholder, as requested. No dashboar
 
 ## Verification
 
-Run `node --test tests/projectProgress.test.mjs`, `npm run build`, and `npm run typecheck`. The progress tests cover guest restrictions, import ownership, duplicate prevention after import, retry preservation, and invalid local storage. A full signup/sign-in test requires Confirm email to be disabled in the dashboard. Do not share passwords with the developer.
+Run `npm run build` and `npm run typecheck`. Manually verify guest restrictions, guest-completion import, and progress saving. A full signup/sign-in test requires Confirm email to be disabled in the dashboard. Do not share passwords with the developer.
 
 No administrative database access is provided by a publishable key. Run the migration through the Dashboard SQL Editor; don't share the database password or a secret key in chat.
