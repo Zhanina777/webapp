@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { supabase, requireSupabase } from "../../lib/supabase";
-import { importGuestCompletion } from "../../lib/projectProgress";
+import { supabase, requireSupabase } from "../../supabase-connection/supabase";
+import { importGuestCompletion } from "../../supabase-connection/projectProgress";
 
 const AuthContext = createContext(null);
 export const useAuth = () => useContext(AuthContext);

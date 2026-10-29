@@ -2,7 +2,7 @@ import WelcomePage from "../Components/Auth/WelcomePage";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import { useAuth } from "../Components/Auth/AuthProvider";
-import { requireSupabase } from "../lib/supabase";
+import { requireSupabase } from "../supabase-connection/supabase";
 
 export const handle = { hideNavigation: true };
 

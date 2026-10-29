@@ -1,4 +1,4 @@
-﻿# CRYST
+# CRYST
 
 A crystal-growing app built with React Router, React, and Supabase.
 
@@ -30,4 +30,4 @@ node --test tests/projectProgress.test.mjs
 - `supabase/`: database migration and setup instructions.
 - `tests/`: project-progress and guest-transfer tests.
 
-The profile page is intentionally a placeholder for a teammate's implementation. Completed-project data is available through `getCompletedProjects()` in `app/lib/projectProgress.js`.
+The profile page is intentionally a placeholder for a teammate's implementation. Completed-project data is available through `getCompletedProjects()` in `app/supabase-connection/projectProgress.js`.

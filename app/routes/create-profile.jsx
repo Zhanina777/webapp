@@ -1,7 +1,7 @@
 import { useNavigate, useSearchParams } from "react-router";
 import { useEffect, useState } from "react";
 import CreateProfile from "../Components/Auth/CreateProfile";
-import { requireSupabase } from "../lib/supabase";
+import { requireSupabase } from "../supabase-connection/supabase";
 import { useAuth } from "../Components/Auth/AuthProvider";
 
 export const handle = { hideNavigation: true };

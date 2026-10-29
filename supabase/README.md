@@ -15,7 +15,7 @@ Profiles store a nickname, not age. Each table restricts reads and writes to its
 
 ## Current implementation status
 
-The official client is configured in `app/lib/supabase.js`. The hosted tables have been detected; do not rerun the migration. Email/password signup and sign-in use Supabase Auth, with immediate sign-in when Confirm email is disabled. Supabase stores passwords, not our profiles table. The recipe navigation gate now uses the Supabase session. Recipes themselves remain bundled public content; the gate is a UI restriction, while database records are protected by RLS.
+The official client is configured in `app/supabase-connection/supabase.js`. The hosted tables have been detected; do not rerun the migration. Email/password signup and sign-in use Supabase Auth, with immediate sign-in when Confirm email is disabled. Supabase stores passwords, not our profiles table. The recipe navigation gate now uses the Supabase session. Recipes themselves remain bundled public content; the gate is a UI restriction, while database records are protected by RLS.
 
 Profiles are created on the first authenticated visit, using signup nickname metadata. Finishing a project upserts its completed record against the authenticated owner. Failed saves show a retry message and do not show the successful completion popup. Salt String Magic completed as a guest is stored under `cryst-guest-completed` in localStorage and imported after authentication on the same browser. The local marker is cleared only after a successful cloud write. It is imported into the first account that signs in on that browser. Guest completions from before this feature was added cannot be recovered automatically.
 
@@ -27,7 +27,7 @@ Set Authentication > URL Configuration > Site URL to the actual app URL. Add `ht
 
 ## Handoff for the profile-page developer
 
-The profile route intentionally remains a placeholder, as requested. No dashboard UI was built. In a component inside the app, `useAuth()` from `app/Components/Auth/AuthProvider.jsx` provides `user`, `profile`, `loading`, and `signOut()`. The nickname is `profile.display_name`. `getCompletedProjects()` from `app/lib/projectProgress.js` returns the signed-in user's completed rows; map each `recipe_id` through `findCrystalProject()` for its title and picture. Handle loading and errors when querying, and query after guest sync if the page needs to update immediately. The global sync notice offers a retry if guest import fails.
+The profile route intentionally remains a placeholder, as requested. No dashboard UI was built. In a component inside the app, `useAuth()` from `app/Components/Auth/AuthProvider.jsx` provides `user`, `profile`, `loading`, and `signOut()`. The nickname is `profile.display_name`. `getCompletedProjects()` from `app/supabase-connection/projectProgress.js` returns the signed-in user's completed rows; map each `recipe_id` through `findCrystalProject()` for its title and picture. Handle loading and errors when querying, and query after guest sync if the page needs to update immediately. The global sync notice offers a retry if guest import fails.
 
 ## Verification
 

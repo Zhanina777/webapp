@@ -5,7 +5,7 @@ import { useAuth } from "../Components/Auth/AuthProvider";
 import styles from "./profile.module.css";
 import { projectSections } from "../data/crystalProjects";
 import CrystalProjectCard from "../Components/CrystalProjectCard";
-import { saveCompletion } from "../lib/projectProgress";
+import { saveCompletion } from "../supabase-connection/projectProgress";
 
 export function meta() {
   return [{ title: "Profile | Cryst" }];

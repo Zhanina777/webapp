@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../Auth/AuthProvider";
-import { saveCompletion } from "../../lib/projectProgress";
+import { saveCompletion } from "../../supabase-connection/projectProgress";
 import { useNavigate, useSearchParams } from "react-router";
 import NextStepBtn from "./NextStepBtn";
 import PreviousStepBtn from "./PreviousStepBtn";

@@ -1,6 +1,6 @@
 import { test, beforeEach } from "node:test";
 import assert from "node:assert/strict";
-import { saveCompletion, importGuestCompletion, guestCompleted } from "../app/lib/projectProgress.js";
+import { saveCompletion, importGuestCompletion, guestCompleted } from "../app/supabase-connection/projectProgress.js";
 
 beforeEach(() => {
   const values = new Map();
