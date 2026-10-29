@@ -32,10 +32,6 @@
   object-fit: contain;
 }
 
-:global(:root[data-theme="dark"]) .flask {
-  filter: invert(1);
-}
-
 .message {
   margin: 0;
   max-width: 310px;

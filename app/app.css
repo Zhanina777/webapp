@@ -33,12 +33,6 @@
   --accent: #82d4c8;
 }
 
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --page-background: #141414;
-  --page-text: #eeeeee;
-}
-
 *, *::before, *::after {
   box-sizing: border-box;
 }

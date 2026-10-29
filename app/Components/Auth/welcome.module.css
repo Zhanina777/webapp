@@ -24,5 +24,3 @@
 .start:hover { background: #6bc6b9; }
 @media (min-width: 600px) { .page { padding-top: 48px; } .photo { height: 190px; } }
 @media (max-width: 340px) { .social { font-size: var(--text-body); gap: 12px; } }
-
-:global(:root[data-theme=dark]) .page { --auth-border: #48404f; --auth-hover: #29232e; }

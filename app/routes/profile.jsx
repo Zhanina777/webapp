@@ -112,13 +112,15 @@ export default function Profile() {
       <section className="profile-user">
         <div className="profile-avatar">🧪</div>
 
-        <div>
-          <h2>{profile?.display_name || "Crystal Explorer"}</h2>
+        <div className={styles.userDetails}>
+          <div className={styles.nameRow}>
+            <h2>{profile?.display_name || "Crystal Explorer"}</h2>
+            {user && <button className={styles.signOut} type="button" disabled={busy} onClick={handleSignOut}>{busy ? "Signing out…" : "Sign out"}</button>}
+          </div>
           <p>Growing crystals, one experiment at a time</p>
         </div>
       </section>
 
-      {user && <button className={styles.signOut} type="button" disabled={busy} onClick={handleSignOut}>{busy ? "Signing out…" : "Sign out"}</button>}
       {error && <p role="alert">{error}</p>}
 
       <section className="profile-tabs">

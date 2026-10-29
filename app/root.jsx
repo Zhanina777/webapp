@@ -30,16 +30,10 @@ export const links = () => [
 
 export function Layout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <script dangerouslySetInnerHTML={{ __html: `
-          try {
-            var theme = localStorage.getItem("cryst-theme");
-            document.documentElement.dataset.theme = theme === "dark" ? "dark" : "light";
-          } catch { document.documentElement.dataset.theme = "light"; }
-        ` }} />
         <Meta />
         <Links />
       </head>

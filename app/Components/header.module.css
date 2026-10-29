@@ -8,7 +8,7 @@
 .inner {
   --button-size: 2.75rem;
   display: grid;
-  grid-template-columns: var(--button-size) minmax(0, 1fr) var(--button-size);
+  grid-template-columns: minmax(0, 1fr) var(--button-size);
   align-items: center;
   gap: clamp(0.5rem, 2vw, 1.5rem);
   width: 100%;
@@ -48,14 +48,13 @@
   align-items: center;
   justify-content: center;
   gap: 7px;
-  justify-self: center;
+  justify-self: start;
   min-width: 0;
-  color: var(--page-text);
+  color: #242424;
   font-size: 2rem;
   line-height: 1;
   text-decoration: none;
 }
 
-.wordmark span { transform: translateY(5px); }
-.wordmark img { display: block; flex-shrink: 0; width: 40px; height: 48px; object-fit: contain; }
-:global(:root[data-theme="dark"]) .wordmark img { filter: invert(1); }
+.wordmark > span:not(.logoIcon) { transform: translateY(5px); }
+.logoIcon { display: block; flex-shrink: 0; width: 40px; height: 48px; background: currentColor; mask: url("/images/cryst-favicon.png") center / contain no-repeat; }

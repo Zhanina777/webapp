@@ -35,4 +35,3 @@
 .guestHint { margin: 9px 0 0; color: var(--page-text); font-size: var(--text-caption); line-height: 1.6; text-align: center; }
 .socialNotice { margin: 12px 0 0; font-size: var(--text-small); line-height: 1.6; }
 .socialNotice:empty { margin: 0; }
-:global(:root[data-theme=dark]) .providers { --auth-border: #48404f; --auth-hover: #29232e; }
