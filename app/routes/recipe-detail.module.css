@@ -25,9 +25,12 @@
 .supplies { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-block: 24px; }
 .supplies p { margin: 0; font-size: var(--text-small); }
 .supplies button { border: 0; border-radius: 12px; background: #82d4c8; color: #242424; padding: 12px; font-size: var(--text-small); }
-.science, .safety { padding: 20px 18px; border-radius: 19px; margin-bottom: 18px; color: #242424; }
+.science { padding: 20px 18px; border-radius: 19px; margin-bottom: 18px; color: #242424; }
 .science { background: #82d4c8; }
-.safety { background: #ffed42; }
+.safety { margin-bottom: 18px; align-self: start; }
+.safety p { margin: 0; }
+.science h2 { display: flex; align-items: flex-start; gap: 8px; }
+.sparkle { width: 24px; height: 24px; flex-shrink: 0; margin-top: 2px; }
 .science p:last-child, .safety p:last-child { margin-bottom: 0; }
 .science strong { font-size: var(--text-body); }
 .start { display: flex; align-items: center; justify-content: center; text-decoration: none; width: 100%; min-height: 50px; border: 0; border-radius: 12px; background: #b477e3; color: #242424; font-weight: 700; }
@@ -41,7 +44,7 @@
   .science { grid-column: 1; }
   .safety { grid-column: 2; }
   .checklist { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
-  .science, .safety { padding: 24px; }
+  .science { padding: 24px; }
   .start { width: auto; justify-self: center; min-width: 260px; padding-inline: 32px; }
 }
 

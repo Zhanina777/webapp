@@ -4,6 +4,7 @@ import styles from "./recipe-detail.module.css";
 import { useEffect, useState } from "react";
 import { useAuth } from "../Components/Auth/AuthProvider";
 import { guestCompleted } from "../supabase-connection/projectProgress";
+import AdultHelpBtn from "../Components/AdultHelpBtn";
 
 export function meta({ params }) {
   const recipe = findCrystalProject(params.recipeId);
@@ -51,14 +52,18 @@ export default function RecipeDetail() {
           <div className={styles.supplies}><p>Need supplies?<br /><strong>Check with an adult first.</strong></p><button type="button" disabled>Buy · Coming soon</button></div>
         </section>
         <section className={styles.science} aria-labelledby="science-heading">
-          <h2 id="science-heading">✧ {recipe.scienceTitle}</h2>
+          <h2 id="science-heading">
+            <svg className={styles.sparkle} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinejoin="round" aria-hidden="true">
+              <path d="m12 2 3 7 7 3-7 3-3 7-3-7-7-3 7-3Z" />
+            </svg>
+            {recipe.scienceTitle}
+          </h2>
           <p>{recipe.science}</p>
           <p><strong>{recipe.observation}</strong></p>
         </section>
-        <section className={styles.safety} aria-labelledby="safety-heading">
-          <h2 id="safety-heading">{recipe.safetyTitle || "Grow with an adult"}</h2>
-          <p>{recipe.safety}</p>
-        </section>
+        <div className={styles.safety}>
+          <AdultHelpBtn message={recipe.safety} />
+        </div>
         {!user && trialUsed && <p>You’ve completed your free guest project. Create a profile or sign in to start another. You can keep browsing every recipe.</p>}
         <Link className={styles.start} to={!user && trialUsed ? "/create-profile?reason=project-limit" : `/recipes/${recipe.id}/grow`}>{!user && trialUsed ? "Create a profile to start growing" : "Start growing"} &rarr;</Link>
       </>}
