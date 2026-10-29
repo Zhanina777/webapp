@@ -4,6 +4,9 @@ import styles from "./recipes.module.css";
 import { projectSections as sections } from "../data/crystalProjects";
 import RecipeFilters from "../Components/RecipeFilters";
 import CrystalProjectCard from "../Components/CrystalProjectCard";
+import { matchesRecipe, materialOptions } from "../data/recipeFiltering";
+
+const availableMaterials = materialOptions(sections.flatMap(section => section.recipes));
 
 export function meta() {
   return [{ title: "Recipes | CRYST" }];
@@ -23,7 +26,10 @@ export default function Recipes() {
 
   const query = searchParams.get("q") || "";
   const level = searchParams.get("level");
-  const isGrid = level !== null;
+  const selectedMaterials = searchParams.getAll("material");
+  const minPrice = searchParams.get("min") || "";
+  const maxPrice = searchParams.get("max") || "";
+  const isGrid = level !== null || selectedMaterials.length > 0 || minPrice !== "" || maxPrice !== "";
 
   const difficulty = sections.find(
     section => section.name.toLowerCase() === level
@@ -33,9 +39,7 @@ export default function Recipes() {
     .filter(section => !difficulty || section.name === difficulty.name)
     .map(section => ({
       ...section,
-      recipes: section.recipes.filter(recipe =>
-        recipe.name.toLowerCase().includes(query.toLowerCase().trim())
-      )
+      recipes: section.recipes.filter(recipe => matchesRecipe(recipe, { query, materials: selectedMaterials, min: minPrice, max: maxPrice }))
     }))
     .filter(section => section.recipes.length);
 
@@ -51,9 +55,8 @@ export default function Recipes() {
   }
 
   function gridUrl(value) {
-    const params = new URLSearchParams({ level: value });
-
-    if (query) params.set("q", query);
+    const params = new URLSearchParams(searchParams);
+    params.set("level", value);
 
     return `/recipes?${params}`;
   }
@@ -121,12 +124,21 @@ export default function Recipes() {
         <RecipeFilters
           levels={sections.map(section => section.name)}
           selectedLevel={difficulty ? level : "all"}
+          materials={availableMaterials}
+          selectedMaterials={selectedMaterials}
+          minPrice={minPrice}
+          maxPrice={maxPrice}
           onCancel={() => setFiltersOpen(false)}
-          onApply={value => {
-            setSearchParams({
-              level: value,
-              ...(query ? { q: query } : {})
-            });
+          onApply={filters => {
+            const params = new URLSearchParams(searchParams);
+            params.set("level", filters.level);
+            params.delete("material");
+            filters.materials.forEach(material => params.append("material", material));
+            for (const key of ["min", "max"]) {
+              if (filters[key] !== "") params.set(key, filters[key]);
+              else params.delete(key);
+            }
+            setSearchParams(params);
 
             setFiltersOpen(false);
           }}
