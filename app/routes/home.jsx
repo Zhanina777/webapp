@@ -13,10 +13,10 @@ export function meta() {
 
 export default function Home() {
   const { profile } = useAuth();
-  const name = profile?.display_name;
+  const name = profile?.display_name || "User";
   return (
-    <main id="main-content" className="container home-content" aria-label="CRYST home">
-      {name && <div className={styles.welcome}><h1>Welcome, {name}!</h1><p>Ready to grow something amazing?</p></div>}
+    <main id="main-content" className={`container home-content ${styles.home}`} aria-label="CRYST home">
+      <div className={styles.welcome}><h1>Welcome, {name}!</h1><p>Ready to grow something amazing?</p></div>
       <MonthlyRecipe />
       <ScienceBite />
       <FriendsFeed />

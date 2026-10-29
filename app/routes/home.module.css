@@ -1,7 +1,29 @@
+:global(.app-shell):has(.home) {
+  --layout-max-width: 440px;
+  --page-gutter: 16px;
+  --section-space: 20px;
+  --layout-gap: 12px;
+}
+
+@media (min-width: 768px) {
+  :global(.app-shell):has(.home) {
+    --layout-max-width: 760px;
+    --page-gutter: 24px;
+    --section-space: 24px;
+  }
+}
+
+.home {
+  gap: 12px;
+  padding-top: 12px;
+}
+
+.welcome { margin-bottom: 8px; }
+
 .welcome h1 {
-  margin: 0 0 8px;
+  margin: 0;
   color: #b477e3;
-  font-size: var(--text-page-title);
+  font-size: clamp(1.75rem, 8.5vw, 2.25rem);
   line-height: 1.2;
   overflow-wrap: anywhere;
 }
@@ -10,5 +32,9 @@
   margin: 0;
   font-size: var(--text-body);
   line-height: 1.5;
+}
+
+@media (min-width: 768px) {
+  .welcome h1 { font-size: 2rem; }
 }
 
