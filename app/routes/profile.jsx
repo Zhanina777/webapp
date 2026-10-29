@@ -203,11 +203,11 @@ export default function Profile() {
     }
   }
 
-  // Remove a saved recipe.
-  function removeSaved(id) {
-    const updated = savedIds.filter(
-      (savedId) => savedId !== id
-    );
+  // Toggle whether a recipe is saved.
+  function toggleSaved(id) {
+    const updated = savedIds.includes(id)
+      ? savedIds.filter((savedId) => savedId !== id)
+      : [...savedIds, id];
 
     try {
       localStorage.setItem(
@@ -218,7 +218,7 @@ export default function Profile() {
       setSavedIds(updated);
     } catch {
       setError(
-        "Could not remove this saved recipe. Please allow browser storage and try again."
+        "Could not update saved recipes. Please allow browser storage and try again."
       );
     }
   }
@@ -277,29 +277,6 @@ export default function Profile() {
   const savedRecipes = allRecipes.filter(
     (recipe) => savedIds.includes(recipe.id)
   );
-
-  // Reusable recipe card.
-  function RecipeCard({ recipe, children }) {
-    return (
-      <article className="crystal-card">
-        <Link to={`/recipes/${recipe.id}`}>
-          <img
-            src={recipe.image}
-            alt={recipe.imageAlt}
-            className="crystal-image"
-          />
-
-          <h3>{recipe.name}</h3>
-        </Link>
-
-        <p>
-          {recipe.difficulty} · {recipe.time}
-        </p>
-
-        {children}
-      </article>
-    );
-  }
 
   return (
     <main className={`page-content profile-page ${styles.profilePage}`}>
@@ -515,11 +492,21 @@ export default function Profile() {
             <h2>Finished</h2>
 
             {finishedRecipes.length > 0 ? (
-              <div className="crystal-grid">
+              <div className={styles.projectCards}>
                 {finishedRecipes.map((recipe) => (
-                  <RecipeCard
+                  <CrystalProjectCard
                     key={recipe.id}
-                    recipe={recipe}
+                    title={recipe.name}
+                    image={recipe.image}
+                    imageAlt={recipe.imageAlt}
+                    description={
+                      recipe.isPlaceholder
+                        ? "Coming soon"
+                        : `${recipe.time} · ${recipe.price}`
+                    }
+                    to={`/recipes/${recipe.id}`}
+                    saved={savedIds.includes(recipe.id)}
+                    onToggleSave={() => toggleSaved(recipe.id)}
                   />
                 ))}
               </div>
@@ -536,7 +523,7 @@ export default function Profile() {
           <h2>Saved recipes</h2>
 
           {savedRecipes.length > 0 ? (
-            <div className={styles.savedCards}>
+            <div className={styles.projectCards}>
               {savedRecipes.map((recipe) => (
                 <CrystalProjectCard
                   key={recipe.id}
@@ -550,7 +537,7 @@ export default function Profile() {
                   }
                   to={`/recipes/${recipe.id}`}
                   saved
-                  onToggleSave={() => removeSaved(recipe.id)}
+                  onToggleSave={() => toggleSaved(recipe.id)}
                 />
               ))}
             </div>

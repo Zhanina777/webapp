@@ -227,14 +227,14 @@
 
 /* Saved recipe cards */
 
-.savedCards {
+.projectCards {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px 13px;
   padding-block: 4px;
 }
 
-.savedCards > article {
+.projectCards > article {
   min-width: 0;
 }
 
