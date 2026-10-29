@@ -1,0 +1,23 @@
+a.button,
+a.button:hover,
+a.button:focus-visible {
+  text-decoration: none;
+  color: #fff;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 40px;
+  padding: 6px 24px;
+  border-radius: 8px;
+  background: #b477e3;
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.button:hover { background: #a563d5; }
+.button:focus-visible { outline: 3px solid #744099; outline-offset: 4px; }

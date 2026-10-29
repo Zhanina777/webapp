@@ -5,7 +5,7 @@ import { useAuth } from "../Components/Auth/AuthProvider";
 import styles from "./profile.module.css";
 import { projectSections } from "../data/crystalProjects";
 import CrystalProjectCard from "../Components/CrystalProjectCard";
-import { saveCompletion } from "../supabase-connection/projectProgress";
+import ContinueGrowingBtn from "../Components/ContinueGrowingBtn";
 
 export function meta() {
   return [{ title: "Profile | Cryst" }];
@@ -49,6 +49,7 @@ export default function Profile() {
   const [savedIds, setSavedIds] = useState([]);
   const [finishedIds, setFinishedIds] = useState([]);
   const [progressId, setProgressId] = useState(null);
+  const [progressStep, setProgressStep] = useState(1);
 
   const [bannerColor, setBannerColor] = useState("#B377E4");
   const [avatarEmoji, setAvatarEmoji] = useState("🧪");
@@ -73,6 +74,8 @@ export default function Profile() {
       setProgressId(
         localStorage.getItem("cryst-progress")
       );
+      const storedStep = Number(localStorage.getItem(`cryst-step:${localStorage.getItem("cryst-progress")}`) || 1);
+      setProgressStep(Number.isInteger(storedStep) && storedStep > 0 ? storedStep : 1);
 
       setBannerColor(
         localStorage.getItem("cryst-profile-color") || "#B377E4"
@@ -220,33 +223,6 @@ export default function Profile() {
       setError(
         "Could not update saved recipes. Please allow browser storage and try again."
       );
-    }
-  }
-
-  // Mark the current recipe as finished.
-  async function finishGrowing(id) {
-    try {
-      await saveCompletion(
-        user,
-        id,
-        allRecipes.find((recipe) => recipe.id === id)?.steps?.length || 1
-      );
-
-      const updated = [
-        ...new Set([...finishedIds, id]),
-      ];
-
-      localStorage.setItem(
-        "cryst-finished",
-        JSON.stringify(updated)
-      );
-
-      localStorage.removeItem("cryst-progress");
-
-      setFinishedIds(updated);
-      setProgressId(null);
-    } catch (problem) {
-      setError(problem.message);
     }
   }
 
@@ -457,28 +433,19 @@ export default function Profile() {
             <h2>In progress</h2>
 
             {currentRecipe ? (
-              <article className="progress-card">
-                <Link to={`/recipes/${currentRecipe.id}`}>
+              <article className={styles.progressCard}>
+                <Link className={styles.progressLink} to={`/recipes/${currentRecipe.id}/grow?step=${Math.min(progressStep, currentRecipe.steps.length)}`}>
                   <img
-                    src={currentRecipe.image}
+                    src={currentRecipe.heroImage || currentRecipe.image}
                     alt={currentRecipe.imageAlt}
-                    className="crystal-image"
+                    className={styles.progressImage}
                   />
-                </Link>
-
                 <h3>{currentRecipe.name}</h3>
-                <p>{currentRecipe.time}</p>
-                <p>Currently growing</p>
-
-                <Link to={`/recipes/${currentRecipe.id}`}>
-                  Continue recipe
+                <p>Step {Math.min(progressStep, currentRecipe.steps.length)} of {currentRecipe.steps.length}</p>
                 </Link>
-
-                <button
-                  onClick={() => finishGrowing(currentRecipe.id)}
-                >
-                  Mark as finished
-                </button>
+                <div className={styles.progressAction}>
+                  <ContinueGrowingBtn recipeId={currentRecipe.id} step={Math.min(progressStep, currentRecipe.steps.length)} />
+                </div>
               </article>
             ) : (
               <p>

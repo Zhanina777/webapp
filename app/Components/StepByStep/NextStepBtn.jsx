@@ -9,7 +9,7 @@ export default function NextStepBtn({ nextStep = 2, onClick, disabled = false })
       disabled={disabled}
     >
       Ready for Step {nextStep}
-      <span aria-hidden="true">→</span>
+      <span aria-hidden="true">&rarr;</span>
     </button>
   );
 }

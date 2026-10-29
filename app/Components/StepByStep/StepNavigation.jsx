@@ -25,6 +25,16 @@ export default function StepNavigation({ recipeName, recipeId, steps, completion
   const currentStep = Number.isInteger(parsedStep) ? Math.min(steps.length, Math.max(1, parsedStep)) : 1;
 
   useEffect(() => {
+    if (isComplete) return;
+    try {
+      const finished = JSON.parse(localStorage.getItem("cryst-finished") || "[]");
+      if (Array.isArray(finished) && finished.includes(recipeId)) return;
+      localStorage.setItem("cryst-progress", recipeId);
+      localStorage.setItem(`cryst-step:${recipeId}`, String(currentStep));
+    } catch { /* Tutorial navigation remains available without browser storage. */ }
+  }, [currentStep, isComplete, recipeId]);
+
+  useEffect(() => {
     contentRef.current?.focus({ preventScroll: true });
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [stepParam]);
