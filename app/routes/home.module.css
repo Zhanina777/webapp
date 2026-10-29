@@ -1,4 +1,4 @@
-:global(.app-shell):has(.home) {
+.home {
   --layout-max-width: 440px;
   --page-gutter: 16px;
   --section-space: 20px;
@@ -6,7 +6,7 @@
 }
 
 @media (min-width: 768px) {
-  :global(.app-shell):has(.home) {
+  .home {
     --layout-max-width: 760px;
     --page-gutter: 24px;
     --section-space: 24px;
@@ -19,6 +19,12 @@
 }
 
 .welcome { margin-bottom: 8px; }
+
+.home > section:last-child { margin-top: 48px; }
+
+@media (max-width: 767px) {
+  .home > section:last-child { margin-top: 38px; }
+}
 
 .welcome h1 {
   margin: 0;

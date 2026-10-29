@@ -4,7 +4,7 @@ import styles from "./monthlyRecipe.module.css";
 export default function MonthlyRecipe() {
   return (
     <section className={styles.card} aria-labelledby="monthly-recipe-title">
-      <div>
+      <div className={styles.content}>
         <p className={styles.label}>Monthly Recipe</p>
         <h2 id="monthly-recipe-title" className={styles.title}>
           Salt String<br />Magic
