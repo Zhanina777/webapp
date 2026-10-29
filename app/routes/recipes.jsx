@@ -7,6 +7,7 @@ import CrystalProjectCard from "../Components/CrystalProjectCard";
 import { matchesRecipe, materialOptions } from "../data/recipeFiltering";
 import { getSavedRecipes, toggleSavedRecipe } from "../utils/recipeStorage";
 
+// Build the material choices once from the same recipe data used by the cards.
 const availableMaterials = materialOptions(sections.flatMap(section => section.recipes));
 
 export function meta() {
@@ -24,6 +25,7 @@ export default function Recipes() {
   }, []);
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // Applied filters live in the URL so refresh, sharing and browser history preserve them.
   const query = searchParams.get("q") || "";
   const level = searchParams.get("level");
   const selectedMaterials = searchParams.getAll("material");
@@ -35,6 +37,7 @@ export default function Recipes() {
     section => section.name.toLowerCase() === level
   );
 
+  // Keep difficulty groups, apply every selected filter, then hide empty groups.
   const visibleSections = sections
     .filter(section => !difficulty || section.name === difficulty.name)
     .map(section => ({
@@ -55,6 +58,7 @@ export default function Recipes() {
   }
 
   function gridUrl(value) {
+    // Opening a difficulty group must preserve the other applied filters.
     const params = new URLSearchParams(searchParams);
     params.set("level", value);
 
@@ -126,6 +130,7 @@ export default function Recipes() {
           maxPrice={maxPrice}
           onCancel={() => setFiltersOpen(false)}
           onApply={filters => {
+            // Replace filter values while retaining the current search text.
             const params = new URLSearchParams(searchParams);
             params.set("level", filters.level);
             params.delete("material");

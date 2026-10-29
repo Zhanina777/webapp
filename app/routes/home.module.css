@@ -1,4 +1,5 @@
 .home {
+  /* Scope the home page's sizing here so shared navigation does not change width. */
   --layout-max-width: 440px;
   --page-gutter: 16px;
   --section-space: 20px;

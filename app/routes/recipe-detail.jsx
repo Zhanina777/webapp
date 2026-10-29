@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router";
 import { findCrystalProject } from "../data/crystalProjects";
 import styles from "./recipe-detail.module.css";
 import { useEffect, useState } from "react";
-import { useAuth } from "../Components/Auth/AuthProvider";
+import { useAccount } from "../Components/Account/AccountProvider";
 import { guestCompleted } from "../supabase-connection/projectProgress";
 import AdultHelpBtn from "../Components/AdultHelpBtn";
 import { saveRecipeProgress } from "../utils/recipeStorage";
@@ -15,7 +15,7 @@ export function meta({ params }) {
 export default function RecipeDetail() {
   const { recipeId } = useParams();
   const recipe = findCrystalProject(recipeId);
-  const { user, loading } = useAuth();
+  const { user, loading } = useAccount();
   const [trialUsed, setTrialUsed] = useState(false);
 
   useEffect(() => {

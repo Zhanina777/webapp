@@ -76,6 +76,8 @@ const projectImages = {
   "blue-crystal-lab": ["Crystal photograph (5).png", "A deep blue crystal cluster"],
 };
 
+// Assemble display-ready recipes from written content, cover photos and step photos.
+// Step-specific fields override shared image defaults when both are provided.
 const projects = [saltStringMagic, ...additionalCrystalProjects].map(recipe => {
   const [filename, imageAlt] = projectImages[recipe.id];
   const landscapeFilename = filename.replace(/\.png$/, "-landscape.png");

@@ -1,7 +1,7 @@
 import MonthlyRecipe from "../Components/MonthlyRecipe";
 import FriendsFeed from "../Components/FriendsFeed";
 import ScienceBite from "../Components/ScienceBite";
-import { useAuth } from "../Components/Auth/AuthProvider";
+import { useAccount } from "../Components/Account/AccountProvider";
 import styles from "./home.module.css";
 
 export function meta() {
@@ -12,7 +12,7 @@ export function meta() {
 }
 
 export default function Home() {
-  const { user, profile } = useAuth();
+  const { user, profile } = useAccount();
   const name = user ? profile?.display_name?.trim() : null;
   return (
     <main id="main-content" className={`container home-content ${styles.home}`} aria-label="CRYST home">

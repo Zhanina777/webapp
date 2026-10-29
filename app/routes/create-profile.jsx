@@ -1,8 +1,8 @@
 import { useNavigate, useSearchParams } from "react-router";
 import { useEffect, useRef, useState } from "react";
-import CreateProfile from "../Components/Auth/CreateProfile";
+import CreateProfile from "../Components/Account/CreateProfile";
 import { requireSupabase } from "../supabase-connection/supabase";
-import { useAuth } from "../Components/Auth/AuthProvider";
+import { useAccount } from "../Components/Account/AccountProvider";
 
 export const handle = { hideNavigation: true };
 export function meta() { return [{ title: "Your account | CRYST" }]; }
@@ -11,10 +11,11 @@ export default function CreateProfileRoute() {
   const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
   const login = params.get("mode") === "login";
-  const { user, loading, signOut } = useAuth();
+  const { user, loading, signOut } = useAccount();
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
+  // The auth listener triggers navigation: login returns to recipes; signup opens payment.
   const afterAuth = useRef("/recipes");
   useEffect(() => { if (!loading && user) navigate(afterAuth.current, { replace: true }); }, [user, loading, navigate]);
 

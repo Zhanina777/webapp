@@ -4,6 +4,8 @@ import { findCrystalProject } from "../data/crystalProjects.js";
 const guestKey = "cryst-guest-completed";
 
 export function guestAccountDestination(pathname, search, completed) {
+  // Guests can browse all recipes, but only complete one project before signing up.
+  // Its celebration screen stays accessible after the completion marker is saved.
   if (pathname.replace(/\/$/, "") === "/profile") return "/create-profile";
   const isGrow = /^\/recipes\/[^/]+\/grow\/?$/.test(pathname);
   const isCelebration = new URLSearchParams(search).get("step") === "complete";
@@ -22,6 +24,7 @@ export async function saveCompletion(user, recipeId, steps, client) {
     localStorage.setItem(guestKey, JSON.stringify([recipeId]));
     return;
   }
+  // Upsert makes retries update the same user/recipe record rather than duplicate it.
   const { error } = await (client || requireSupabase()).from("recipe_progress").upsert({
     user_id: user.id, recipe_id: recipeId, current_step: steps, completed: true,
   }, { onConflict: "user_id,recipe_id" });
@@ -29,6 +32,8 @@ export async function saveCompletion(user, recipeId, steps, client) {
 }
 
 export async function importGuestCompletion(user, client) {
+  // Keep the local marker until every cloud write succeeds, so a failed import
+  // can be retried. The first account signing in on this browser receives it.
   if (!guestCompleted()) return;
   const ids = JSON.parse(localStorage.getItem(guestKey) || "[]");
   for (const id of ids) {

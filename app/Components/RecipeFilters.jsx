@@ -2,6 +2,7 @@
 import styles from "./recipeFilters.module.css";
 
 export default function RecipeFilters({ levels, selectedLevel, materials, selectedMaterials = [], minPrice = "", maxPrice = "", onApply, onCancel }) {
+  // These are draft selections. Only Show recipes applies them to the parent URL.
   const dialogRef = useRef(null);
   const [difficulty, setDifficulty] = useState(selectedLevel || "all");
   const [chosenMaterials, setChosenMaterials] = useState(selectedMaterials);
@@ -9,6 +10,7 @@ export default function RecipeFilters({ levels, selectedLevel, materials, select
   const [max, setMax] = useState(maxPrice);
   const [error, setError] = useState("");
 
+  // Native dialog supplies focus trapping and restores focus when it closes.
   useEffect(() => {
     const dialog = dialogRef.current;
     dialog.showModal();

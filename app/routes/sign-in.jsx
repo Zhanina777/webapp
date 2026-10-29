@@ -1,7 +1,7 @@
-import WelcomePage from "../Components/Auth/WelcomePage";
+import WelcomePage from "../Components/Account/WelcomePage";
 import { useNavigate } from "react-router";
 import { useState } from "react";
-import { useAuth } from "../Components/Auth/AuthProvider";
+import { useAccount } from "../Components/Account/AccountProvider";
 import { requireSupabase } from "../supabase-connection/supabase";
 
 export const handle = { hideNavigation: true };
@@ -13,7 +13,7 @@ export function meta() {
 export default function SignIn() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
-  const { signOut } = useAuth();
+  const { signOut } = useAccount();
   async function continueAsGuest() {
     try {
       await signOut();

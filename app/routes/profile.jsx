@@ -1,7 +1,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { useAuth } from "../Components/Auth/AuthProvider";
+import { useAccount } from "../Components/Account/AccountProvider";
 import styles from "./profile.module.css";
 import { projectSections } from "../data/crystalProjects";
 import CrystalProjectCard from "../Components/CrystalProjectCard";
@@ -39,7 +39,7 @@ const SCIENCE_EMOJIS = [
 ];
 
 export default function Profile() {
-  const { user, profile, signOut } = useAuth();
+  const { user, profile, signOut } = useAccount();
   const navigate = useNavigate();
   const photoInputRef = useRef(null);
 
@@ -61,7 +61,8 @@ export default function Profile() {
   const [draftAvatarEmoji, setDraftAvatarEmoji] = useState("🧪");
   const [draftAvatarPhoto, setDraftAvatarPhoto] = useState("");
 
-  // Load the user's saved profile and recipe data.
+  // Collections and avatar choices are stored in this browser; the display name
+  // comes from AccountProvider. Draft values let Cancel discard appearance edits.
   useEffect(() => {
     try {
       setSavedIds(getSavedRecipes());

@@ -27,7 +27,7 @@ Set Authentication > URL Configuration > Site URL to the actual app URL. Add `ht
 
 ## Profile and project progress
 
-The profile page supports avatar editing, saved recipes, in-progress recipes, and finished projects. Profile appearance and recipe collections are stored in this browser. Shared helpers in `app/utils/recipeStorage.js` manage saved recipe IDs, the current tutorial step, and locally finished recipe IDs. `useAuth()` provides the signed-in user, profile, loading state, and sign-out action; the display name is `profile.display_name`.
+The profile page supports avatar editing, saved recipes, in-progress recipes, and finished projects. Profile appearance and recipe collections are stored in this browser. Shared helpers in `app/utils/recipeStorage.js` manage saved recipe IDs, the current tutorial step, and locally finished recipe IDs. `useAccount()` provides the signed-in user, profile, loading state, and sign-out action; the display name is `profile.display_name`.
 
 Project completion is also saved to Supabase. `getCompletedProjects()` in `app/supabase-connection/projectProgress.js` can query the signed-in user's completed rows, but the profile currently reads its collection from browser storage. Guest completion is imported after authentication, with a global retry notice if import fails.
 

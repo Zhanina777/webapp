@@ -2,16 +2,18 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { supabase, requireSupabase } from "../../supabase-connection/supabase";
 import { importGuestCompletion } from "../../supabase-connection/projectProgress";
 
-const AuthContext = createContext(null);
-export const useAuth = () => useContext(AuthContext);
+const AccountContext = createContext(null);
+// Pages consume this context instead of keeping separate Supabase sessions.
+export const useAccount = () => useContext(AccountContext);
 
-export default function AuthProvider({ children }) {
+export default function AccountProvider({ children }) {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [retry, setRetry] = useState(0);
 
+  // Supabase reports the initial session and subsequent sign-in/sign-out changes.
   useEffect(() => {
     if (!supabase) { setError("Supabase is not configured."); setLoading(false); return; }
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -21,6 +23,7 @@ export default function AuthProvider({ children }) {
     return () => subscription.unsubscribe();
   }, []);
 
+  // Load the display name separately from authentication, then import guest work.
   useEffect(() => {
     let active = true;
     setProfile(null);
@@ -31,6 +34,7 @@ export default function AuthProvider({ children }) {
         const client = requireSupabase();
         let { data, error: readError } = await client.from("profiles").select("id,display_name").eq("id", user.id).maybeSingle();
         if (readError) throw readError;
+        // New accounts may have signup metadata before their profile row exists.
         if (!data) {
           const name = String(user.user_metadata?.display_name || "Crystal explorer").trim().slice(0, 40) || "Crystal explorer";
           const result = await client.from("profiles").upsert({ id: user.id, display_name: name }, { onConflict: "id", ignoreDuplicates: true });
@@ -44,6 +48,7 @@ export default function AuthProvider({ children }) {
       } catch (problem) { if (active) setError(`Your account is signed in, but profile or guest-project syncing needs a retry: ${problem.message}`); }
     }
     load();
+    // Ignore late profile responses if the account changes or this effect ends.
     return () => { active = false; };
   }, [user?.id, retry]);
 
@@ -54,8 +59,8 @@ export default function AuthProvider({ children }) {
     setProfile(null);
   }
 
-  return <AuthContext.Provider value={{ user, profile, loading, signOut }}>
+  return <AccountContext.Provider value={{ user, profile, loading, signOut }}>
     {error && <aside className="auth-sync-notice" role="alert">{error} <button type="button" onClick={() => setRetry(value => value + 1)}>Retry sync</button></aside>}
     {children}
-  </AuthContext.Provider>;
+  </AccountContext.Provider>;
 }

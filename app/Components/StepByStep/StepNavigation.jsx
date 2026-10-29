@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useAuth } from "../Auth/AuthProvider";
+import { useAccount } from "../Account/AccountProvider";
 import { saveCompletion } from "../../supabase-connection/projectProgress";
 import { useNavigate, useSearchParams } from "react-router";
 import NextStepBtn from "./NextStepBtn";
@@ -15,7 +15,7 @@ export default function StepNavigation({ recipeName, recipeId, steps, completion
   const contentRef = useRef(null);
   const dialogRef = useRef(null);
   const navigate = useNavigate();
-  const { user, loading } = useAuth();
+  const { user, loading } = useAccount();
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState("");
   const stepParam = searchParams.get("step");
@@ -25,6 +25,7 @@ export default function StepNavigation({ recipeName, recipeId, steps, completion
   const parsedStep = Number(stepParam || 1);
   const currentStep = Number.isInteger(parsedStep) ? Math.min(steps.length, Math.max(1, parsedStep)) : 1;
 
+  // Save the visible step for the profile's Continue growing button.
   useEffect(() => {
     if (isComplete) return;
     try {
@@ -32,11 +33,13 @@ export default function StepNavigation({ recipeName, recipeId, steps, completion
     } catch { /* Tutorial navigation remains available without browser storage. */ }
   }, [currentStep, isComplete, recipeId]);
 
+  // Announce the new step from its heading and return the viewport to the top.
   useEffect(() => {
     contentRef.current?.focus({ preventScroll: true });
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [stepParam]);
 
+  // Celebration stays open until the user chooses an action; there is no timer.
   useEffect(() => {
     if (!isComplete) return;
     const dialog = dialogRef.current;
@@ -53,6 +56,8 @@ export default function StepNavigation({ recipeName, recipeId, steps, completion
     if (step === "complete") {
       setSaving(true);
       setSaveError("");
+      // Save completion before showing success. Failure leaves the final step
+      // visible so the user can retry without losing their work.
       try { await saveCompletion(user, recipeId, steps.length); }
       catch (problem) {
         setSaveError(`Your project could not be saved. Please try Finish project again. ${problem.message}`);
