@@ -1,5 +1,7 @@
-import { useEffect, useRef } from "react";
-import { Link, useSearchParams } from "react-router";
+import { useEffect, useRef, useState } from "react";
+import { useAuth } from "../Auth/AuthProvider";
+import { saveCompletion } from "../../lib/projectProgress";
+import { useNavigate, useSearchParams } from "react-router";
 import NextStepBtn from "./NextStepBtn";
 import PreviousStepBtn from "./PreviousStepBtn";
 import StepTracker from "./StepTracker";
@@ -10,6 +12,11 @@ import styles from "./StepNavigation.module.css";
 export default function StepNavigation({ recipeName, recipeId, steps, completionMessage }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const contentRef = useRef(null);
+  const dialogRef = useRef(null);
+  const navigate = useNavigate();
+  const { user, loading } = useAuth();
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState("");
   const stepParam = searchParams.get("step");
   const isComplete = stepParam === "complete";
   // Keep progress in the URL so refresh and the browser back button work.
@@ -21,22 +28,53 @@ export default function StepNavigation({ recipeName, recipeId, steps, completion
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [stepParam]);
 
-  function goToStep(step) {
+  useEffect(() => {
+    if (!isComplete) return;
+    const dialog = dialogRef.current;
+    dialog?.showModal();
+    const timer = window.setTimeout(() => navigate("/recipes", { replace: true }), 7000);
+    return () => {
+      window.clearTimeout(timer);
+      dialog?.close();
+    };
+  }, [isComplete, navigate, recipeId]);
+
+  function closeCompletion() {
+    navigate("/recipes", { replace: true });
+  }
+
+  async function goToStep(step) {
+    if (saving) return;
+    if (step === "complete") {
+      setSaving(true);
+      setSaveError("");
+      try { await saveCompletion(user, recipeId, steps.length); }
+      catch (problem) {
+        setSaveError(`Your project could not be saved. Please try Finish project again. ${problem.message}`);
+        setSaving(false);
+        return;
+      }
+      setSaving(false);
+    }
     setSearchParams({ step: String(step) });
   }
 
   return (
     <div className={styles.navigation} ref={contentRef} tabIndex={-1}>
       <StepTracker recipeName={recipeName} currentStep={isComplete ? steps.length : currentStep} totalSteps={steps.length} />
-      {isComplete ? <section className={styles.completion}>
-        <h1>You did it!</h1>
-        <p>{completionMessage || `You completed ${recipeName}. Review your observations and photos to see what you discovered.`}</p>
-        <Link to={`/recipes/${recipeId}`}>Back to recipe →</Link>
-      </section> : <>
+      {isComplete ? <dialog ref={dialogRef} className={styles.completion} aria-labelledby="completion-title" aria-describedby="completion-message" onCancel={event => { event.preventDefault(); closeCompletion(); }}>
+        <button className={styles.close} type="button" aria-label="Close celebration and view all recipes" onClick={closeCompletion}>&times;</button>
+        <div className={styles.sparkle} aria-hidden="true">&#10023;</div>
+        <h1 id="completion-title">You did it!</h1>
+        <p id="completion-message">{completionMessage || `You completed ${recipeName}. Review your observations and photos to see what you discovered.`}</p>
+        <button className={styles.continue} type="button" onClick={closeCompletion}>All recipes <span aria-hidden="true">&rarr;</span></button>
+        <p className={styles.hint}>Opening all recipes in a few seconds&hellip;</p>
+      </dialog> : <>
         <StepContent stepNumber={currentStep} step={steps[currentStep - 1]} />
         <div className={styles.buttons}>
+          {saveError && <p role="alert">{saveError}</p>}
           {currentStep < steps.length ? <NextStepBtn nextStep={currentStep + 1} onClick={() => goToStep(currentStep + 1)} /> :
-            <button className={buttonStyles.button} type="button" onClick={() => goToStep("complete")}>Finish project <span aria-hidden="true">→</span></button>}
+            <button className={buttonStyles.button} type="button" disabled={saving || loading} onClick={() => goToStep("complete")}>{saving ? "Saving project…" : "Finish project"} <span aria-hidden="true">&rarr;</span></button>}
           {currentStep > 1 && <PreviousStepBtn onClick={() => goToStep(currentStep - 1)} />}
         </div>
       </>}

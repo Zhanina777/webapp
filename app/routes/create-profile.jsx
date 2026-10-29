@@ -1,0 +1,44 @@
+import { useNavigate, useSearchParams } from "react-router";
+import { useEffect, useState } from "react";
+import CreateProfile from "../Components/Auth/CreateProfile";
+import { requireSupabase } from "../lib/supabase";
+import { useAuth } from "../Components/Auth/AuthProvider";
+
+export const handle = { hideNavigation: true };
+export function meta() { return [{ title: "Your account | CRYST" }]; }
+
+export default function CreateProfileRoute() {
+  const navigate = useNavigate();
+  const [params, setParams] = useSearchParams();
+  const login = params.get("mode") === "login";
+  const { user, loading, signOut } = useAuth();
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const [busy, setBusy] = useState(false);
+  useEffect(() => { if (!loading && user) navigate("/recipes", { replace: true }); }, [user, loading, navigate]);
+
+  async function create(profile) {
+    if (busy) return;
+    setBusy(true); setError(""); setMessage("");
+    try {
+      const client = requireSupabase();
+      const result = login
+        ? await client.auth.signInWithPassword({ email: profile.email, password: profile.password })
+        : await client.auth.signUp({ email: profile.email, password: profile.password, options: { data: { display_name: profile.name } } });
+      if (result.error) throw result.error;
+      if (!result.data.session) setMessage("Sign-up could not sign you in yet. The project owner needs to turn off Confirm email in Supabase Authentication > Sign In / Providers > Email. Then try signing in. Your guest project is still saved on this browser.");
+    } catch (problem) { setError(problem.message); }
+    finally { setBusy(false); }
+  }
+  async function continueAsGuest() {
+    try { await signOut(); navigate("/"); } catch (problem) { setError(problem.message); }
+  }
+  async function social(provider) {
+    setError("");
+    try {
+      const { error: problem } = await requireSupabase().auth.signInWithOAuth({ provider: provider.toLowerCase(), options: { redirectTo: `${window.location.origin}/create-profile` } });
+      if (problem) throw problem;
+    } catch (problem) { setError(`${provider} sign-in could not start: ${problem.message}`); }
+  }
+  return <CreateProfile key={login ? "login" : "signup"} login={login} busy={busy} message={message} authError={error} onBack={() => navigate("/recipes")} onCreate={create} onContinueAsGuest={continueAsGuest} onSocialSignIn={social} onSwitchMode={() => { setError(""); setMessage(""); setParams(login ? {} : { mode: "login" }); }} />;
+}

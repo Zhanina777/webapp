@@ -36,14 +36,14 @@
 .title {
   margin: 7px 0 5px;
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: var(--text-body);
   font-weight: 700;
   line-height: 20px;
 }
 
 .description {
   margin: 0;
-  font-size: 11px;
+  font-size: var(--text-caption);
   line-height: 17px;
 }
 

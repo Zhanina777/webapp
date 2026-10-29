@@ -4,7 +4,7 @@
 
 .title {
   margin: 0 0 var(--layout-gap);
-  font-size: 26px;
+  font-size: var(--text-section-title);
   font-weight: 400;
   line-height: 1.2;
 }
@@ -17,7 +17,7 @@
   align-items: center;
   gap: 10px;
   margin-bottom: 12px;
-  font-size: 14px;
+  font-size: var(--text-body);
   font-weight: 700;
 }
 
@@ -33,7 +33,7 @@
   border-radius: 50%;
   background: #82d4c8;
   color: #203f3b;
-  font-size: 18px;
+  font-size: var(--text-card-title);
 }
 
 .image {
@@ -46,7 +46,7 @@
 
 .caption {
   margin: 12px 0 4px;
-  font-size: 15px;
+  font-size: var(--text-body);
   line-height: 1.5;
   overflow-wrap: anywhere;
 }
@@ -60,7 +60,7 @@
   border: 0;
   background: transparent;
   color: var(--page-text);
-  font-size: 13px;
+  font-size: var(--text-small);
   cursor: pointer;
 }
 

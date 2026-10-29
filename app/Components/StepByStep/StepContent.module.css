@@ -5,13 +5,13 @@
 
 .number {
   margin: 0 0 8px;
-  font-size: clamp(32px, 4vw, 44px);
+  font-size: var(--text-page-title);
   line-height: 1.2;
 }
 
 .title {
   margin: 0;
-  font-size: clamp(18px, 2.5vw, 24px);
+  font-size: var(--text-card-title);
   font-family: var(--font-sans);
   font-weight: 700;
   line-height: 1.4;
@@ -39,7 +39,7 @@
   display: grid;
   grid-template-columns: 26px minmax(0, 1fr);
   gap: 12px;
-  font-size: clamp(14px, 1.6vw, 16px);
+  font-size: var(--text-body);
   line-height: 1.6;
   counter-increment: instruction;
 }
@@ -53,6 +53,6 @@
   border-radius: 50%;
   background: #b477e3;
   color: #202020;
-  font-size: clamp(14px, 1.6vw, 16px);
+  font-size: var(--text-body);
   font-weight: 700;
 }

@@ -24,7 +24,7 @@
   gap: 16px;
   margin-top: 12px;
   color: var(--page-text);
-  font-size: 12px;
+  font-size: var(--text-small);
   font-weight: 700;
   line-height: 1.4;
 }

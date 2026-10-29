@@ -9,7 +9,7 @@
 .searchRow { display: flex; gap: 11px; padding-inline: var(--recipe-gutter); margin-bottom: 23px; }
 .search { display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1; height: 46px; padding: 0 13px; border: 1.5px solid #74d9ce; border-radius: 14px; }
 .search svg { width: 18px; height: 18px; flex-shrink: 0; color: #b56bef; }
-.search input { width: 100%; min-width: 0; outline: none; background: transparent; border: 0; color: inherit; font-size: 14px; }
+.search input { width: 100%; min-width: 0; outline: none; background: transparent; border: 0; color: inherit; font-size: var(--text-body); }
 .search input::placeholder { color: var(--page-text); opacity: 1; }
 .search:focus-within { outline: 2px solid #b477e3; outline-offset: 2px; }
 .filterButton { display: grid; place-items: center; width: 46px; height: 46px; border: 0; border-radius: 14px; background: #ffed42; color: #242424; cursor: pointer; flex-shrink: 0; }
@@ -18,15 +18,15 @@
 /* Allow each section to shrink so its cards scroll inside the viewport. */
 .sections > section { min-width: 0; }
 .sectionHeading { margin-bottom: 13px; display: flex; justify-content: space-between; align-items: center; padding-inline: var(--recipe-gutter); }
-.sectionHeading h1 { font-size: 24px; line-height: 1.2; margin: 0; }
-.seeMore { border: 0; background: transparent; color: #b56bef; font-size: 12px; font-weight: 700; padding: 5px 0 5px 10px; cursor: pointer; text-decoration: none; }
+.sectionHeading h1 { font-size: var(--text-section-title); line-height: 1.2; margin: 0; }
+.seeMore { border: 0; background: transparent; color: #b56bef; font-size: var(--text-small); font-weight: 700; padding: 5px 0 5px 10px; cursor: pointer; text-decoration: none; }
 .cards { display: flex; width: 100%; min-width: 0; gap: 13px; overflow-x: auto; overscroll-behavior-x: contain; padding-inline: var(--recipe-gutter); scroll-padding-inline: var(--recipe-gutter); scroll-snap-type: x mandatory; scrollbar-width: none; }
 .cards::-webkit-scrollbar { display: none; }
 /* The page owns card placement; the card component owns its appearance. */
 .cards > article { flex: 0 0 165px; scroll-snap-align: start; }
 .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 13px; overflow: visible; }
 .gridControls { display: grid; gap: 16px; margin: -5px var(--recipe-gutter) 24px; }
-.backLink { color: #b56bef; font-size: 13px; text-decoration: none; width: fit-content; }
+.backLink { color: #b56bef; font-size: var(--text-small); text-decoration: none; width: fit-content; }
 .page a:focus-visible { outline: 2px solid #b477e3; outline-offset: 3px; }
 .page button:focus-visible, .cards:focus-visible { outline: 2px solid #b477e3; outline-offset: 3px; }
 .empty { padding: 20px var(--recipe-gutter); }

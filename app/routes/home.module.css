@@ -1,0 +1,14 @@
+.welcome h1 {
+  margin: 0 0 8px;
+  color: #b477e3;
+  font-size: var(--text-page-title);
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.welcome p {
+  margin: 0;
+  font-size: var(--text-body);
+  line-height: 1.5;
+}
+

@@ -20,7 +20,7 @@
 .message {
   min-width: 0;
   margin: 0;
-  font-size: 12px;
+  font-size: var(--text-small);
   font-weight: 700;
   line-height: 1.35;
   overflow-wrap: anywhere;

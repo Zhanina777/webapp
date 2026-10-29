@@ -16,6 +16,12 @@
 }
 
 :root {
+  --text-caption: 0.75rem;
+  --text-small: 0.875rem;
+  --text-body: 1rem;
+  --text-card-title: clamp(1.125rem, 1.05rem + 0.4vw, 1.5rem);
+  --text-section-title: clamp(1.5rem, 1.4rem + 0.5vw, 1.75rem);
+  --text-page-title: clamp(2rem, 1.8rem + 1vw, 2.5rem);
   --layout-max-width: 60rem;
   --page-gutter: clamp(1rem, 3vw, 1.5rem);
   --section-space: clamp(1.5rem, 3vw, 2rem);
@@ -37,6 +43,8 @@
 }
 
 html, body {
+  font-size: 100%;
+  line-height: 1.6;
   min-height: 100%;
   min-height: 100dvh;
   margin: 0;
@@ -58,7 +66,7 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   overflow-wrap: anywhere;
 }
 
-.page-content h1 { font-size: clamp(1.5rem, 1.1rem + 2vw, 2rem); font-weight: 400; margin-bottom: 16px; }
+.page-content h1 { font-size: var(--text-page-title); font-weight: 400; margin-bottom: 16px; }
 .page-content p { line-height: 1.7; margin-bottom: 16px; }
 .page-content a { color: var(--page-text); text-decoration: underline; text-underline-offset: 4px; }
 
@@ -99,6 +107,8 @@ code, pre, kbd, samp {
   min-height: 100dvh;
 }
 
+.auth-sync-notice { padding: 16px var(--page-gutter); background: #fff347; color: #202020; font-size: var(--text-small); }
+
 .route-content {
   flex: 1;
   min-width: 0;
@@ -110,7 +120,7 @@ code, pre, kbd, samp {
   min-height: 100vh;
   background: #f9e8f0;
   padding: 40px 20px;
-  font-family: Arial, sans-serif;
+  font-family: var(--font-sans);
   color: #292929;
 }
 
@@ -138,7 +148,7 @@ code, pre, kbd, samp {
 }
 
 .payment-header h2 {
-  font-size: 24px;
+  font-size: var(--text-section-title);
   margin: 0;
 }
 
@@ -155,13 +165,13 @@ code, pre, kbd, samp {
 
 .payment-description h3,
 .payment-price h3 {
-  font-size: 24px;
+  font-size: var(--text-section-title);
   margin-bottom: 10px;
 }
 
 .payment-description p,
 .payment-price p {
-  font-size: 15px;
+  font-size: var(--text-body);
   line-height: 1.6;
 }
 
@@ -196,13 +206,13 @@ code, pre, kbd, samp {
 
 .payment-benefit h3 {
   margin: 0 0 5px;
-  font-size: 17px;
+  font-size: var(--text-body);
 }
 
 .payment-benefit p {
   margin: 0;
   color: #666;
-  font-size: 14px;
+  font-size: var(--text-body);
   line-height: 1.5;
 }
 
@@ -228,11 +238,11 @@ code, pre, kbd, samp {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  font-size: 16px;
+  font-size: var(--text-body);
 }
 
 .purchase-button strong {
-  font-size: 24px;
+  font-size: var(--text-section-title);
 }
 
 .restore-button {

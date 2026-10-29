@@ -15,10 +15,15 @@
 }
 
 .navigation:focus { outline: none; }
-.completion { padding: 20px; border-radius: 18px; background: #82d4c8; color: #242424; }
-.completion h1 { font-size: 30px; margin-bottom: 12px; }
-.completion p { margin-bottom: 20px; line-height: 1.5; }
-.completion a { color: inherit; text-underline-offset: 4px; }
+.completion { position: fixed; inset: 0; width: min(420px, calc(100% - 32px)); max-height: calc(100dvh - 40px); overflow-y: auto; margin: auto; padding: 32px 24px 24px; border: 0; border-radius: 24px; background: #82d4c8; color: #202020; text-align: center; box-shadow: 0 20px 70px #0004; }
+.completion::backdrop { background: #0009; }
+.completion h1 { font-size: var(--text-page-title); margin: 0 0 12px; }
+.completion p { margin: 0 0 20px; line-height: 1.6; font-size: var(--text-body); }
+.close { position: absolute; top: 10px; right: 12px; width: 36px; height: 36px; border: 0; border-radius: 50%; background: transparent; color: #202020; font-size: var(--text-section-title); cursor: pointer; }
+.sparkle { margin-bottom: 8px; color: #202020; font-size: 52px; line-height: 1; }
+.continue { width: 100%; min-height: 46px; padding: 12px; border: 0; border-radius: 12px; background: #fff347; color: #202020; font-weight: 700; cursor: pointer; }
+.completion .hint { margin: 14px 0 0; font-size: var(--text-caption); }
+.completion button:focus-visible { outline: 3px solid #202020; outline-offset: 3px; }
 
 /* Keep instructions readable while the tracker follows the app container width. */
 @media (min-width: 768px) {

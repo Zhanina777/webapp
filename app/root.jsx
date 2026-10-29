@@ -5,11 +5,14 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useMatches,
 } from "react-router";
 
 import "./app.css";
 import Header from "./Components/Header";
 import BottomNavigation from "./Components/BottomNavigation";
+import RecipeAccess from "./Components/Auth/RecipeAccess";
+import AuthProvider from "./Components/Auth/AuthProvider";
 
 export const links = () => [
   { rel: "icon", type: "image/png", sizes: "50x50", href: "/images/cryst-tab-icon.png" },
@@ -50,9 +53,15 @@ export function Layout({ children }) {
 }
 
 export default function App() {
+  return <AuthProvider><AppContent /></AuthProvider>;
+}
+
+function AppContent() {
+  const hideNavigation = useMatches().some(match => match.handle?.hideNavigation);
+  if (hideNavigation) return <Outlet />;
   return <div className="app-shell">
     <Header />
-    <div className="route-content"><Outlet /></div>
+    <div className="route-content"><RecipeAccess><Outlet /></RecipeAccess></div>
     <BottomNavigation />
   </div>;
 }

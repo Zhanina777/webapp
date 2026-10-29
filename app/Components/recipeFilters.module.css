@@ -6,13 +6,13 @@
   border: 1px solid var(--accent);
   border-radius: 17px;
 }
-.panel h2 { margin: 0; font-size: 24px; }
+.panel h2 { margin: 0; font-size: var(--text-section-title); }
 .difficulty { min-width: 0; margin: 0; padding: 0; border: 0; }
-.difficulty legend { margin-bottom: 8px; font-size: 13px; }
+.difficulty legend { margin-bottom: 8px; font-size: var(--text-small); }
 .difficulty > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-.difficulty button { min-height: 44px; padding: 8px 4px; border: 1px solid #b477e3; border-radius: 12px; background: transparent; color: inherit; font-size: 13px; cursor: pointer; }
+.difficulty button { min-height: 44px; padding: 8px 4px; border: 1px solid #b477e3; border-radius: 12px; background: transparent; color: inherit; font-size: var(--text-small); cursor: pointer; }
 .difficulty button[aria-pressed="true"] { background: #b477e3; color: #242424; }
-.field { display: grid; gap: 6px; min-width: 0; font-size: 13px; }
+.field { display: grid; gap: 6px; min-width: 0; font-size: var(--text-small); }
 .field select, .field input {
   width: 100%;
   min-width: 0;
@@ -24,10 +24,10 @@
 }
 .field select:disabled, .price:disabled { opacity: .55; }
 .price { min-width: 0; margin: 0; padding: 0; border: 0; }
-.price legend { margin-bottom: 8px; font-size: 13px; }
+.price legend { margin-bottom: 8px; font-size: var(--text-small); }
 .price > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.note { margin: 0; font-size: 12px; line-height: 1.5; }
+.note { margin: 0; font-size: var(--text-small); line-height: 1.5; }
 .actions { display: flex; justify-content: flex-end; gap: 10px; }
-.actions button { min-height: 44px; padding: 10px 14px; border: 1px solid #b477e3; border-radius: 12px; background: transparent; color: inherit; cursor: pointer; font-size: 13px; }
+.actions button { min-height: 44px; padding: 10px 14px; border: 1px solid #b477e3; border-radius: 12px; background: transparent; color: inherit; cursor: pointer; font-size: var(--text-small); }
 .actions button[type="submit"] { background: #b477e3; color: #242424; }
 .panel :is(select, input, button):focus-visible { outline: 2px solid #b477e3; outline-offset: 3px; }
