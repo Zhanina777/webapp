@@ -12,10 +12,6 @@ export default function Payment() {
   return (
     <main className="payment-page">
       <header className="payment-header">
-        <button className="payment-close" type="button" aria-label="Close payment and view recipes" onClick={() => navigate("/recipes")}>
-          ×
-        </button>
-
         <h1 className="payment-logo">CRYST</h1>
         <h2>UNLOCK ALL ACCESS</h2>
       </header>
@@ -62,21 +58,28 @@ export default function Payment() {
         <p>Select a one-time fee that feels most fair to you</p>
 
         <input
-  type="range"
-  min="9"
-  max="499"
-  step="10"
-  value={price}
-  onChange={(event) => setPrice(Number(event.target.value))}
-  aria-label="Choose payment amount"
-/>
+          type="range"
+          min="9"
+          max="499"
+          step="10"
+          value={price}
+          onChange={(event) => setPrice(Number(event.target.value))}
+          aria-label="Choose payment amount"
+        />
 
-        <button className="purchase-button">
+        <button
+          className="purchase-button"
+          type="button"
+          onClick={() => navigate("/profile")}
+        >
           <strong>{price} kr</strong>
           <span>Click Here To Purchase</span>
         </button>
 
-        <button className="restore-button">
+        <button
+          className="restore-button"
+          type="button"
+        >
           Restore Purchase
         </button>
       </section>
