@@ -1,4 +1,5 @@
 import { additionalCrystalProjects } from "./additionalCrystalProjects.js";
+import { tutorialImages } from "./tutorialImages.js";
 
 // Recipe content is kept separate from the cards and detail page presentation.
 export const saltStringMagic = {
@@ -78,7 +79,13 @@ const projectImages = {
 const projects = [saltStringMagic, ...additionalCrystalProjects].map(recipe => {
   const [filename, imageAlt] = projectImages[recipe.id];
   const landscapeFilename = filename.replace(/\.png$/, "-landscape.png");
-  return { ...recipe, image: `/images/${encodeURIComponent(filename)}`, heroImage: `/images/recipes/${encodeURIComponent(landscapeFilename)}`, imageAlt };
+  return {
+    ...recipe,
+    image: `/images/recipes/${encodeURIComponent(landscapeFilename)}`,
+    heroImage: `/images/recipes/${encodeURIComponent(landscapeFilename)}`,
+    imageAlt,
+    steps: recipe.steps.map((step, index) => ({ ...tutorialImages[recipe.id]?.[index], ...step })),
+  };
 });
 
 export const projectSections = [

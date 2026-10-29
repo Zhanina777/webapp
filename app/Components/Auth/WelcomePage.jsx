@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styles from "./welcome.module.css";
 
-export function WelcomeHero({ image = "/images/sign-in-crystals.png" }) {
+export function WelcomeHero({ image = "/images/recipes/crystal_03-landscape.png" }) {
   return <header className={styles.hero}>
-    <img className={styles.photo} src={image} alt="A sparkling crystal catching the light against a soft mint background" width="303" height="252" />
+    <img className={styles.photo} src={image} alt="Sparkling clear crystals catching the light against a soft blue background" width="1672" height="941" />
     <h1>Welcome to CRYST</h1>
     <p>Explore the magic of science by growing your own sparkling crystals at home!</p>
   </header>;

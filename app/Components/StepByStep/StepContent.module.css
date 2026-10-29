@@ -17,13 +17,20 @@
   line-height: 1.4;
 }
 
+.figure { margin: 0; min-width: 0; }
+
+.caption {
+  margin-top: 8px;
+  color: #555;
+  font-size: var(--text-small);
+  line-height: 1.5;
+}
+
 .image {
   display: block;
   width: 100%;
-  aspect-ratio: 1.6;
-  max-height: 380px;
+  height: auto;
   border-radius: 18px;
-  object-fit: cover;
 }
 
 .instructions {

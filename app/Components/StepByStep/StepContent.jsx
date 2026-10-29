@@ -10,7 +10,10 @@ export default function StepContent({ stepNumber, step }) {
       </header>
 
       {step.image && (
-        <img className={styles.image} src={step.image} alt={step.imageAlt} />
+        <figure className={styles.figure}>
+          <img key={step.image} className={styles.image} src={step.image} alt={step.imageAlt} decoding="async" />
+          {step.imageCaption && <figcaption className={styles.caption}>{step.imageCaption}</figcaption>}
+        </figure>
       )}
 
       {step.needsAdult && <AdultHelpBtn message={step.safetyMessage} />}

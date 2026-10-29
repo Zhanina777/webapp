@@ -1,4 +1,4 @@
-// Recipe content supplied for CRYST. Image descriptions await matching assets.
+// Recipe content supplied for CRYST. Tutorial photos are assigned in tutorialImages.js.
 export const additionalCrystalProjects = [
   {
     "id": "rock-candy-sticks",

@@ -12,7 +12,7 @@ export default function MonthlyRecipe() {
       </div>
       <img
         className={styles.image}
-        src="/images/Crystal photograph (4).png"
+        src="/images/recipes/Crystal photograph (4)-landscape.png"
         alt="Crystals growing on a string suspended over a glass jar"
         width="245"
         height="260"

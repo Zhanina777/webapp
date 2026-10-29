@@ -29,7 +29,7 @@ export default function CreateProfile({ onBack, onCreate, onContinueAsGuest, onS
   return <><Header /><main className={styles.page}>
     <div className={styles.content}>
       <nav className={styles.top} aria-label="Profile setup"><button type="button" onClick={showForm ? () => setShowForm(false) : onBack} aria-label={showForm ? "Back to sign-up options" : "Back to recipes"}>&larr;</button></nav>
-      <div className={styles.art} aria-hidden="true"><img src="/images/sign-in-crystals.png" alt="" width="110" height="110"/></div>
+      <div className={styles.art} aria-hidden="true"><img src="/images/recipes/crystal_03-landscape.png" alt="" width="110" height="110"/></div>
       <header className={styles.heading}><h1>{login ? "Welcome back" : "Create your profile"}</h1><div>Your next crystal discovery starts here.</div></header>
       {message && <p className={styles.socialNotice} role="status">{message}</p>}
       {authError && <p className={styles.error} role="alert">{authError}</p>}
