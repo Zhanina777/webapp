@@ -37,7 +37,7 @@ export default function WelcomePage({ onGetStarted, onSignIn, onSocialSignIn, on
       </div>
       <p className={styles.footer}>Already have an account? <button type="button" onClick={onSignIn || (() => unavailable("Sign-in"))}>Sign in</button></p>
       <div className={styles.guest}>
-        <p>Create an account to explore more crystal recipes. As a guest, you can visit home and try Salt String Magic, but the other recipes will stay locked.</p>
+        <p>Browse all crystal recipes and try one full project as a guest. Create an account to start more projects and keep your progress.</p>
         <button type="button" onClick={onContinueAsGuest || (() => unavailable("Guest browsing"))}>Continue as guest <span aria-hidden="true">→</span></button>
       </div>
       <p className={styles.notice} role="status">{notice}</p>

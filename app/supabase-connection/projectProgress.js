@@ -1,15 +1,24 @@
 import { requireSupabase } from "./supabase.js";
+import { findCrystalProject } from "../data/crystalProjects.js";
 
 const guestKey = "cryst-guest-completed";
 
+export function guestAccountDestination(pathname, search, completed) {
+  if (pathname.replace(/\/$/, "") === "/profile") return "/create-profile";
+  const isGrow = /^\/recipes\/[^/]+\/grow\/?$/.test(pathname);
+  const isCelebration = new URLSearchParams(search).get("step") === "complete";
+  return isGrow && completed && !isCelebration ? "/create-profile?reason=project-limit" : null;
+}
+
 export function guestCompleted() {
-  try { const data = JSON.parse(localStorage.getItem(guestKey) || "[]"); return Array.isArray(data) && data.includes("salt-string-magic"); }
+  try { const data = JSON.parse(localStorage.getItem(guestKey) || "[]"); return Array.isArray(data) && data.some(id => Boolean(findCrystalProject(id))); }
   catch { return false; }
 }
 
 export async function saveCompletion(user, recipeId, steps, client) {
   if (!user) {
-    if (recipeId !== "salt-string-magic") throw new Error("Sign in to save this project.");
+    if (guestCompleted()) throw new Error("Sign in to complete more projects. Your free guest project is already saved.");
+    if (!findCrystalProject(recipeId)) throw new Error("Recipe not found.");
     localStorage.setItem(guestKey, JSON.stringify([recipeId]));
     return;
   }
@@ -21,7 +30,11 @@ export async function saveCompletion(user, recipeId, steps, client) {
 
 export async function importGuestCompletion(user, client) {
   if (!guestCompleted()) return;
-  await saveCompletion(user, "salt-string-magic", 4, client);
+  const ids = JSON.parse(localStorage.getItem(guestKey) || "[]");
+  for (const id of ids) {
+    const recipe = findCrystalProject(id);
+    if (recipe) await saveCompletion(user, id, recipe.steps.length, client);
+  }
   localStorage.removeItem(guestKey);
 }
 

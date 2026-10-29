@@ -54,10 +54,10 @@ export default function CreateProfile({ onBack, onCreate, onContinueAsGuest, onS
         {["Google", "Facebook", "Apple"].map(provider => <SocialSignInButton key={provider} provider={provider} onClick={onSocialSignIn || (name => setSocialNotice(`${name} sign-in is not available.`))} />)}
       </div>
       <p className={styles.socialNotice} role="status">{socialNotice}</p>
-      <button className={styles.guestButton} type="button" onClick={onContinueAsGuest}>Continue as guest <span aria-hidden="true">→</span></button>
-      <p className={styles.guestHint}>Explore home and try Salt String Magic. Create a profile to unlock more recipes.</p>
       </>}
       <button className={styles.modeButton} type="button" disabled={busy} onClick={onSwitchMode}>{login ? "New here? Create a profile" : "Already have an account? Sign in"}</button>
+      <button className={styles.guestButton} type="button" disabled={busy} onClick={onContinueAsGuest}>Continue as guest <span aria-hidden="true">&rarr;</span></button>
+      <p className={styles.guestHint}>Browse every recipe and try one full project as a guest. Create a profile to start more projects and keep your progress.</p>
       {(!showForm || login) && <div className={styles.help}><AdultHelpBtn message="Ask a trusted adult to help you set up your profile." /></div>}
       <p className={styles.footnote}>Your adventure starts with a little sparkle.</p>
     </div>

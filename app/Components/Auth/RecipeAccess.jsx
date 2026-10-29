@@ -1,32 +1,26 @@
+﻿import { useEffect, useState } from "react";
+import { Navigate, useLocation } from "react-router";
 import { useAuth } from "./AuthProvider";
-import { Link, useLocation } from "react-router";
-import styles from "./recipeAccess.module.css";
+import { guestCompleted, guestAccountDestination } from "../../supabase-connection/projectProgress";
 
-// Navigation gate; database access is independently enforced by Supabase RLS.
+// Recipe browsing stays public. Only project instructions and profiles are gated.
 export default function RecipeAccess({ children }) {
-  const { pathname } = useLocation();
+  const location = useLocation();
   const { user, loading } = useAuth();
-  const restricted = pathname.startsWith("/recipes") &&
-    pathname !== "/recipes/salt-string-magic" &&
-    pathname !== "/recipes/salt-string-magic/grow";
+  const [guestState, setGuestState] = useState(null);
+  useEffect(() => {
+    const update = () => setGuestState({ key: location.key, completed: guestCompleted() });
+    update();
+    window.addEventListener("storage", update);
+    return () => window.removeEventListener("storage", update);
+  }, [location.key]);
 
-  if (!restricted) return children;
-  if (loading) return <main className="page-content"><p role="status">Checking recipe access…</p></main>;
+  const isProfile = location.pathname.replace(/\/$/, "") === "/profile";
+  const isGrow = /^\/recipes\/[^/]+\/grow\/?$/.test(location.pathname);
+  if (!isProfile && !isGrow) return children;
+  if (loading || guestState?.key !== location.key) return <main className="page-content"><p role="status">Loading your account...</p></main>;
   if (user) return children;
-  return <main id="main-content" className={styles.page}>
-    <section className={styles.invitation} aria-labelledby="guest-recipes-heading">
-      <div className={styles.art} aria-hidden="true"><img src="/images/monthly-alum-crystal.png" alt="" width="160" height="160" /></div>
-      <p className={styles.eyebrow}>YOUR NEXT DISCOVERY</p>
-      <h1 id="guest-recipes-heading">More crystals are waiting!</h1>
-      <p className={styles.intro}>A little curiosity can grow into something amazing. Create an account to unlock more crystal recipes.</p>
-      <Link className={styles.primary} to="/create-profile">Create your profile <span aria-hidden="true">→</span></Link>
-      <p className={styles.signIn}>Already have an account? <Link to="/create-profile?mode=login">Sign in</Link></p>
-    </section>
-    <section className={styles.guest} aria-labelledby="guest-try-heading">
-      <span className={styles.badge}>FREE TO TRY</span>
-      <h2 id="guest-try-heading">Start with a little salt magic</h2>
-      <p>You can still grow Salt String Magic and explore home as a guest.</p>
-      <Link className={styles.secondary} to="/recipes/salt-string-magic">Try Salt String Magic <span aria-hidden="true">→</span></Link>
-    </section>
-  </main>;
+  const destination = guestAccountDestination(location.pathname, location.search, guestState.completed);
+  if (destination) return <Navigate to={destination} replace />;
+  return children;
 }

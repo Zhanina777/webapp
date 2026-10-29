@@ -1,7 +1,9 @@
 import { Link, useParams } from "react-router";
 import { findCrystalProject } from "../data/crystalProjects";
 import styles from "./recipe-detail.module.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useAuth } from "../Components/Auth/AuthProvider";
+import { guestCompleted } from "../supabase-connection/projectProgress";
 
 export function meta({ params }) {
   const recipe = findCrystalProject(params.recipeId);
@@ -11,14 +13,19 @@ export function meta({ params }) {
 export default function RecipeDetail() {
   const { recipeId } = useParams();
   const recipe = findCrystalProject(recipeId);
+  const { user, loading } = useAuth();
+  const [trialUsed, setTrialUsed] = useState(false);
 
   useEffect(() => {
+    const completed = guestCompleted();
+    setTrialUsed(completed);
+    if (loading || (!user && completed)) return;
     if (!recipe || recipe.isPlaceholder) return;
     try {
       const finished = JSON.parse(localStorage.getItem("cryst-finished") || "[]");
       if (!Array.isArray(finished) || !finished.includes(recipe.id)) localStorage.setItem("cryst-progress", recipe.id);
     } catch { /* Recipe instructions remain available if browser storage is blocked. */ }
-  }, [recipe]);
+  }, [recipe, user, loading]);
 
   if (!recipe) return <main className="page-content"><h1>Recipe not found</h1><Link to="/recipes">← All recipes</Link></main>;
 
@@ -52,7 +59,8 @@ export default function RecipeDetail() {
           <h2 id="safety-heading">{recipe.safetyTitle || "Grow with an adult"}</h2>
           <p>{recipe.safety}</p>
         </section>
-        <Link className={styles.start} to={`/recipes/${recipe.id}/grow`}>Start growing →</Link>
+        {!user && trialUsed && <p>You’ve completed your free guest project. Create a profile or sign in to start another. You can keep browsing every recipe.</p>}
+        <Link className={styles.start} to={!user && trialUsed ? "/create-profile?reason=project-limit" : `/recipes/${recipe.id}/grow`}>{!user && trialUsed ? "Create a profile to start growing" : "Start growing"} &rarr;</Link>
       </>}
     </main>
   );

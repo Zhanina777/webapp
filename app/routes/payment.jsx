@@ -1,16 +1,18 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 export function meta() {
   return [{ title: "Payment | CRYST" }];
 }
 
 export default function Payment() {
+  const navigate = useNavigate();
   const [price, setPrice] = useState(49);
 
   return (
     <main className="payment-page">
       <header className="payment-header">
-        <button className="payment-close" aria-label="Close">
+        <button className="payment-close" type="button" aria-label="Close payment and view recipes" onClick={() => navigate("/recipes")}>
           ×
         </button>
 

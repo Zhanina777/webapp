@@ -1,5 +1,5 @@
 import { useNavigate, useSearchParams } from "react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CreateProfile from "../Components/Auth/CreateProfile";
 import { requireSupabase } from "../supabase-connection/supabase";
 import { useAuth } from "../Components/Auth/AuthProvider";
@@ -15,11 +15,13 @@ export default function CreateProfileRoute() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
-  useEffect(() => { if (!loading && user) navigate("/recipes", { replace: true }); }, [user, loading, navigate]);
+  const afterAuth = useRef("/recipes");
+  useEffect(() => { if (!loading && user) navigate(afterAuth.current, { replace: true }); }, [user, loading, navigate]);
 
   async function create(profile) {
     if (busy) return;
     setBusy(true); setError(""); setMessage("");
+    afterAuth.current = login ? "/recipes" : "/payment";
     try {
       const client = requireSupabase();
       const result = login
@@ -31,7 +33,7 @@ export default function CreateProfileRoute() {
     finally { setBusy(false); }
   }
   async function continueAsGuest() {
-    try { await signOut(); navigate("/"); } catch (problem) { setError(problem.message); }
+    try { await signOut(); navigate("/recipes"); } catch (problem) { setError(problem.message); }
   }
   async function social(provider) {
     setError("");
@@ -40,5 +42,5 @@ export default function CreateProfileRoute() {
       if (problem) throw problem;
     } catch (problem) { setError(`${provider} sign-in could not start: ${problem.message}`); }
   }
-  return <CreateProfile key={login ? "login" : "signup"} login={login} busy={busy} message={message} authError={error} onBack={() => navigate("/recipes")} onCreate={create} onContinueAsGuest={continueAsGuest} onSocialSignIn={social} onSwitchMode={() => { setError(""); setMessage(""); setParams(login ? {} : { mode: "login" }); }} />;
+  return <CreateProfile key={login ? "login" : "signup"} login={login} busy={busy} message={message || (params.get("reason") === "project-limit" ? "Your free project is complete! Create a profile or sign in to start more projects. You can still browse all recipes as a guest." : "")} authError={error} onBack={() => navigate("/recipes")} onCreate={create} onContinueAsGuest={continueAsGuest} onSocialSignIn={social} onSwitchMode={() => { setError(""); setMessage(""); setParams(login ? {} : { mode: "login" }); }} />;
 }

@@ -19,6 +19,7 @@ export default function StepNavigation({ recipeName, recipeId, steps, completion
   const [saveError, setSaveError] = useState("");
   const stepParam = searchParams.get("step");
   const isComplete = stepParam === "complete";
+  const completionDestination = user ? "/recipes" : "/create-profile?reason=project-limit";
   // Keep progress in the URL so refresh and the browser back button work.
   const parsedStep = Number(stepParam || 1);
   const currentStep = Number.isInteger(parsedStep) ? Math.min(steps.length, Math.max(1, parsedStep)) : 1;
@@ -32,15 +33,15 @@ export default function StepNavigation({ recipeName, recipeId, steps, completion
     if (!isComplete) return;
     const dialog = dialogRef.current;
     dialog?.showModal();
-    const timer = window.setTimeout(() => navigate("/recipes", { replace: true }), 7000);
+    const timer = window.setTimeout(() => navigate(completionDestination, { replace: true }), 7000);
     return () => {
       window.clearTimeout(timer);
       dialog?.close();
     };
-  }, [isComplete, navigate, recipeId]);
+  }, [isComplete, navigate, recipeId, completionDestination]);
 
   function closeCompletion() {
-    navigate("/recipes", { replace: true });
+    navigate(completionDestination, { replace: true });
   }
 
   async function goToStep(step) {
@@ -69,12 +70,12 @@ export default function StepNavigation({ recipeName, recipeId, steps, completion
     <div className={styles.navigation} ref={contentRef} tabIndex={-1}>
       <StepTracker recipeName={recipeName} currentStep={isComplete ? steps.length : currentStep} totalSteps={steps.length} />
       {isComplete ? <dialog ref={dialogRef} className={styles.completion} aria-labelledby="completion-title" aria-describedby="completion-message" onCancel={event => { event.preventDefault(); closeCompletion(); }}>
-        <button className={styles.close} type="button" aria-label="Close celebration and view all recipes" onClick={closeCompletion}>&times;</button>
+        <button className={styles.close} type="button" aria-label={user ? "Close celebration and view all recipes" : "Continue to account options"} onClick={closeCompletion}>&times;</button>
         <div className={styles.sparkle} aria-hidden="true">&#10023;</div>
         <h1 id="completion-title">You did it!</h1>
         <p id="completion-message">{completionMessage || `You completed ${recipeName}. Review your observations and photos to see what you discovered.`}</p>
-        <button className={styles.continue} type="button" onClick={closeCompletion}>All recipes <span aria-hidden="true">&rarr;</span></button>
-        <p className={styles.hint}>Opening all recipes in a few seconds&hellip;</p>
+        <button className={styles.continue} type="button" onClick={closeCompletion}>{user ? "All recipes" : "Continue"} <span aria-hidden="true">&rarr;</span></button>
+        <p className={styles.hint}>{user ? "Opening all recipes in a few seconds..." : "Next: create a profile to start more projects, or continue browsing as a guest."}</p>
       </dialog> : <>
         <StepContent stepNumber={currentStep} step={steps[currentStep - 1]} />
         <div className={styles.buttons}>
