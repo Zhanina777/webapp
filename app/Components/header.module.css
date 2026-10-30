@@ -58,4 +58,4 @@
 }
 
 .wordmark > span:not(.logoIcon) { transform: translateY(5px); }
-.logoIcon { display: block; flex-shrink: 0; width: 40px; height: 48px; background: currentColor; mask: center / contain no-repeat; }
+.logoIcon { display: block; flex-shrink: 0; width: 40px; height: 48px; background: currentColor; mask: url("/images/cryst-favicon.png") center / contain no-repeat; }

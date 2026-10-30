@@ -20,7 +20,7 @@ export default function BottomNavigation() {
         >
           <span
             className={styles.icon}
-            style={{ maskImage: `url(${import.meta.env.BASE_URL}images/${icon}.png)` }}
+            style={{ maskImage: `url(/images/${icon}.png)` }}
             aria-hidden="true"
           />
           <span>{label}</span>

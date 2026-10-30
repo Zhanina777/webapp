@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import styles from "./welcome.module.css";
 
-export function WelcomeHero({ image = "images/recipes/crystal_03-landscape.png" }) {
+export function WelcomeHero({ image = "/images/recipes/crystal_03-landscape.png" }) {
   return <header className={styles.hero}>
     <img className={styles.photo} src={image} alt="Sparkling clear crystals catching the light against a soft blue background" width="1672" height="941" />
     <h1>Welcome to CRYST</h1>
