@@ -52,7 +52,7 @@ export const tutorialImages = {
   "colour-change-chemistry": [blueCrystals, stage["colour-white"], stage["colour-return"], stage["colour-report"]],
   "underwater-garden": [stage["underwater-ready"], stage["underwater-early"], underwater, stage["underwater-report"]],
   "blue-crystal-lab": [blueCrystals, stage["blue-liquid"], blueSolution, stage["blue-growth"], {
-    image: "/images/friend-mika-crystals.png",
+    image: "images/friend-mika-crystals.png",
     imageAlt: "Large blue crystals with smaller crystals in the foreground",
     imageCaption: "Examine the final sample's shapes and compare it with your starting observations.",
   }],

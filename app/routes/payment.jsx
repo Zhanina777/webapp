@@ -34,7 +34,7 @@ export default function Payment() {
       <section className="payment-benefits">
 
         <div className="payment-benefit">
-          <img src="/images/cryst-favicon.png" alt="" />
+          <img src="images/cryst-favicon.png" alt="" />
 
           <div>
             <h3>Access all of our recipes</h3>
@@ -46,7 +46,7 @@ export default function Payment() {
         </div>
 
         <div className="payment-benefit">
-          <img src="/images/cryst-favicon.png" alt="" />
+          <img src="images/cryst-favicon.png" alt="" />
 
           <div>
             <h3>Track your experiments</h3>
@@ -58,7 +58,7 @@ export default function Payment() {
         </div>
 
         <div className="payment-benefit">
-          <img src="/images/cryst-favicon.png" alt="" />
+          <img src="images/cryst-favicon.png" alt="" />
 
           <div>
             <h3>Join the CRYST community</h3>
