@@ -1,3 +1,4 @@
+// Render one recipe step, including its optional photo and adult-help reminder.
 import AdultHelpBtn from "../AdultHelpBtn";
 import styles from "./StepContent.module.css";
 

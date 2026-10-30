@@ -1,3 +1,4 @@
+// Welcome screen and reusable sign-in controls; callbacks decide what each action does.
 import React, { useState } from "react";
 import styles from "./welcome.module.css";
 

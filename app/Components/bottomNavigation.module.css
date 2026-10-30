@@ -1,3 +1,4 @@
+/* Main navigation bar and its links. Classes stay local to components importing this module. */
 .navigation {
   position: sticky;
   bottom: 0;

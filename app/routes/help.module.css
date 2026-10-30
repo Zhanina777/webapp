@@ -1,3 +1,4 @@
+/* Standalone OOPS screen and home link. Classes stay local to components importing this module. */
 .page {
   display: flex;
   flex-direction: column;

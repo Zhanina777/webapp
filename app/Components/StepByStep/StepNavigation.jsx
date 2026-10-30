@@ -1,3 +1,4 @@
+// Coordinate tutorial steps, saved progress and the completion dialog in one place.
 import { useEffect, useRef, useState } from "react";
 import { useAccount } from "../Account/AccountProvider";
 import { saveCompletion } from "../../supabase-connection/projectProgress";

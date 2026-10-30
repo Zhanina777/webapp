@@ -1,3 +1,4 @@
+/* Shared logo and help-link layout. Classes stay local to components importing this module. */
 .header {
   position: sticky;
   top: 0;

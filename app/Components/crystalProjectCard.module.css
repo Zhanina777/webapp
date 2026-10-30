@@ -1,3 +1,4 @@
+/* Reusable recipe card, cover image and separate save control. Classes stay local to components importing this module. */
 .card {
   position: relative;
   min-width: 0;

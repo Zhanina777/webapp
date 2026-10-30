@@ -1,3 +1,4 @@
+// Despite the name, this is a safety reminder banner, not a clickable button.
 import styles from "./AdultHelpBtn.module.css";
 
 export default function AdultHelpBtn({ message = "Ask an adult to work with you." }) {

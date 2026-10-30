@@ -1,3 +1,4 @@
+// Resume a recipe at its saved step by including that step in the link.
 import { Link } from "react-router";
 import styles from "./continueGrowingBtn.module.css";
 

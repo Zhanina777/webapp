@@ -1,3 +1,4 @@
+/* Community feed layout and individual post styles, shared by both components. Classes stay local to components importing this module. */
 .feed {
   min-width: 0;
 }

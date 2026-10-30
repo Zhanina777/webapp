@@ -1,3 +1,4 @@
+// Connect the account form to Supabase; the mode query parameter selects sign-in or sign-up.
 import { useNavigate, useSearchParams } from "react-router";
 import { useEffect, useRef, useState } from "react";
 import CreateProfile from "../Components/Account/CreateProfile";

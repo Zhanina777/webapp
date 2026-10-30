@@ -1,3 +1,4 @@
+/* Recipe search, grouped card rows and filtered grid layout. Classes stay local to components importing this module. */
 .page {
   width: 100%;
   min-width: 0;

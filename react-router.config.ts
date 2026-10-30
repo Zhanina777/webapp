@@ -1,7 +1,7 @@
 import type { Config } from "@react-router/dev/config";
 
 export default {
-  // Config options...
-  // Server-side render by default, to enable SPA mode set this to `false`
+  // Pages run as a browser app. The build still renders the root once,
+  // so browser-only APIs belong in effects or event handlers.
   ssr: false,
 } satisfies Config;

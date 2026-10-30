@@ -1,4 +1,5 @@
-﻿import { useEffect, useRef, useState } from "react";
+// Collect draft filters in a dialog; the recipe page receives them only when the form is applied.
+import { useEffect, useRef, useState } from "react";
 import styles from "./recipeFilters.module.css";
 
 export default function RecipeFilters({ levels, selectedLevel, materials, selectedMaterials = [], minPrice = "", maxPrice = "", onApply, onCancel }) {

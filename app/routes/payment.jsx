@@ -1,3 +1,4 @@
+// Support-screen prototype: the amount changes locally and Purchase opens the profile; no charge is made.
 import { useState } from "react";
 import { useNavigate } from "react-router";
 

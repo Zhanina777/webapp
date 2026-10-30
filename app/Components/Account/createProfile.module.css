@@ -1,3 +1,4 @@
+/* Account form layout, validation messages and provider options. Classes stay local to components importing this module. */
 .page { padding: 12px var(--page-gutter) 32px; background: var(--page-background); color: var(--page-text); font-family: var(--font-sans); }
 .content { position: relative; max-width: 390px; margin: auto; }
 .top { position: absolute; top: 0; left: 0; z-index: 1; display: flex; align-items: center; }

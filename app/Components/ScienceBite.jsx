@@ -1,3 +1,4 @@
+// A short science fact opened in a native dialog, which handles keyboard focus and Escape.
 import { useRef } from "react";
 import styles from "./scienceBite.module.css";
 

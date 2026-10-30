@@ -1,3 +1,4 @@
+// Connect welcome-screen actions to account routes, guest browsing and social sign-in.
 import WelcomePage from "../Components/Account/WelcomePage";
 import { useNavigate } from "react-router";
 import { useState } from "react";

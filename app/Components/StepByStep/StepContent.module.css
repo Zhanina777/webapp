@@ -1,3 +1,4 @@
+/* Step instructions, photo, caption and safety reminder layout. Classes stay local to components importing this module. */
 .content {
   display: grid;
   gap: 20px;

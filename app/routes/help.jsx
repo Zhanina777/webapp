@@ -1,3 +1,4 @@
+// The help URL currently shows the OOPS screen with a link back home.
 import { Link } from "react-router";
 import styles from "./help.module.css";
 

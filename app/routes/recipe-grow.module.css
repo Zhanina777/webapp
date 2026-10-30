@@ -1,3 +1,4 @@
+/* Page container around the shared tutorial components. Classes stay local to components importing this module. */
 .page {
   width: 100%;
   min-width: 0;

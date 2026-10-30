@@ -1,3 +1,4 @@
+// Browse the recipe catalogue; URL filters and browser-saved favourites are managed here.
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import styles from "./recipes.module.css";

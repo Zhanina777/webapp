@@ -1,3 +1,4 @@
+/* Science teaser card and the dialog it opens. Classes stay local to components importing this module. */
 .card {
   display: flex;
   flex-direction: column;

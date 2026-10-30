@@ -1,3 +1,4 @@
+// The parent owns saved state; this card reports save clicks through onToggleSave.
 import { Link } from "react-router";
 import styles from "./crystalProjectCard.module.css";
 

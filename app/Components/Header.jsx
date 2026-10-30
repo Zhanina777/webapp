@@ -1,3 +1,4 @@
+// Shared header links back to the home page and opens the help route.
 import { Link } from "react-router";
 import styles from "./header.module.css";
 

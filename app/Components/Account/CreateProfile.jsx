@@ -1,3 +1,4 @@
+// Shared sign-up/sign-in form. The route handles authentication through the callbacks.
 import React, { useState } from "react";
 import styles from "./createProfile.module.css";
 import AdultHelpBtn from "../AdultHelpBtn";

@@ -1,3 +1,4 @@
+// Shared navigation; NavLink marks the current destination for styling and accessibility.
 import { NavLink } from "react-router";
 import styles from "./bottomNavigation.module.css";
 

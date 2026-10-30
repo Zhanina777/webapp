@@ -1,3 +1,4 @@
+// Sample community content for the home page; these posts are not loaded from Supabase.
 import FriendPost from "./FriendPost";
 import styles from "./friendsFeed.module.css";
 

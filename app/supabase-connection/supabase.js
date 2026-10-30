@@ -1,3 +1,4 @@
+// Create the shared browser database/auth client from Vite environment variables.
 import { createClient } from "@supabase/supabase-js";
 
 const url = import.meta.env?.VITE_SUPABASE_URL;

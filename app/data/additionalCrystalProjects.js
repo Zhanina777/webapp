@@ -1,3 +1,4 @@
+// Each entry follows the recipe shape in crystalProjects.js; keep IDs unique and stable for saved progress.
 // Recipe content supplied for CRYST. Tutorial photos are assigned in tutorialImages.js.
 export const additionalCrystalProjects = [
   {

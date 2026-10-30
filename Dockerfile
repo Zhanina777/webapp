@@ -1,3 +1,4 @@
+# Separate install and build stages keep build tools out of the final runtime image.
 FROM node:24-alpine AS development-dependencies-env
 COPY . /app
 WORKDIR /app

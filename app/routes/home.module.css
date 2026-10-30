@@ -1,3 +1,4 @@
+/* Home-page spacing and personalized welcome message. Classes stay local to components importing this module. */
 .home {
   /* Scope the home page's sizing here so shared navigation does not change width. */
   --layout-max-width: 440px;

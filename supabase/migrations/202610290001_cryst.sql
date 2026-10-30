@@ -17,6 +17,7 @@ create table public.recipe_progress (
 );
 
 alter table public.profiles enable row level security;
+-- The policies below restrict each signed-in user to rows belonging to their account.
 alter table public.recipe_progress enable row level security;
 revoke all on public.profiles, public.recipe_progress from anon, authenticated;
 grant select, insert, update, delete on public.profiles, public.recipe_progress to authenticated;

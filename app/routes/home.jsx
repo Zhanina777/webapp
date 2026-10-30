@@ -1,3 +1,4 @@
+// Compose the home page from shared cards and personalize the greeting when a profile is available.
 import MonthlyRecipe from "../Components/MonthlyRecipe";
 import FriendsFeed from "../Components/FriendsFeed";
 import ScienceBite from "../Components/ScienceBite";

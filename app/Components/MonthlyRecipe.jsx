@@ -1,3 +1,4 @@
+// Featured home-page recipe. Update the title, image and destination together when changing it.
 import { Link } from "react-router";
 import styles from "./monthlyRecipe.module.css";
 

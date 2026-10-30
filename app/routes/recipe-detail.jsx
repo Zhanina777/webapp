@@ -1,3 +1,4 @@
+// Look up a recipe from the URL and show its materials, safety advice and start link.
 import { Link, useParams } from "react-router";
 import { findCrystalProject } from "../data/crystalProjects";
 import styles from "./recipe-detail.module.css";

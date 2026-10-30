@@ -1,3 +1,4 @@
+// Reusable image records keyed by stage name. Alt text describes the image; captions guide the reader.
 // Stage-specific photos. Source prompts: docs/tutorial-step-image-prompts.json
 export const tutorialStageImages = {
     "candy-setup":  {

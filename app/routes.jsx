@@ -1,3 +1,4 @@
+// Map URLs to page files. :recipeId is the variable part used to look up a recipe.
 import { index, route } from "@react-router/dev/routes";
 
 export default [

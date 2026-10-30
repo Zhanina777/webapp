@@ -1,7 +1,9 @@
+// Browser storage holds recipe IDs rather than full recipes, so content still comes from the catalogue.
 // These collections belong to this browser; Supabase completion records are
 // handled separately in supabase-connection/projectProgress.js.
 // Storage errors are handled by callers so each screen can show its own message.
 function readIds(key) {
+  // localStorage stores text, so convert the saved JSON back into an array.
   const value = JSON.parse(localStorage.getItem(key) || "[]");
   return Array.isArray(value) ? value : [];
 }
@@ -38,6 +40,7 @@ export function saveRecipeProgress(recipeId, step) {
 }
 
 export function markRecipeFinished(recipeId) {
+  // Set removes duplicate IDs if the same recipe is finished more than once.
   localStorage.setItem("cryst-finished", JSON.stringify([...new Set([...getFinishedRecipes(), recipeId])]));
   if (localStorage.getItem("cryst-progress") === recipeId) localStorage.removeItem("cryst-progress");
 }

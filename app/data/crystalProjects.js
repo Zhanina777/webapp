@@ -1,3 +1,4 @@
+// Central recipe catalogue used by browsing, detail pages and tutorials. IDs also identify saved recipes.
 import { additionalCrystalProjects } from "./additionalCrystalProjects.js";
 import { tutorialImages } from "./tutorialImages.js";
 

@@ -1,3 +1,4 @@
+// Check account and guest access before rendering protected page content.
 import { useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router";
 import { useAccount } from "./AccountProvider";

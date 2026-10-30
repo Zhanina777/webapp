@@ -1,3 +1,4 @@
+/* Recipe overview, material list, safety notice and start action. Classes stay local to components importing this module. */
 .page {
   width: 100%;
   min-width: 0;

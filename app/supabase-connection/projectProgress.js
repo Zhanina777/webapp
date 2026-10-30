@@ -1,3 +1,4 @@
+// Save account completions in Supabase and transfer the one-project guest record after sign-in.
 import { requireSupabase } from "./supabase.js";
 import { findCrystalProject } from "../data/crystalProjects.js";
 

@@ -1,3 +1,4 @@
+// Reuse tutorial button styling while letting the parent handle backward navigation.
 import styles from "./StepButtons.module.css";
 
 export default function PreviousStepBtn({ onClick, disabled = false }) {

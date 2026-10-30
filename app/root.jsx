@@ -1,3 +1,4 @@
+// Shared app entry: document tags, account state, navigation and route errors live here.
 import {
   isRouteErrorResponse,
   Links,

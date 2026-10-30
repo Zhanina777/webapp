@@ -1,3 +1,4 @@
+/* Adult-help reminder banner and its icon. Classes stay local to components importing this module. */
 .banner {
   display: flex;
   align-items: center;

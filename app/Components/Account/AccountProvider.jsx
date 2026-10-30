@@ -1,3 +1,4 @@
+// Own the signed-in account once so every page reads the same user and profile.
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase, requireSupabase } from "../../supabase-connection/supabase";
 import { importGuestCompletion } from "../../supabase-connection/projectProgress";

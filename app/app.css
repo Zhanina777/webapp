@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* Shared fonts and design values belong here; individual component layouts use CSS modules. */
 @theme {
   --font-sans: "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, sans-serif;
   --font-heading: "Lilita One", "Atkinson Hyperlegible Next", sans-serif;

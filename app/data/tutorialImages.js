@@ -1,3 +1,4 @@
+// Each image array follows the recipe step order; keep it aligned when adding or moving steps.
 import { tutorialStageImages as stage } from "./tutorialStageImages.js";
 
 // Each recipe progresses through distinct images; shared actions can reuse photos across recipes.

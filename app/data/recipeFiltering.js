@@ -1,9 +1,11 @@
+// Pure filtering helpers: these work on recipe data without reading React state or browser storage.
 export function materialKey(value) {
   // Ignore quantities so "Water (250 ml)" and "Water (500 ml)" share one option.
   return value.replace(/\([^)]*\)/g, "").trim().replace(/\s+/g, " ").toLowerCase();
 }
 
 export function priceRange(price) {
+  // Read the numbers from a display label; a single price becomes both bounds.
   const values = price.match(/\d+(?:\.\d+)?/g)?.map(Number);
   return values?.length ? [values[0], values[1] ?? values[0]] : null;
 }

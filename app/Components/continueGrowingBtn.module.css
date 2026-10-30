@@ -1,3 +1,4 @@
+/* Resume-project link styled as a button. Classes stay local to components importing this module. */
 a.button,
 a.button:hover,
 a.button:focus-visible {

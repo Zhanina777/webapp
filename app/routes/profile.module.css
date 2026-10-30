@@ -1,3 +1,4 @@
+/* Profile appearance editor and saved, current and finished recipe sections. Classes stay local to components importing this module. */
 
 .profilePage {
   padding-bottom: 2rem;

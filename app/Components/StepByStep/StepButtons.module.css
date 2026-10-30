@@ -1,3 +1,4 @@
+/* Shared tutorial controls; the previous button adds its own variant. Classes stay local to components importing this module. */
 .button {
   display: flex;
   align-items: center;

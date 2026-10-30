@@ -1,3 +1,4 @@
+// Show one segment per step and expose the same progress to screen readers.
 import styles from "./StepTracker.module.css";
 
 export default function StepTracker({ recipeName, currentStep, totalSteps }) {

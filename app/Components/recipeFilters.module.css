@@ -1,4 +1,5 @@
-﻿.dialog { position: fixed; inset: 0; width: min(520px, calc(100% - 24px)); max-height: calc(100dvh - 32px); margin: auto; padding: 0; overflow-y: auto; border: 2px solid var(--accent); border-radius: 26px; background: #fff; color: var(--page-text); }
+/* Filter dialog layout, form controls and action buttons. Classes stay local to components importing this module. */
+.dialog { position: fixed; inset: 0; width: min(520px, calc(100% - 24px)); max-height: calc(100dvh - 32px); margin: auto; padding: 0; overflow-y: auto; border: 2px solid var(--accent); border-radius: 26px; background: #fff; color: var(--page-text); }
 .dialog::backdrop { background: #0003; }
 .panel { display: grid; gap: 24px; padding: clamp(22px, 5vw, 36px); }
 .panel h2 { margin: 0; font-size: 2rem; line-height: 1.2; }

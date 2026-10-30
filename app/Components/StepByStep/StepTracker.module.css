@@ -1,3 +1,4 @@
+/* Segmented tutorial progress indicator and its labels. Classes stay local to components importing this module. */
 .tracker {
   width: 100%;
 }

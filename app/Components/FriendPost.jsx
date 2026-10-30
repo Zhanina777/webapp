@@ -1,3 +1,4 @@
+// Display one sample post. Likes are local UI state and reset when this component unmounts.
 import { useState } from "react";
 import styles from "./friendsFeed.module.css";
 

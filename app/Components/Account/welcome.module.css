@@ -1,3 +1,4 @@
+/* Welcome hero, account actions and guest option. Classes stay local to components importing this module. */
 .page { min-height: 100dvh; background: var(--page-background, #fff); color: var(--page-text, #242424); font-family: var(--font-sans, Arial, sans-serif); padding: 36px 18px 20px; box-sizing: border-box; }
 .page *, .page *::before, .page *::after { box-sizing: border-box; }
 .content { width: 100%; max-width: 380px; margin: 0 auto; }

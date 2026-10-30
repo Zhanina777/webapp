@@ -1,3 +1,4 @@
+// Show browser-saved projects and appearance choices alongside the signed-in account details.
 
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router";
@@ -97,7 +98,7 @@ export default function Profile() {
     }
   }, []);
 
-  // Save the selected banner color.
+  // Change the draft only; Save commits the appearance choices to browser storage.
   function handleColorChange(color) {
     setDraftBannerColor(color);
   }
@@ -143,7 +144,7 @@ export default function Profile() {
     }
   }
 
-  // Upload a profile picture.
+  // Read the chosen image locally; this does not upload a file to Supabase.
   function handlePhotoUpload(event) {
     const file = event.target.files?.[0];
 
