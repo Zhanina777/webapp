@@ -16,7 +16,7 @@ import RecipeAccess from "./Components/Account/RecipeAccess";
 import AccountProvider from "./Components/Account/AccountProvider";
 
 export const links = () => [
-  { rel: "icon", type: "image/png", sizes: "50x50", href: "/images/cryst-tab-icon.png" },
+  { rel: "icon", type: "image/png", sizes: "50x50", href: `${import.meta.env.BASE_URL}images/cryst-tab-icon.png` },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",

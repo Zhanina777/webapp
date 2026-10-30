@@ -4,13 +4,13 @@ import { tutorialStageImages as stage } from "./tutorialStageImages.js";
 // Each recipe progresses through distinct images; shared actions can reuse photos across recipes.
 // Captions distinguish example setups and outcomes from the current action.
 const photo = (name, alt, caption) => ({
-  image: `/images/tutorials/${name}.jpg`,
+  image: `${import.meta.env.BASE_URL}images/tutorials/${name}.jpg`,
   imageAlt: alt,
   imageCaption: caption,
 });
 
 const existing = (name, alt, caption) => ({
-  image: `/images/recipes/${encodeURIComponent(name)}-landscape.png`,
+  image: `${import.meta.env.BASE_URL}images/recipes/${encodeURIComponent(name)}-landscape.png`,
   imageAlt: alt,
   imageCaption: caption,
 });
@@ -52,7 +52,7 @@ export const tutorialImages = {
   "colour-change-chemistry": [blueCrystals, stage["colour-white"], stage["colour-return"], stage["colour-report"]],
   "underwater-garden": [stage["underwater-ready"], stage["underwater-early"], underwater, stage["underwater-report"]],
   "blue-crystal-lab": [blueCrystals, stage["blue-liquid"], blueSolution, stage["blue-growth"], {
-    image: "/images/friend-mika-crystals.png",
+    image: `${import.meta.env.BASE_URL}images/friend-mika-crystals.png`,
     imageAlt: "Large blue crystals with smaller crystals in the foreground",
     imageCaption: "Examine the final sample's shapes and compare it with your starting observations.",
   }],

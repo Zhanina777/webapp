@@ -84,7 +84,7 @@ const projects = [saltStringMagic, ...additionalCrystalProjects].map(recipe => {
   const landscapeFilename = filename.replace(/\.png$/, "-landscape.png");
   return {
     ...recipe,
-    image: `/images/recipes/${encodeURIComponent(landscapeFilename)}`,
+    image: `${import.meta.env.BASE_URL}images/recipes/${encodeURIComponent(landscapeFilename)}`,
     imageAlt,
     steps: recipe.steps.map((step, index) => ({ ...tutorialImages[recipe.id]?.[index], ...step })),
   };

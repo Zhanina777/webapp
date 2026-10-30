@@ -11,7 +11,7 @@ export default function Header() {
         <span>CRYST</span>
       </Link>
       <Link to="/help" className={styles.button} aria-label="Help">
-        <img src="/images/question.png" alt="" width="76" height="76" />
+        <img src={`${import.meta.env.BASE_URL}images/question.png`} alt="" width="76" height="76" />
       </Link>
       </div>
     </header>

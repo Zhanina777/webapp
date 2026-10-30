@@ -40,7 +40,7 @@ export default function CreateProfileRoute() {
   async function social(provider) {
     setError("");
     try {
-      const { error: problem } = await requireSupabase().auth.signInWithOAuth({ provider: provider.toLowerCase(), options: { redirectTo: `${window.location.origin}/create-profile` } });
+      const { error: problem } = await requireSupabase().auth.signInWithOAuth({ provider: provider.toLowerCase(), options: { redirectTo: `${window.location.origin}${import.meta.env.BASE_URL}create-profile` } });
       if (problem) throw problem;
     } catch (problem) { setError(`${provider} sign-in could not start: ${problem.message}`); }
   }
