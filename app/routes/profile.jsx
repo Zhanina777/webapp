@@ -7,7 +7,8 @@ import styles from "./profile.module.css";
 import { projectSections } from "../data/crystalProjects";
 import CrystalProjectCard from "../Components/CrystalProjectCard";
 import ContinueGrowingBtn from "../Components/ContinueGrowingBtn";
-import { getCurrentProgress, getFinishedRecipes, getSavedRecipes, toggleSavedRecipe } from "../utils/recipeStorage";
+import { getCurrentProgress, getFinishedRecipes } from "../utils/recipeStorage";
+import { getSavedProjectIds, toggleSavedProject } from "../supabase-connection/savedProjects";
 
 export function meta() {
   return [{ title: "Profile | Cryst" }];
@@ -40,7 +41,7 @@ const SCIENCE_EMOJIS = [
 ];
 
 export default function Profile() {
-  const { user, profile, signOut } = useAccount();
+  const { user, profile, signOut, loading } = useAccount();
   const navigate = useNavigate();
   const photoInputRef = useRef(null);
 
@@ -65,8 +66,17 @@ export default function Profile() {
   // Collections and avatar choices are stored in this browser; the display name
   // comes from AccountProvider. Draft values let Cancel discard appearance edits.
   useEffect(() => {
+    let active = true;
+    async function loadSavedProjects() {
+      try {
+        const ids = await getSavedProjectIds(user);
+        if (active) setSavedIds(ids);
+      } catch {
+        if (active) setError("Could not load your saved projects.");
+      }
+    }
+    if (!loading) loadSavedProjects();
     try {
-      setSavedIds(getSavedRecipes());
       setFinishedIds(getFinishedRecipes());
       const progress = getCurrentProgress();
       setProgressId(progress.recipeId);
@@ -96,7 +106,8 @@ export default function Profile() {
     } catch {
       setError("Could not load your saved profile.");
     }
-  }, []);
+    return () => { active = false; };
+  }, [user, loading]);
 
   // Change the draft only; Save commits the appearance choices to browser storage.
   function handleColorChange(color) {
@@ -202,12 +213,12 @@ export default function Profile() {
   }
 
   // Toggle whether a recipe is saved.
-  function toggleSaved(id) {
+  async function toggleSaved(id) {
     try {
-      setSavedIds(toggleSavedRecipe(id));
-    } catch {
+      setSavedIds(await toggleSavedProject(user, id, savedIds.includes(id)));
+    } catch (problem) {
       setError(
-        "Could not update saved recipes. Please allow browser storage and try again."
+        `Could not update saved recipes. ${problem.message}`
       );
     }
   }

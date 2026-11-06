@@ -6,7 +6,8 @@ import { projectSections as sections } from "../data/crystalProjects";
 import RecipeFilters from "../Components/RecipeFilters";
 import CrystalProjectCard from "../Components/CrystalProjectCard";
 import { matchesRecipe, materialOptions } from "../data/recipeFiltering";
-import { getSavedRecipes, toggleSavedRecipe } from "../utils/recipeStorage";
+import { useAccount } from "../Components/Account/AccountProvider";
+import { getSavedProjectIds, toggleSavedProject } from "../supabase-connection/savedProjects";
 
 // Build the material choices once from the same recipe data used by the cards.
 const availableMaterials = materialOptions(sections.flatMap(section => section.recipes));
@@ -19,11 +20,18 @@ export default function Recipes() {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [savedIds, setSavedIds] = useState([]);
   const [saveError, setSaveError] = useState("");
+  const { user, loading } = useAccount();
   useEffect(() => {
-    try {
-      setSavedIds(getSavedRecipes());
-    } catch { setSaveError("Saved recipes could not be loaded on this browser."); }
-  }, []);
+    let active = true;
+    async function loadSaved() {
+      try {
+        const ids = await getSavedProjectIds(user);
+        if (active) setSavedIds(ids);
+      } catch { if (active) setSaveError("Saved recipes could not be loaded."); }
+    }
+    if (!loading) loadSaved();
+    return () => { active = false; };
+  }, [user, loading]);
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Applied filters live in the URL so refresh, sharing and browser history preserve them.
@@ -66,11 +74,11 @@ export default function Recipes() {
     return `/recipes?${params}`;
   }
 
-  function saveForLater(recipeId) {
+  async function saveForLater(recipeId) {
     try {
-      setSavedIds(toggleSavedRecipe(recipeId));
+      setSavedIds(await toggleSavedProject(user, recipeId, savedIds.includes(recipeId)));
       setSaveError("");
-    } catch { setSaveError("This recipe could not be saved. Please allow browser storage and try again."); }
+    } catch (problem) { setSaveError(`This recipe could not be saved. ${problem.message}`); }
   }
 
   return (

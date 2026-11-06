@@ -2,6 +2,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase, requireSupabase } from "../../supabase-connection/supabase";
 import { importGuestCompletion } from "../../supabase-connection/projectProgress";
+import { importGuestSavedProjects } from "../../supabase-connection/savedProjects";
 
 const AccountContext = createContext(null);
 // Pages consume this context instead of keeping separate Supabase sessions.
@@ -46,6 +47,7 @@ export default function AccountProvider({ children }) {
         }
         if (active) setProfile(data);
         await importGuestCompletion(user);
+        await importGuestSavedProjects(user);
       } catch (problem) { if (active) setError(`Your account is signed in, but profile or guest-project syncing needs a retry: ${problem.message}`); }
     }
     load();

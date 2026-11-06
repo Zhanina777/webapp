@@ -6,8 +6,9 @@ The app's `.env` contains the supplied Project URL and browser publishable key. 
 
 1. Open your CRYST project in the Supabase dashboard.
 2. Choose SQL Editor, then New query.
-3. Paste `migrations/202610290001_cryst.sql` and press Run once.
-4. In Table Editor, confirm `profiles` and `recipe_progress` exist and RLS is enabled.
+3. Paste `migrations/202610290001_cryst.sql` and press Run once for a new project.
+4. Paste `migrations/202611060001_recipe_saves.sql` and press Run once.
+5. In Table Editor, confirm `profiles`, `recipe_progress`, and `recipe_saves` exist and RLS is enabled.
 
 The migration adds new tables; it does not delete existing data. If either table already exists, stop and inspect it rather than deleting it or rerunning modified SQL blindly.
 
@@ -27,7 +28,7 @@ Set Authentication > URL Configuration > Site URL to the actual app URL. Add `ht
 
 ## Profile and project progress
 
-The profile page supports avatar editing, saved recipes, in-progress recipes, and finished projects. Profile appearance and recipe collections are stored in this browser. Shared helpers in `app/utils/recipeStorage.js` manage saved recipe IDs, the current tutorial step, and locally finished recipe IDs. `useAccount()` provides the signed-in user, profile, loading state, and sign-out action; the display name is `profile.display_name`.
+The profile page supports avatar editing, saved recipes, in-progress recipes, and finished projects. Profile appearance, in-progress recipes, and locally finished recipe IDs are stored in this browser for now. Signed-in saved recipes are stored in `recipe_saves`; guest saves remain in localStorage and are imported after authentication. `useAccount()` provides the signed-in user, profile, loading state, and sign-out action; the display name is `profile.display_name`.
 
 Project completion is also saved to Supabase. `getCompletedProjects()` in `app/supabase-connection/projectProgress.js` can query the signed-in user's completed rows, but the profile currently reads its collection from browser storage. Guest completion is imported after authentication, with a global retry notice if import fails.
 
