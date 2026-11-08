@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useAccount } from "../Components/Account/AccountProvider";
 import { guestCompleted } from "../supabase-connection/projectProgress";
 import AdultHelpBtn from "../Components/AdultHelpBtn";
-import { saveRecipeProgress } from "../utils/recipeStorage";
+import { saveRecipeProgress } from "../guests/recipeStorage";
 
 export function meta({ params }) {
   const recipe = findCrystalProject(params.recipeId);
@@ -22,7 +22,7 @@ export default function RecipeDetail() {
   useEffect(() => {
     const completed = guestCompleted();
     setTrialUsed(completed);
-    if (loading || (!user && completed)) return;
+    if (loading || user || completed) return;
     if (!recipe || recipe.isPlaceholder) return;
     try {
       saveRecipeProgress(recipe.id);

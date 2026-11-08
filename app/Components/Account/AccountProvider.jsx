@@ -1,7 +1,7 @@
 // Own the signed-in account once so every page reads the same user and profile.
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase, requireSupabase } from "../../supabase-connection/supabase";
-import { importGuestCompletion } from "../../supabase-connection/projectProgress";
+import { importGuestCompletion, importGuestProgress } from "../../supabase-connection/projectProgress";
 import { importGuestSavedProjects } from "../../supabase-connection/savedProjects";
 
 const AccountContext = createContext(null);
@@ -47,6 +47,7 @@ export default function AccountProvider({ children }) {
         }
         if (active) setProfile(data);
         await importGuestCompletion(user);
+        await importGuestProgress(user);
         await importGuestSavedProjects(user);
       } catch (problem) { if (active) setError(`Your account is signed in, but profile or guest-project syncing needs a retry: ${problem.message}`); }
     }

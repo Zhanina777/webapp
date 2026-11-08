@@ -1,4 +1,4 @@
-// Show browser-saved projects and appearance choices alongside the signed-in account details.
+// Show account projects from Supabase alongside locally edited appearance choices.
 
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router";
@@ -7,7 +7,7 @@ import styles from "./profile.module.css";
 import { projectSections } from "../data/crystalProjects";
 import CrystalProjectCard from "../Components/CrystalProjectCard";
 import ContinueGrowingBtn from "../Components/ContinueGrowingBtn";
-import { getCurrentProgress, getFinishedRecipes } from "../utils/recipeStorage";
+import { getProjectProgress } from "../supabase-connection/projectProgress";
 import { getSavedProjectIds, toggleSavedProject } from "../supabase-connection/savedProjects";
 
 export function meta() {
@@ -51,8 +51,7 @@ export default function Profile() {
 
   const [savedIds, setSavedIds] = useState([]);
   const [finishedIds, setFinishedIds] = useState([]);
-  const [progressId, setProgressId] = useState(null);
-  const [progressStep, setProgressStep] = useState(1);
+  const [inProgress, setInProgress] = useState([]);
 
   const [bannerColor, setBannerColor] = useState("#B377E4");
   const [avatarEmoji, setAvatarEmoji] = useState("🧪");
@@ -63,10 +62,12 @@ export default function Profile() {
   const [draftAvatarEmoji, setDraftAvatarEmoji] = useState("🧪");
   const [draftAvatarPhoto, setDraftAvatarPhoto] = useState("");
 
-  // Collections and avatar choices are stored in this browser; the display name
-  // comes from AccountProvider. Draft values let Cancel discard appearance edits.
+  // Account collections come from Supabase; appearance choices stay in this browser.
   useEffect(() => {
     let active = true;
+    setSavedIds([]);
+    setFinishedIds([]);
+    setInProgress([]);
     async function loadSavedProjects() {
       try {
         const ids = await getSavedProjectIds(user);
@@ -76,12 +77,18 @@ export default function Profile() {
       }
     }
     if (!loading) loadSavedProjects();
+    async function loadProgress() {
+      try {
+        const records = await getProjectProgress(user);
+        if (!active) return;
+        setFinishedIds(records.filter(row => row.completed).map(row => row.recipe_id));
+        setInProgress(records.filter(row => !row.completed));
+      } catch {
+        if (active) setError("Could not load your project progress. Refresh to try again.");
+      }
+    }
+    if (!loading) loadProgress();
     try {
-      setFinishedIds(getFinishedRecipes());
-      const progress = getCurrentProgress();
-      setProgressId(progress.recipeId);
-      setProgressStep(progress.step);
-
       setBannerColor(
         localStorage.getItem("cryst-profile-color") || "#B377E4"
       );
@@ -238,9 +245,10 @@ export default function Profile() {
   }
 
   // Find the recipe currently in progress.
-  const currentRecipe = allRecipes.find(
-    (recipe) => recipe.id === progressId
-  );
+  const growingRecipes = inProgress.map(row => ({
+    recipe: allRecipes.find(recipe => recipe.id === row.recipe_id),
+    step: row.current_step,
+  })).filter(({ recipe }) => recipe?.steps?.length);
 
   // Find completed and saved recipes.
   const finishedRecipes = allRecipes.filter(
@@ -429,8 +437,8 @@ export default function Profile() {
           <section className="profile-section">
             <h2>In progress</h2>
 
-            {currentRecipe ? (
-              <article className={styles.progressCard}>
+            {growingRecipes.length ? growingRecipes.map(({ recipe: currentRecipe, step: progressStep }) => (
+              <article key={currentRecipe.id} className={styles.progressCard}>
                 <Link className={styles.progressLink} to={`/recipes/${currentRecipe.id}/grow?step=${Math.min(progressStep, currentRecipe.steps.length)}`}>
                   <img
                     src={currentRecipe.image}
@@ -444,7 +452,7 @@ export default function Profile() {
                   <ContinueGrowingBtn recipeId={currentRecipe.id} step={Math.min(progressStep, currentRecipe.steps.length)} />
                 </div>
               </article>
-            ) : (
+            )) : (
               <p>
                 No crystal growing right now. Choose a recipe
                 from Saved to get started!

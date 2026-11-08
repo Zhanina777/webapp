@@ -1,7 +1,7 @@
 // Coordinate tutorial steps, saved progress and the completion dialog in one place.
 import { useEffect, useRef, useState } from "react";
 import { useAccount } from "../Account/AccountProvider";
-import { saveCompletion } from "../../supabase-connection/projectProgress";
+import { getProjectProgress, saveProjectStep, saveCompletion } from "../../supabase-connection/projectProgress";
 import { useNavigate, useSearchParams } from "react-router";
 import NextStepBtn from "./NextStepBtn";
 import PreviousStepBtn from "./PreviousStepBtn";
@@ -9,7 +9,7 @@ import StepTracker from "./StepTracker";
 import StepContent from "./StepContent";
 import buttonStyles from "./StepButtons.module.css";
 import styles from "./StepNavigation.module.css";
-import { markRecipeFinished, saveRecipeProgress } from "../../utils/recipeStorage";
+import { markRecipeFinished } from "../../guests/recipeStorage";
 
 export default function StepNavigation({ recipeName, recipeId, steps, completionMessage }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -19,20 +19,56 @@ export default function StepNavigation({ recipeName, recipeId, steps, completion
   const { user, loading } = useAccount();
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState("");
+  const [readyAccount, setReadyAccount] = useState(null);
+  const [resumeStep, setResumeStep] = useState(1);
+  const [retry, setRetry] = useState(0);
+  const writes = useRef(Promise.resolve());
+  const accountKey = user?.id || "guest";
   const stepParam = searchParams.get("step");
   const isComplete = stepParam === "complete";
   const completionDestination = user ? "/recipes" : "/create-profile?reason=project-limit";
   // Keep progress in the URL so refresh and the browser back button work.
-  const parsedStep = Number(stepParam || 1);
+  const parsedStep = Number(stepParam || resumeStep);
   const currentStep = Number.isInteger(parsedStep) ? Math.min(steps.length, Math.max(1, parsedStep)) : 1;
 
-  // Save the visible step for the profile's Continue growing button.
+  // Restore saved progress before enabling writes to avoid overwriting it with step 1.
   useEffect(() => {
-    if (isComplete) return;
-    try {
-      saveRecipeProgress(recipeId, currentStep);
-    } catch { /* Tutorial navigation remains available without browser storage. */ }
-  }, [currentStep, isComplete, recipeId]);
+    if (loading) return;
+    let active = true;
+    setReadyAccount(null);
+    setSaveError("");
+    async function restore() {
+      try {
+        const records = await getProjectProgress(user);
+        if (!active) return;
+        const saved = records.find(row => row.recipe_id === recipeId);
+        setResumeStep(saved ? Math.min(saved.current_step, steps.length) : 1);
+        if (!stepParam && saved) {
+          setSearchParams({ step: String(Math.min(saved.current_step, steps.length)) }, { replace: true });
+        }
+        setReadyAccount(accountKey);
+      } catch (problem) {
+        if (active) setSaveError(`Your progress could not be loaded. ${problem.message}`);
+      }
+    }
+    restore();
+    return () => { active = false; };
+    // URL changes navigate the tutorial; only account changes restore cloud state.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading, accountKey, recipeId, retry]);
+
+  useEffect(() => {
+    if (loading || readyAccount !== accountKey || isComplete) return;
+    let active = true;
+    setSaving(true);
+    // Save steps in navigation order so an older request cannot overwrite a newer step.
+    const pending = writes.current.catch(() => {}).then(() => saveProjectStep(user, recipeId, currentStep));
+    writes.current = pending;
+    pending.then(() => { if (active) setSaveError(""); })
+      .catch(problem => { if (active) setSaveError(`Your progress could not be saved. ${problem.message}`); })
+      .finally(() => { if (active) setSaving(false); });
+    return () => { active = false; };
+  }, [currentStep, isComplete, recipeId, readyAccount, accountKey, loading]);
 
   // Announce the new step from its heading and return the viewport to the top.
   useEffect(() => {
@@ -53,24 +89,30 @@ export default function StepNavigation({ recipeName, recipeId, steps, completion
   }
 
   async function goToStep(step) {
-    if (saving) return;
+    if (saving || loading || readyAccount !== accountKey) return;
     if (step === "complete") {
       setSaving(true);
       setSaveError("");
-      // Save completion before showing success. Failure leaves the final step
-      // visible so the user can retry without losing their work.
-      try { await saveCompletion(user, recipeId, steps.length); }
+      // Wait for pending step saves and confirmed completion before showing success.
+      try { await writes.current; await saveCompletion(user, recipeId, steps.length); }
       catch (problem) {
         setSaveError(`Your project could not be saved. Please try Finish project again. ${problem.message}`);
         setSaving(false);
         return;
       }
       try {
-        markRecipeFinished(recipeId);
+        if (!user) markRecipeFinished(recipeId);
       } catch { /* Cloud completion was already saved; local profile display can refresh later. */ }
       setSaving(false);
     }
     setSearchParams({ step: String(step) });
+  }
+
+  if (!isComplete && (loading || readyAccount !== accountKey)) {
+    return <div className={styles.navigation}>
+      {saveError ? <p role="alert">{saveError} <button type="button" onClick={() => setRetry(value => value + 1)}>Retry sync</button></p>
+        : <p role="status">Loading your saved progress…</p>}
+    </div>;
   }
 
   return (
@@ -86,10 +128,11 @@ export default function StepNavigation({ recipeName, recipeId, steps, completion
       </dialog> : <>
         <StepContent stepNumber={currentStep} step={steps[currentStep - 1]} />
         <div className={styles.buttons}>
-          {saveError && <p role="alert">{saveError}</p>}
-          {currentStep < steps.length ? <NextStepBtn nextStep={currentStep + 1} onClick={() => goToStep(currentStep + 1)} /> :
-            <button className={buttonStyles.button} type="button" disabled={saving || loading} onClick={() => goToStep("complete")}>{saving ? "Saving project…" : "Finish project"} <span aria-hidden="true">&rarr;</span></button>}
-          {currentStep > 1 && <PreviousStepBtn onClick={() => goToStep(currentStep - 1)} />}
+          {saveError && <p role="alert">{saveError} <button type="button" onClick={() => setRetry(value => value + 1)}>Retry sync</button></p>}
+          {saving && <p role="status">Saving progress…</p>}
+          {currentStep < steps.length ? <NextStepBtn disabled={saving || loading || readyAccount !== accountKey} nextStep={currentStep + 1} onClick={() => goToStep(currentStep + 1)} /> :
+            <button className={buttonStyles.button} type="button" disabled={saving || loading || readyAccount !== accountKey} onClick={() => goToStep("complete")}>{saving ? "Saving project…" : "Finish project"} <span aria-hidden="true">&rarr;</span></button>}
+          {currentStep > 1 && <PreviousStepBtn disabled={saving || loading || readyAccount !== accountKey} onClick={() => goToStep(currentStep - 1)} />}
         </div>
       </>}
     </div>
