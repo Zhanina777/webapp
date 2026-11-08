@@ -57,6 +57,7 @@ export default function AccountProvider({ children }) {
   }, [user?.id, retry]);
 
   async function signOut() {
+    // Clear shared account state after Supabase confirms that the session has ended.
     const { error: signOutError } = await requireSupabase().auth.signOut();
     if (signOutError) throw signOutError;
     setUser(null);

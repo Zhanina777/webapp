@@ -2,6 +2,7 @@
 import styles from "./StepTracker.module.css";
 
 export default function StepTracker({ recipeName, currentStep, totalSteps }) {
+  // Screen readers receive the same current-step value shown by the visual segments.
   return (
     <div className={styles.tracker}>
       <div

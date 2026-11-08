@@ -48,6 +48,7 @@ export function Layout({ children }) {
 }
 
 export default function App() {
+  // Share one authentication session across all routes and navigation components.
   return <AccountProvider><AppContent /></AccountProvider>;
 }
 
@@ -64,6 +65,7 @@ function AppContent() {
 }
 
 export function ErrorBoundary({ error }) {
+  // Distinguish route errors, such as missing pages, from unexpected application errors.
   let message = "Oops!";
   let details = "An unexpected error occurred.";
   let stack;

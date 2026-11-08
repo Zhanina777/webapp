@@ -1,7 +1,6 @@
-// Browser storage holds recipe IDs rather than full recipes, so content still comes from the catalogue.
-// These collections belong to this browser; Supabase completion records are
-// handled separately in supabase-connection/projectProgress.js.
-// Storage errors are handled by callers so each screen can show its own message.
+// Store guest recipe IDs and steps in this browser; recipe content stays in the catalogue.
+// Signed-in progress is managed by supabase-connection/projectProgress.js.
+// Callers handle storage errors and display the appropriate message.
 function readIds(key) {
   // localStorage stores text, so convert the saved JSON back into an array.
   const value = JSON.parse(localStorage.getItem(key) || "[]");

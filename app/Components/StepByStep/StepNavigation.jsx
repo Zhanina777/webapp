@@ -23,6 +23,7 @@ export default function StepNavigation({ recipeName, recipeId, steps, completion
   const [resumeStep, setResumeStep] = useState(1);
   const [retry, setRetry] = useState(0);
   const writes = useRef(Promise.resolve());
+  // Identify which account's progress has finished loading before enabling navigation.
   const accountKey = user?.id || "guest";
   const stepParam = searchParams.get("step");
   const isComplete = stepParam === "complete";

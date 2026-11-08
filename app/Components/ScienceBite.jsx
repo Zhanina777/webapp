@@ -23,6 +23,7 @@ export default function ScienceBite() {
         aria-labelledby="science-bite-title"
         aria-describedby="science-bite-fact"
         onClick={(event) => {
+          // Close on the dialog backdrop while allowing clicks inside the content.
           if (event.target === event.currentTarget) {
             event.currentTarget.close();
           }

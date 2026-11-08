@@ -1,5 +1,5 @@
-// Browse the recipe catalogue; URL filters and browser-saved favourites are managed here.
-import { useEffect, useState } from "react";
+// Browse and filter recipes, loading favourites from the guest browser or signed-in account.
+import { useEffect, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import styles from "./recipes.module.css";
 import { projectSections as sections } from "../data/crystalProjects";
@@ -20,18 +20,30 @@ export default function Recipes() {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [savedIds, setSavedIds] = useState([]);
   const [saveError, setSaveError] = useState("");
+  // Enable heart controls only after the current account's saved collection is loaded.
+  const [savedAccount, setSavedAccount] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const [retrySaved, setRetrySaved] = useState(0);
+  const savePending = useRef(false);
   const { user, loading } = useAccount();
+  const accountKey = user?.id || "guest";
+  const activeAccount = useRef(accountKey);
+  // Ignore a completed save if the user has switched accounts during the request.
+  activeAccount.current = accountKey;
   useEffect(() => {
     let active = true;
+    setSavedAccount(null);
+    setSavedIds([]);
+    setSaveError("");
     async function loadSaved() {
       try {
         const ids = await getSavedProjectIds(user);
-        if (active) setSavedIds(ids);
-      } catch { if (active) setSaveError("Saved recipes could not be loaded."); }
+        if (active) { setSavedIds(ids); setSavedAccount(accountKey); }
+      } catch (problem) { if (active) setSaveError(`Saved recipes could not be loaded. ${problem.message}`); }
     }
     if (!loading) loadSaved();
     return () => { active = false; };
-  }, [user, loading]);
+  }, [accountKey, loading, retrySaved]);
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Applied filters live in the URL so refresh, sharing and browser history preserve them.
@@ -75,10 +87,16 @@ export default function Recipes() {
   }
 
   async function saveForLater(recipeId) {
+    // Block overlapping clicks so each change uses the latest confirmed saved state.
+    if (loading || savedAccount !== accountKey || savePending.current) return;
+    savePending.current = true;
+    setSaving(true);
     try {
-      setSavedIds(await toggleSavedProject(user, recipeId, savedIds.includes(recipeId)));
-      setSaveError("");
-    } catch (problem) { setSaveError(`This recipe could not be saved. ${problem.message}`); }
+      const ids = await toggleSavedProject(user, recipeId, savedIds.includes(recipeId));
+      if (activeAccount.current === accountKey) { setSavedIds(ids); setSaveError(""); }
+    } catch (problem) {
+      if (activeAccount.current === accountKey) setSaveError(`This recipe could not be saved. ${problem.message}`);
+    } finally { savePending.current = false; setSaving(false); }
   }
 
   return (
@@ -164,7 +182,9 @@ export default function Recipes() {
       )}
 
       <div className={styles.sections}>
-        {saveError && <p role="alert">{saveError}</p>}
+        {saveError && <p role="alert">{saveError} <button type="button" disabled={saving} onClick={() => setRetrySaved(value => value + 1)}>Retry saved recipes</button></p>}
+        {(loading || (savedAccount !== accountKey && !saveError)) && <p role="status">Loading saved recipes…</p>}
+        {saving && <p role="status">Updating saved recipes…</p>}
         {visibleSections.map(section => (
           <section
             key={section.name}
@@ -198,7 +218,8 @@ export default function Recipes() {
                     image={recipe.image}
                     imageAlt={recipe.imageAlt}
                     to={`/recipes/${recipe.id}`}
-                    saved={savedIds.includes(recipe.id)}
+                    saved={savedAccount === accountKey && savedIds.includes(recipe.id)}
+                    saveDisabled={loading || savedAccount !== accountKey || saving}
                     onToggleSave={() => saveForLater(recipe.id)}
                     description={
                       recipe.isPlaceholder

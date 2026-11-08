@@ -66,5 +66,6 @@ export async function importGuestSavedProjects(user, client) {
   );
   if (error) throw error;
   // Clear guest data only after Supabase confirms a successful import.
-  localStorage.removeItem(guestKey);
+  try { localStorage.removeItem(guestKey); }
+  catch { /* Cloud saves remain available if the browser blocks guest cleanup. */ }
 }

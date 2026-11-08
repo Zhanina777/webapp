@@ -19,6 +19,7 @@ export default function RecipeFilters({ levels, selectedLevel, materials, select
   }, []);
 
   function handleSubmit(event) {
+    // Validate the draft budget before applying any filters to the recipe page.
     event.preventDefault();
     if (min !== "" && max !== "" && Number(min) > Number(max)) {
       setError("Minimum price must be less than or equal to maximum price.");

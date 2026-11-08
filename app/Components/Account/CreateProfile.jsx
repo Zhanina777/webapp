@@ -22,6 +22,7 @@ export default function CreateProfile({ onBack, onCreate, onContinueAsGuest, onS
   const [socialNotice, setSocialNotice] = useState("");
   const [showForm, setShowForm] = useState(login);
   function submit(event) {
+    // Age is used only by this form; authentication receives the account credentials and nickname.
     event.preventDefault();
     if (!login && !name.trim()) { setError("Please enter your name or a nickname."); return; }
     setError("");

@@ -10,6 +10,7 @@ export default function Payment() {
   const navigate = useNavigate();
   const [price, setPrice] = useState(49);
 
+  // Convert the selected amount to a percentage for the slider's coloured track.
   const sliderProgress = ((price - 9) / (499 - 9)) * 100;
 
   return (

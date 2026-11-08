@@ -50,6 +50,15 @@ export default function Profile() {
   const [activeTab, setActiveTab] = useState("collection");
 
   const [savedIds, setSavedIds] = useState([]);
+  // Keep recipe syncing separate from profile appearance and sign-out state.
+  const [savedAccount, setSavedAccount] = useState(null);
+  const [saveError, setSaveError] = useState("");
+  const [savingRecipe, setSavingRecipe] = useState(false);
+  const [retrySaved, setRetrySaved] = useState(0);
+  const savePending = useRef(false);
+  const accountKey = user?.id || "guest";
+  const activeAccount = useRef(accountKey);
+  activeAccount.current = accountKey;
   const [finishedIds, setFinishedIds] = useState([]);
   const [inProgress, setInProgress] = useState([]);
 
@@ -66,14 +75,16 @@ export default function Profile() {
   useEffect(() => {
     let active = true;
     setSavedIds([]);
+    setSavedAccount(null);
+    setSaveError("");
     setFinishedIds([]);
     setInProgress([]);
     async function loadSavedProjects() {
       try {
         const ids = await getSavedProjectIds(user);
-        if (active) setSavedIds(ids);
-      } catch {
-        if (active) setError("Could not load your saved projects.");
+        if (active) { setSavedIds(ids); setSavedAccount(accountKey); }
+      } catch (problem) {
+        if (active) setSaveError(`Could not load your saved projects. ${problem.message}`);
       }
     }
     if (!loading) loadSavedProjects();
@@ -81,6 +92,7 @@ export default function Profile() {
       try {
         const records = await getProjectProgress(user);
         if (!active) return;
+        // Use the completion flag to separate the account's two project collections.
         setFinishedIds(records.filter(row => row.completed).map(row => row.recipe_id));
         setInProgress(records.filter(row => !row.completed));
       } catch {
@@ -114,7 +126,7 @@ export default function Profile() {
       setError("Could not load your saved profile.");
     }
     return () => { active = false; };
-  }, [user, loading]);
+  }, [accountKey, loading, retrySaved]);
 
   // Change the draft only; Save commits the appearance choices to browser storage.
   function handleColorChange(color) {
@@ -221,13 +233,15 @@ export default function Profile() {
 
   // Toggle whether a recipe is saved.
   async function toggleSaved(id) {
+    if (loading || savedAccount !== accountKey || savePending.current) return;
+    savePending.current = true;
+    setSavingRecipe(true);
     try {
-      setSavedIds(await toggleSavedProject(user, id, savedIds.includes(id)));
+      const ids = await toggleSavedProject(user, id, savedIds.includes(id));
+      if (activeAccount.current === accountKey) { setSavedIds(ids); setSaveError(""); }
     } catch (problem) {
-      setError(
-        `Could not update saved recipes. ${problem.message}`
-      );
-    }
+      if (activeAccount.current === accountKey) setSaveError(`Could not update saved recipes. ${problem.message}`);
+    } finally { savePending.current = false; setSavingRecipe(false); }
   }
 
   // Sign out.
@@ -414,6 +428,10 @@ export default function Profile() {
         </p>
       )}
 
+      {saveError && <p className={styles.profileError} role="alert">{saveError} <button type="button" disabled={savingRecipe} onClick={() => setRetrySaved(value => value + 1)}>Retry saved recipes</button></p>}
+      {(loading || (savedAccount !== accountKey && !saveError)) && <p role="status">Loading saved recipes…</p>}
+      {savingRecipe && <p role="status">Updating saved recipes…</p>}
+
       {/* Profile tabs */}
       <section className="profile-tabs">
         <button
@@ -478,6 +496,7 @@ export default function Profile() {
                     }
                     to={`/recipes/${recipe.id}`}
                     saved={savedIds.includes(recipe.id)}
+                    saveDisabled={loading || savedAccount !== accountKey || savingRecipe}
                     onToggleSave={() => toggleSaved(recipe.id)}
                   />
                 ))}
@@ -509,11 +528,12 @@ export default function Profile() {
                   }
                   to={`/recipes/${recipe.id}`}
                   saved
+                  saveDisabled={loading || savedAccount !== accountKey || savingRecipe}
                   onToggleSave={() => toggleSaved(recipe.id)}
                 />
               ))}
             </div>
-          ) : (
+          ) : (loading || savedAccount !== accountKey) ? null : (
             <p>
               You haven't saved any recipes yet.
               Visit the Recipes page to find one!

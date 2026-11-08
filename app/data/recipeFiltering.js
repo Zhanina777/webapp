@@ -25,6 +25,7 @@ export function matchesRecipe(recipe, { query = "", materials = [], min = "", ma
 }
 
 export function materialOptions(recipes) {
+  // Group equivalent material names into one alphabetically sorted filter option.
   const options = new Map();
   for (const recipe of recipes) {
     for (const material of recipe.materials) {
